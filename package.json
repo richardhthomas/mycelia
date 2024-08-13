@@ -4,7 +4,7 @@
   "description": "mycelia game demo",
   "main": "model1.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,13 @@
   },
   "homepage": "https://github.com/richardhthomas/mycelia#readme",
   "devDependencies": {
-    "jest": "^29.7.0"
+    "canvas": "^2.11.2",
+    "jest": "^29.7.0",
+    "jest-canvas-mock": "^2.5.2",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "jest": {
+	"setupFiles": ["jest-canvas-mock"],
+	"testEnvironment": "jsdom"
   }
 }
