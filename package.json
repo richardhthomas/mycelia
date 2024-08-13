@@ -1,0 +1,22 @@
+{
+  "name": "mycelia",
+  "version": "1.0.0",
+  "description": "mycelia game demo",
+  "main": "model1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardhthomas/mycelia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardhthomas/mycelia/issues"
+  },
+  "homepage": "https://github.com/richardhthomas/mycelia#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
