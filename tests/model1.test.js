@@ -1,4 +1,4 @@
-const model = require('./model1');
+const model = require('../model1');
 
 function createMockMycMap() {
     const mycMap = model.createMycMap();
