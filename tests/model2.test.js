@@ -53,18 +53,6 @@ test('mycMap is setup correctly', () => {
     });
 });
 
-//test('calcMycMap returns correct values', () => {
-//    const mycMap = createMockMycMap();
-//    const expectedValues = [
-//        [254,148,0],
-//        [246,152,8197],
-//        [251,142,274],
-//        [257,156,37378]];
-//    expectedValues.forEach(values => {
-//        expect(model.calcMycMap(mycMap, model.createMycMapValues(), values[0], values[1])).toEqual(values[2]);
-//    });
-//});
-
 test('bigEnough returns true if reached edge of screen', () => {
     const openEnds = createMockOpenEnds();
     expect(model.bigEnough(openEnds)).toBe(false);
@@ -80,14 +68,14 @@ test('bigEnough returns true if reached edge of screen', () => {
     });
 });
 
-test('growthDirections returns array of possible directions', () => {
+test('possibleGrowthDirections returns array of possible directions', () => {
     const expectedValues = [
         [[252,140,15],[13,14,15,0,1]],
         [[242,152,11],[9,10,11,12,13]],
         [[258,154,4],[2,3,4,5,6]],
         [[256,158,7],[5,6,7,8,9]]];
     expectedValues.forEach(values => {
-        expect(model.growthDirections(values[0])).toEqual(values[1]);
+        expect(model.possibleGrowthDirections(values[0])).toEqual(values[1]);
     });
 });
 
@@ -141,13 +129,14 @@ function mycCount(mycMap) {
     return mycMapFlat.length;
 }
 
-test('growthDirection returns 0-15 value for direction', () => {
-//    const mycMap = createMockMycMap();
+test('growthDirections returns array of two 0-15 values for directions', () => {
     const openEnds = createMockOpenEnds();
     const p = model.createGrowthDirectionProbability();
-    const gd = model.growthDirection(openEnds[2], p);
-    expect(gd).toBeGreaterThanOrEqual(2);
-    expect(gd).toBeLessThanOrEqual(6);
+    const gd = model.growthDirections(openEnds[2], p);
+    expect(gd[0]).toBeGreaterThanOrEqual(2);
+    expect(gd[0]).toBeLessThanOrEqual(6);
+    expect(gd[1]).toBeGreaterThanOrEqual(2);
+    expect(gd[1]).toBeLessThanOrEqual(6);
 });
 
 test('growMyc increases mycelial size as expected', () => {

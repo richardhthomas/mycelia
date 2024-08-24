@@ -14,7 +14,7 @@ function setupMycMap(mycMap) {
     mycMap[250][150] = 1;
     const openEnds = createOpenEnds();
     openEnds.forEach(openEnd => {
-        mycMap[openEnd[0]][openEnd[1]] = 1
+        mycMap[openEnd[0]][openEnd[1]] = 1;
     });
     return mycMap;
 }
@@ -78,7 +78,7 @@ function createAllDirections() {
 
 // defines probabilities of growing bigger or splitting (vs doing nothing)
 function createGrowthTypeProbability() {
-    return {bigger: 40, split: 10};
+    return {bigger: 40, split: 10, nothing: 50};
 }
 
 // defines probabilities of growing 2 deviations or 1 deviation from straight ahead
@@ -89,10 +89,6 @@ function createGrowthDirectionProbability() {
 function runMyc() {
 	const mycMap = createMycMap(); 
 
-	// mycSearch has the same format as mycMap but the binary represents whether travel has occured in the specified direction.
-//	const mycSearch = [[],[]];
-
-    const mycMapValues = createMycMapValues();
     const growthTypeProbability = createGrowthTypeProbability();
     const growthDirectionProbability = createGrowthDirectionProbability();
     const canvas = document.getElementById("mainCanvas");
@@ -101,22 +97,11 @@ function runMyc() {
     //drawMyc(250, 150, ctx);
     ctx.fillStyle = "red";
     ctx.fillRect(500,300,4,4);
-    mycMap[250,150] = 65535;
 }
 
 function drawMyc(x, y, ctx) {
     ctx.fillStyle = "red";
     ctx.fillRect(x*2,y*2,4,4);
-}
-
-function calcMycMap(myM, values, x, y) {
-    let result = 0;
-    values.forEach((coord, index) => {
-        if (myM[x + coord[0]][y + coord[1]] != 0) {
-            result += Math.pow(2, index);
-        }
-    });
-    return result;
 }
 
 function bigEnough(openEnds) {
@@ -132,7 +117,7 @@ function bigEnough(openEnds) {
     return result;
 }
 
-function growthDirections(openEnd) {
+function possibleGrowthDirections(openEnd) {
     const v = openEnd[2]; 
     const w = [v+14, v+15, v+16, v+17, v+18];
     return w.map(val => {return val % 16});
@@ -158,7 +143,11 @@ function isOpenEnd(mycMap, openEnd) {
 }
 
 function probResult(probability) {
-    let x = Math.floor((Math.random() * 100) + 1);
+    let total = 0;
+    for (let p in probability) {
+        total += probability[p];
+    }
+    let x = Math.floor((Math.random() * total) + 1);
     for (let [result, prob] of Object.entries(probability)) {
         if (x <= prob) {
             return result;
@@ -166,12 +155,17 @@ function probResult(probability) {
             x -= prob;
         }
     }
-    return "nothing";
 }
 
-function growthDirection(openEnd, growthDirectionProbability) {
-    let p = Number.parseInt(probResult(growthDirectionProbability));
-    return growthDirections(openEnd)[p];
+function growthDirections(openEnd, growthDirectionProbability) {
+    const copygdp = {...growthDirectionProbability};
+    const result = [];
+    let p = probResult(copygdp);
+    result.push(possibleGrowthDirections(openEnd)[Number.parseInt(p)]);
+    copygdp[p] = 0;
+    let q = probResult(copygdp);
+    result.push(possibleGrowthDirections(openEnd)[Number.parseInt(q)]);
+    return result;
 }
 
 function growMyc(mycMap, openEnd, newOpenEnds, mycMapValues, growthType, growthDirection, ctx) {
@@ -197,13 +191,12 @@ module.exports.createAllGrowthDirections = createAllGrowthDirections;
 module.exports.createMycMap = createMycMap;
 module.exports.createOpenEnds = createOpenEnds;
 module.exports.setupMycMap = setupMycMap;
-module.exports.calcMycMap = calcMycMap;
 module.exports.bigEnough = bigEnough;
-module.exports.growthDirections = growthDirections;
+module.exports.possibleGrowthDirections = possibleGrowthDirections;
 module.exports.overlapDirections = overlapDirections;
 module.exports.isOpenEnd = isOpenEnd;
 module.exports.growMyc = growMyc;
 module.exports.createGrowthTypeProbability = createGrowthTypeProbability;
 module.exports.createGrowthDirectionProbability = createGrowthDirectionProbability;
 module.exports.probResult = probResult;
-module.exports.growthDirection = growthDirection;
+module.exports.growthDirections = growthDirections;
