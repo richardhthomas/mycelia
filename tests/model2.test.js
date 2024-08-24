@@ -27,10 +27,10 @@ function createMockMycMap() {
 
 function createMockOpenEnds() {
     return [
-        [252,140,23],
-        [242,152,17],
-        [258,154,7],
-        [256,158,11]]
+        [252,140,15],
+        [242,152,11],
+        [258,154,4],
+        [256,158,7]]
 }
 
 test('createAllGrowthDirections is as expected', () => {
@@ -72,14 +72,13 @@ test('bigEnough returns true if reached edge of screen', () => {
 });
 
 test('growthDirections returns array of possible directions', () => {
-    const mycMap = createMockMycMap();
     const expectedValues = [
-        [[252,140],[13,14,15,0,1]],
-        [[242,152],[9,10,11,12,13]],
-        [[258,154],[2,3,4,5,6]],
-        [[256,158],[5,6,7,8,9]]];
+        [[252,140,15],[13,14,15,0,1]],
+        [[242,152,11],[9,10,11,12,13]],
+        [[258,154,4],[2,3,4,5,6]],
+        [[256,158,7],[5,6,7,8,9]]];
     expectedValues.forEach(values => {
-        expect(model.growthDirections(values[0], mycMap)).toEqual(values[1]);
+        expect(model.growthDirections(values[0])).toEqual(values[1]);
     });
 });
 
@@ -122,10 +121,10 @@ function mycCount(mycMap) {
 }
 
 test('growthDirection returns 0-15 value for direction', () => {
-    const mycMap = createMockMycMap();
+//    const mycMap = createMockMycMap();
     const openEnds = createMockOpenEnds();
     const p = model.createGrowthDirectionProbability();
-    const gd = model.growthDirection(openEnds[2], mycMap, p);
+    const gd = model.growthDirection(openEnds[2], p);
     expect(gd).toBeGreaterThanOrEqual(2);
     expect(gd).toBeLessThanOrEqual(6);
 });

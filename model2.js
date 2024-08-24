@@ -7,7 +7,23 @@ function createMycMap() {
             result[i][j] = 0;
         };
     };
+    result[250][150] = 1;
+    const openEnds = createOpenEnds();
+    openEnds.forEach(openEnd => {
+        result[openEnd[0]][openEnd[1]] = 1
+    });
     return result;
+}
+
+function createOpenEnds() {
+    return [[250, 148, 0],
+        [252, 148, 2],
+        [252, 150, 4],
+        [252, 152, 6],
+        [250, 152, 8],
+        [248, 152, 10],
+        [248, 150, 12],
+        [248, 148, 14]];
 }
 
 function createAllGrowthDirections() {
@@ -85,15 +101,10 @@ function bigEnough(openEnds) {
     return result;
 }
 
-// or for 24 bit - [v+9, v+10, v+12, v+13, v+15]
-function growthDirections(openEnd, mycMap) {
-    const v = Math.log2(mycMap[openEnd[0]][openEnd[1]]);
-    const w = [v+6, v+7, v+8, v+9, v+10];
-    return w.map(remainder16);
-}
-
-function remainder16(val) {
-    return val % 16;
+function growthDirections(openEnd) {
+    const v = openEnd[2]; 
+    const w = [v+14, v+15, v+16, v+17, v+18];
+    return w.map(val => {return val % 16});
 }
 
 function isOpenEnd(mycMap, x, y) {
@@ -112,9 +123,9 @@ function probResult(probability) {
     return "nothing";
 }
 
-function growthDirection(openEnd, mycMap, growthDirectionProbability) {
+function growthDirection(openEnd, growthDirectionProbability) {
     let p = Number.parseInt(probResult(growthDirectionProbability));
-    return growthDirections(openEnd, mycMap)[p];
+    return growthDirections(openEnd)[p];
 }
 
 function growMyc(mycMap, openEnd, newOpenEnds, mycMapValues, growthType, growthDirection, ctx) {
