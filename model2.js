@@ -147,9 +147,14 @@ function overlapDirections(openEnd) {
 }
 
 function isOpenEnd(mycMap, openEnd) {
-    const allGrowthDirections = createAllGrowthDirections();
     const allDirections = createAllDirections();
-
+    const directionsToCheck = overlapDirections(openEnd);
+    for (let dir of directionsToCheck) {
+        let xToCheck = openEnd[0] + allDirections[dir][0];
+        let yToCheck = openEnd[1] + allDirections[dir][1];
+        if (mycMap[xToCheck][yToCheck] === 1) {return false};
+    }
+    return true;
 }
 
 function probResult(probability) {
