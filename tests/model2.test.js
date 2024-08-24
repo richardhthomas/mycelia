@@ -44,6 +44,15 @@ test('mycMap is the right size', () => {
     });
 });
 
+test('mycMap is setup correctly', () => {
+    const openEnds = model.createOpenEnds();
+    const mycMap = model.createMycMap();
+    model.setupMycMap(mycMap);
+    openEnds.forEach(openEnd => {
+        expect(mycMap[openEnd[0]][openEnd[1]]).toEqual(1);
+    });
+});
+
 //test('calcMycMap returns correct values', () => {
 //    const mycMap = createMockMycMap();
 //    const expectedValues = [
@@ -82,19 +91,31 @@ test('growthDirections returns array of possible directions', () => {
     });
 });
 
+test('overlapDirections returns array of possible directions', () => {
+    const expectedValues = [
+        [[252,140,15],[20,21,22,23,0,1,2]],
+        [[242,152,11],[14,15,16,17,18,19,20]],
+        [[258,154,4],[3,4,5,6,7,8,9,10]],
+        [[256,158,7],[8,9,10,11,12,13,14]]];
+    expectedValues.forEach(values => {
+        expect(model.overlapDirections(values[0])).toEqual(values[1]);
+    });
+});
+
 test('isOpenEnd returns true if open end', () => {
     const mycMap = createMockMycMap();
     const trueOpenEnds = createMockOpenEnds();
     const falseOpenEnds = [
-        [250,148],
-        [251,144],
-        [253,142],
-        [256,154]];
+        [250,148,0],
+        [251,144,0],
+        [253,142,0],
+        [256,154,8],
+        [245,149,4]];
     trueOpenEnds.forEach(openEnd => {
-        expect(model.isOpenEnd(mycMap, openEnd[0], openEnd[1])).toBe(true);
+        expect(model.isOpenEnd(mycMap, openEnd)).toBe(true);
     });
     falseOpenEnds.forEach(openEnd => {
-        expect(model.isOpenEnd(mycMap, openEnd[0], openEnd[1])).toBe(false);
+        expect(model.isOpenEnd(mycMap, openEnd)).toBe(false);
     });
 });
 

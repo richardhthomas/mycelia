@@ -7,12 +7,16 @@ function createMycMap() {
             result[i][j] = 0;
         };
     };
-    result[250][150] = 1;
+    return result;
+}
+
+function setupMycMap(mycMap) {
+    mycMap[250][150] = 1;
     const openEnds = createOpenEnds();
     openEnds.forEach(openEnd => {
-        result[openEnd[0]][openEnd[1]] = 1
+        mycMap[openEnd[0]][openEnd[1]] = 1
     });
-    return result;
+    return mycMap;
 }
 
 function createOpenEnds() {
@@ -43,6 +47,33 @@ function createAllGrowthDirections() {
     [-2,-1],
     [-2,-2],
     [-1,-2]];
+}
+
+function createAllDirections() {
+    return [[0,-1],
+        [0,-2],
+        [1,-2],
+        [1,-1],
+        [2,-2],
+        [2,-1],
+        [1,0],
+        [2,0],
+        [2,1],
+        [1,1],
+        [2,2],
+        [1,2],
+        [0,1],
+        [0,2],
+        [-1,2],
+        [-1,1],
+        [-2,2],
+        [-2,1],
+        [-1,0],
+        [-2,0],
+        [-2,-1],
+        [-1,-1],
+        [-2,-2],
+        [-1,-2]];
 }
 
 // defines probabilities of growing bigger or splitting (vs doing nothing)
@@ -107,8 +138,18 @@ function growthDirections(openEnd) {
     return w.map(val => {return val % 16});
 }
 
-function isOpenEnd(mycMap, x, y) {
-    return Number.isInteger(Math.log2(mycMap[x][y]));
+function overlapDirections(openEnd) {
+    const v = openEnd[2]; //centre of spread with 16 directions
+    const c = v + Math.floor((v+2)/2); //convert to 24 instead of 16 directions
+    const spread24 = [c+21, c+22, c+23, c+24, c+25, c+26, c+27];
+    if (v % 2 === 0) {spread24.unshift(c+20)};
+    return spread24.map(val => {return val % 24});
+}
+
+function isOpenEnd(mycMap, openEnd) {
+    const allGrowthDirections = createAllGrowthDirections();
+    const allDirections = createAllDirections();
+
 }
 
 function probResult(probability) {
@@ -149,9 +190,12 @@ function growMyc(mycMap, openEnd, newOpenEnds, mycMapValues, growthType, growthD
 
 module.exports.createAllGrowthDirections = createAllGrowthDirections;
 module.exports.createMycMap = createMycMap;
+module.exports.createOpenEnds = createOpenEnds;
+module.exports.setupMycMap = setupMycMap;
 module.exports.calcMycMap = calcMycMap;
 module.exports.bigEnough = bigEnough;
 module.exports.growthDirections = growthDirections;
+module.exports.overlapDirections = overlapDirections;
 module.exports.isOpenEnd = isOpenEnd;
 module.exports.growMyc = growMyc;
 module.exports.createGrowthTypeProbability = createGrowthTypeProbability;
