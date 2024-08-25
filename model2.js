@@ -16,7 +16,6 @@ function setupMycMap(mycMap) {
     openEnds.forEach(openEnd => {
         mycMap[openEnd[0]][openEnd[1]] = 1;
     });
-    return mycMap;
 }
 
 function createOpenEnds() {
@@ -88,15 +87,35 @@ function createGrowthDirectionProbability() {
 
 function runMyc() {
 	const mycMap = createMycMap(); 
-
+    setupMycMap(mycMap);
+    let openEnds = createOpenEnds();
     const growthTypeProbability = createGrowthTypeProbability();
     const growthDirectionProbability = createGrowthDirectionProbability();
     const canvas = document.getElementById("mainCanvas");
     const ctx = canvas.getContext("2d");
 
-    //drawMyc(250, 150, ctx);
-    ctx.fillStyle = "red";
-    ctx.fillRect(500,300,4,4);
+    // draw starting mycelia
+    drawMyc(250, 150, ctx);
+    openEnds.forEach(openEnd => {
+        drawMyc(openEnd[0], openEnd[1], ctx);
+    });
+
+    while (!bigEnough(openEnds)) {
+        let newOpenEnds = [];
+        openEnds.forEach(openEnd => {
+            if (isOpenEnd(mycMap, openEnd)) {
+                let action = probResult(growthTypeProbability);
+                if (action == "nothing") {
+                    newOpenEnds.push(openEnd);
+                } else {
+                    let directions = growthDirections(openEnd, growthDirectionProbability);
+                    if (action == "bigger") {directions.pop();}
+                    growMyc(mycMap, openEnd, newOpenEnds, directions, ctx);
+                }
+            }
+        });
+        openEnds = newOpenEnds;
+    }
 }
 
 function drawMyc(x, y, ctx) {
