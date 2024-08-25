@@ -168,23 +168,19 @@ function growthDirections(openEnd, growthDirectionProbability) {
     return result;
 }
 
-function growMyc(mycMap, openEnd, newOpenEnds, mycMapValues, growthType, growthDirection, ctx) {
-    if (growthType == 'bigger') {
+function growMyc(mycMap, openEnd, newOpenEnds, growthDirections, ctx) {
+    const allGrowthDirections = createAllGrowthDirections();
+    growthDirections.forEach(direction => {
         // calc position of new growth
-        let newX = openEnd[0] + mycMapValues[growthDirection][0];
-        let newY = openEnd[1] + mycMapValues[growthDirection][1];
-        // update MycMap with new value for new growth
-        let newMycMapVal = calcMycMap(mycMap, mycMapValues, newX, newY);
-        mycMap[newX][newY] = newMycMapVal;
-        // update MycMap for location of old open end
-        let updatedMycMapVal = calcMycMap(mycMap, mycMapValues, openEnd[0], openEnd[1]);
-        mycMap[openEnd[0]][openEnd[1]] = updatedMycMapVal;
-        // add new openEnd if not joined to something else
-        if (isOpenEnd(mycMap, newX, newY)) { newOpenEnds.push([newX, newY]); }
+        let newX = openEnd[0] + allGrowthDirections[direction][0];
+        let newY = openEnd[1] + allGrowthDirections[direction][1];
+        // update MycMap 
+        mycMap[newX][newY] = 1;
+        // add new openEnd
+        newOpenEnds.push([newX, newY, direction]);
         // draw
         drawMyc(newX, newY, ctx);
-    }
-
+    });
 }
 
 module.exports.createAllGrowthDirections = createAllGrowthDirections;

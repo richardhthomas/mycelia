@@ -143,25 +143,15 @@ test('growMyc increases mycelial size as expected', () => {
     const mycMap = createMockMycMap();
     const openEnds = createMockOpenEnds();
     const newOpenEnds = [];
-    const mycMapValues = model.createMycMapValues();
     const initMycCount = mycCount(mycMap);
-    const openEndsCount = newOpenEnds.length;
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    model.growMyc(mycMap, openEnds[0], newOpenEnds, mycMapValues, "bigger", 15, ctx);
-    expect(mycCount(mycMap)).toEqual(initMycCount + 1);
-    expect(mycMap[251][138]).toEqual(128);
-    expect(mycMap[252][140]).toEqual(32896);
-    expect(newOpenEnds.length).toEqual(openEndsCount + 1);
-    expect(newOpenEnds[0][0]).toEqual(251);
-    expect(newOpenEnds[0][1]).toEqual(138);
-
-    model.growMyc(mycMap, openEnds[2], newOpenEnds, mycMapValues, "split", 4, ctx);
-    expect(mycCount(mycMap)).toEqual(initMycCount + 3);
-    expect(mycMap[251][138]).toEqual(128);
-    expect(mycMap[252][140]).toEqual(32896);
-    expect(newOpenEnds.length).toEqual(openEndsCount + 1);
-    expect(newOpenEnds[0][0]).toEqual(251);
-    expect(newOpenEnds[0][1]).toEqual(138);
+    model.growMyc(mycMap, openEnds[0], newOpenEnds, [15, 13], ctx);
+    expect(mycCount(mycMap)).toEqual(initMycCount + 2);
+    expect(mycMap[251][138]).toEqual(1);
+    expect(mycMap[250][139]).toEqual(1);
+    expect(newOpenEnds.length).toEqual(2);
+    expect(newOpenEnds[0]).toEqual([251, 138, 15]);
+    expect(newOpenEnds[1]).toEqual([250, 139, 13]);
 });
