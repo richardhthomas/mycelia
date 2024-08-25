@@ -82,7 +82,7 @@ function createGrowthTypeProbability() {
 
 // defines probabilities of growing 2 deviations or 1 deviation from straight ahead
 function createGrowthDirectionProbability() {
-    return {"0": 5, "1": 12, "2": 66, "3": 12, "4": 5};
+    return {"0": 5, "1": 12, "2": 70, "3": 12, "4": 5};
 }
 
 function runMyc() {
