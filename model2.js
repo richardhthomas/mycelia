@@ -89,8 +89,7 @@ function runMyc() {
 	const mycMap = createMycMap(); 
     setupMycMap(mycMap);
     let openEnds = createOpenEnds();
-    const growthTypeProbability = createGrowthTypeProbability();
-    const growthDirectionProbability = createGrowthDirectionProbability();
+    const delay = 100;
     const canvas = document.getElementById("mainCanvas");
     const ctx = canvas.getContext("2d");
 
@@ -100,21 +99,28 @@ function runMyc() {
         drawMyc(openEnd[0], openEnd[1], ctx);
     });
 
-    while (!bigEnough(openEnds)) {
-        let newOpenEnds = [];
-        openEnds.forEach(openEnd => {
-            if (isOpenEnd(mycMap, openEnd)) {
-                let action = probResult(growthTypeProbability);
-                if (action == "nothing") {
-                    newOpenEnds.push(openEnd);
-                } else {
-                    let directions = growthDirections(openEnd, growthDirectionProbability);
-                    if (action == "bigger") {directions.pop();}
-                    growMyc(mycMap, openEnd, newOpenEnds, directions, ctx);
-                }
+    growAll(openEnds, mycMap, ctx, delay);
+}
+
+function growAll(openEnds, mycMap, ctx, delay) {
+    let newOpenEnds = [];
+    const growthTypeProbability = createGrowthTypeProbability();
+    const growthDirectionProbability = createGrowthDirectionProbability();
+    openEnds.forEach(openEnd => {
+        if (isOpenEnd(mycMap, openEnd)) {
+            let action = probResult(growthTypeProbability);
+            if (action == "nothing") {
+                newOpenEnds.push(openEnd);
+            } else {
+                let directions = growthDirections(openEnd, growthDirectionProbability);
+                if (action == "bigger") {directions.pop();}
+                growMyc(mycMap, openEnd, newOpenEnds, directions, ctx);
             }
-        });
-        openEnds = newOpenEnds;
+        }
+    });
+    openEnds = newOpenEnds;
+    if (!bigEnough(openEnds)) {
+        setTimeout(() => {growAll(openEnds, mycMap, ctx, delay);}, delay);
     }
 }
 
