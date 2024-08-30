@@ -77,12 +77,12 @@ function createAllDirections() {
 
 // defines probabilities of growing bigger or splitting (vs doing nothing)
 function createGrowthTypeProbability() {
-    return {bigger: 40, split: 10, nothing: 50};
+    return {bigger: 40, split: 20, nothing: 50};
 }
 
 // defines probabilities of growing 2 deviations or 1 deviation from straight ahead
 function createGrowthDirectionProbability() {
-    return {"0": 5, "1": 12, "2": 70, "3": 12, "4": 5};
+    return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
 }
 
 function runMyc() {
