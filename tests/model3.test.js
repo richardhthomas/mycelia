@@ -53,13 +53,6 @@ test('createAllGrowthDirections is as expected', () => {
     expect(model.createAllGrowthDirections()[0].toString()).toBe("0,-2");
 });
 
-test('mycMap is the right size', () => {
-    expect(model.createMycMap().length).toEqual(500);
-    model.createMycMap().forEach(mycMapRow => {
-        expect(mycMapRow.length).toEqual(300);
-    });
-});
-
 test('mycMap is setup correctly', () => {
     const openEnds = model.createOpenEnds();
     const mycMap = model.createMycMap();

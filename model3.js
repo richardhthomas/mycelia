@@ -5,9 +5,6 @@ function createMycMap() {
     const result = [];
     for (let i = 0; i < 500; i++) {
         result[i] = [];
-        for (let j = 0; j < 300; j++) {
-            result[i][j] = 0;
-        };
     };
     return result;
 }
