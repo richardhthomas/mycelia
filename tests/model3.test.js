@@ -20,7 +20,7 @@ function createMockMycMap() {
         [255,156],
         [256,158]]
     for (let i = 0; i < data.length; i++) {
-        mycMap[data[i][0]][data[i][1]] = 1;
+        mycMap[data[i][0]][data[i][1]] = {mycelium: "primary"};
     };
     return mycMap;
 }
@@ -58,7 +58,7 @@ test('mycMap is setup correctly', () => {
     const mycMap = model.createMycMap();
     model.setupMycMap(mycMap);
     openEnds.forEach(openEnd => {
-        expect(mycMap[openEnd[0]][openEnd[1]]).toEqual(1);
+        expect(mycMap[openEnd[0]][openEnd[1]]).toEqual({mycelium: "primary"});
     });
 });
 
@@ -134,7 +134,7 @@ test('probResult returns result based on given probabilities', () => {
 });
 
 function mycCount(mycMap) {
-    const mycMapFlat = mycMap.flat().filter((val) => {return val != 0});
+    const mycMapFlat = mycMap.flat().filter((val) => {return val != undefined});
     return mycMapFlat.length;
 }
 
@@ -158,8 +158,8 @@ test('growMyc increases mycelial size as expected', () => {
 
     model.growMyc(mycMap, openEnds[0], newOpenEnds, [15, 13], ctx);
     expect(mycCount(mycMap)).toEqual(initMycCount + 2);
-    expect(mycMap[251][138]).toEqual(1);
-    expect(mycMap[250][139]).toEqual(1);
+    expect(mycMap[251][138].mycelium).toEqual("primary");
+    expect(mycMap[250][139].mycelium).toEqual("primary");
     expect(newOpenEnds.length).toEqual(2);
     expect(newOpenEnds[0]).toEqual([251, 138, 15]);
     expect(newOpenEnds[1]).toEqual([250, 139, 13]);

@@ -10,10 +10,10 @@ function createMycMap() {
 }
 
 function setupMycMap(mycMap) {
-    mycMap[250][150] = 1;
+    mycMap[250][150] = {mycelium: "primary"};
     const openEnds = createOpenEnds();
     openEnds.forEach(openEnd => {
-        mycMap[openEnd[0]][openEnd[1]] = 1;
+        mycMap[openEnd[0]][openEnd[1]] = {mycelium: "primary"};
     });
 }
 
@@ -161,7 +161,7 @@ function isOpenEnd(mycMap, openEnd) {
     for (let dir of directionsToCheck) {
         let xToCheck = openEnd[0] + allDirections[dir][0];
         let yToCheck = openEnd[1] + allDirections[dir][1];
-        if (mycMap[xToCheck][yToCheck] === 1) {return false};
+        if (mycMap[xToCheck][yToCheck] !== undefined) {return false};
     }
     return true;
 }
@@ -199,7 +199,7 @@ function growMyc(mycMap, openEnd, newOpenEnds, growthDirections, ctx) {
         let newX = openEnd[0] + allGrowthDirections[direction][0];
         let newY = openEnd[1] + allGrowthDirections[direction][1];
         // update MycMap 
-        mycMap[newX][newY] = 1;
+        mycMap[newX][newY] = {mycelium: "primary"};
         // add new openEnd
         newOpenEnds.push([newX, newY, direction]);
         // draw
