@@ -3,14 +3,14 @@
 // mycMap array contains the state of mycelia (0 or 1) at each x,y position.
 function createMycMap() {
     const result = [];
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 5000; i++) {
         result[i] = [];
     };
     return result;
 }
 
 function setupMycMap(mycMap) {
-    mycMap[250][150] = {mycelium: "primary"};
+    mycMap[2500][2500] = {mycelium: "primary"};
     const openEnds = createOpenEnds();
     openEnds.forEach(openEnd => {
         mycMap[openEnd[0]][openEnd[1]] = {mycelium: "primary"};
@@ -18,14 +18,14 @@ function setupMycMap(mycMap) {
 }
 
 function createOpenEnds() {
-    return [[250, 148, 0],
-        [252, 148, 2],
-        [252, 150, 4],
-        [252, 152, 6],
-        [250, 152, 8],
-        [248, 152, 10],
-        [248, 150, 12],
-        [248, 148, 14]];
+    return [[2500, 2498, 0],
+        [2502, 2498, 2],
+        [2502, 2500, 4],
+        [2502, 2502, 6],
+        [2500, 2502, 8],
+        [2498, 2502, 10],
+        [2498, 2500, 12],
+        [2498, 2498, 14]];
 }
 
 function createAllGrowthDirections() {
@@ -93,7 +93,7 @@ function runMyc() {
     const ctx = canvas.getContext("2d");
 
     // draw starting mycelia
-    drawMyc(250, 150, ctx);
+    drawMyc(2500, 2500, ctx);
     openEnds.forEach(openEnd => {
         drawMyc(openEnd[0], openEnd[1], ctx);
     });
@@ -132,9 +132,9 @@ function bigEnough(openEnds) {
     let result = false;
     openEnds.forEach(openEnd => {
         if (openEnd[0] <= 2 ||
-            openEnd[0] >= 498 ||
+            openEnd[0] >= 4998 ||
             openEnd[1] <= 2 ||
-            openEnd[1] >= 298) {
+            openEnd[1] >= 4998) {
             result = true;
         }
     });
