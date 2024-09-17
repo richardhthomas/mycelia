@@ -92,13 +92,30 @@ function runMyc() {
     const canvas = document.getElementById("mainCanvas");
     const ctx = canvas.getContext("2d");
 
+
+    // Create gradient
+    ctx.globalCompositeOperation = "multiply";
+    const grad=ctx.createRadialGradient(1000,1000,100,1000,1000,5000);
+    grad.addColorStop(0,"red");
+    grad.addColorStop(0.03,"#ff9999");
+    grad.addColorStop(1,"white");
+    ctx.fillStyle = grad;
+    ctx.fillRect(10,10,9980,9980);
+    
+    const grad2=ctx.createRadialGradient(6000,1000,100,6000,1000,5000);
+    grad2.addColorStop(0,"#0000ff");
+    grad2.addColorStop(0.03,"#9999ff");
+    grad2.addColorStop(1,"white");
+    ctx.fillStyle = grad2;
+    ctx.fillRect(10,10,9980,9980);
+
     // draw starting mycelia
     drawMyc(2500, 2500, ctx);
     openEnds.forEach(openEnd => {
         drawMyc(openEnd[0], openEnd[1], ctx);
     });
 
-    growAll(openEnds, mycMap, ctx, delay);
+    //growAll(openEnds, mycMap, ctx, delay);
 }
 
 function growAll(openEnds, mycMap, ctx, delay) {
