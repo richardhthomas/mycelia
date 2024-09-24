@@ -1,7 +1,7 @@
 
 
-// mycMap array contains the state of mycelia (0 or 1) at each x,y position.
-function createMycMap() {
+// screen array contains the state of mycelia (0 or 1) at each x,y position.
+function createScreen() {
     const result = [];
     for (let i = 0; i < 2000; i++) {
         result[i] = [];
@@ -9,11 +9,11 @@ function createMycMap() {
     return result;
 }
 
-function setupMycMap(mycMap) {
-    mycMap[1000][1000] = {mycelium: "primary"};
+function setupScreen(screen) {
+    screen[1000][1000] = {mycelium: "primary"};
     const openEnds = createOpenEnds();
     openEnds.forEach(openEnd => {
-        mycMap[openEnd[0]][openEnd[1]] = {mycelium: "primary"};
+        screen[openEnd[0]][openEnd[1]] = {mycelium: "primary"};
     });
 }
 
@@ -85,8 +85,8 @@ function createGrowthDirectionProbability() {
 }
 
 function runMyc() {
-	const mycMap = createMycMap(); 
-    setupMycMap(mycMap);
+	const screen = createScreen(); 
+    setupScreen(screen);
     let openEnds = createOpenEnds();
     const delay = 100;
     const canvas = document.getElementById("mainCanvas");
@@ -116,28 +116,28 @@ function runMyc() {
         drawMyc(openEnd[0], openEnd[1], ctx);
     });
 
-    growAll(openEnds, mycMap, ctx, delay);
+    growAll(openEnds, screen, ctx, delay);
 }
 
-function growAll(openEnds, mycMap, ctx, delay) {
+function growAll(openEnds, screen, ctx, delay) {
     let newOpenEnds = [];
     const growthTypeProbability = createGrowthTypeProbability();
     const growthDirectionProbability = createGrowthDirectionProbability();
     openEnds.forEach(openEnd => {
-        if (isOpenEnd(mycMap, openEnd)) {
+        if (isOpenEnd(screen, openEnd)) {
             let action = probResult(growthTypeProbability);
             if (action == "nothing") {
                 newOpenEnds.push(openEnd);
             } else {
                 let directions = growthDirections(openEnd, growthDirectionProbability);
                 if (action == "bigger") {directions.pop();}
-                growMyc(mycMap, openEnd, newOpenEnds, directions, ctx);
+                growMyc(screen, openEnd, newOpenEnds, directions, ctx);
             }
         }
     });
     openEnds = newOpenEnds;
     if (!bigEnough(openEnds)) {
-        setTimeout(() => {growAll(openEnds, mycMap, ctx, delay);}, delay);
+        setTimeout(() => {growAll(openEnds, screen, ctx, delay);}, delay);
     }
 }
 
@@ -173,13 +173,13 @@ function overlapDirections(openEnd) {
     return spread24.map(val => {return val % 24});
 }
 
-function isOpenEnd(mycMap, openEnd) {
+function isOpenEnd(screen, openEnd) {
     const allDirections = createAllDirections();
     const directionsToCheck = overlapDirections(openEnd);
     for (let dir of directionsToCheck) {
         let xToCheck = openEnd[0] + allDirections[dir][0];
         let yToCheck = openEnd[1] + allDirections[dir][1];
-        if (mycMap[xToCheck][yToCheck] !== undefined) {return false};
+        if (screen[xToCheck][yToCheck] !== undefined) {return false};
     }
     return true;
 }
@@ -210,14 +210,14 @@ function growthDirections(openEnd, growthDirectionProbability) {
     return result;
 }
 
-function growMyc(mycMap, openEnd, newOpenEnds, growthDirections, ctx) {
+function growMyc(screen, openEnd, newOpenEnds, growthDirections, ctx) {
     const allGrowthDirections = createAllGrowthDirections();
     growthDirections.forEach(direction => {
         // calc position of new growth
         let newX = openEnd[0] + allGrowthDirections[direction][0];
         let newY = openEnd[1] + allGrowthDirections[direction][1];
-        // update MycMap 
-        mycMap[newX][newY] = {mycelium: "primary"};
+        // update Screen 
+        screen[newX][newY] = {mycelium: "primary"};
         // add new openEnd
         newOpenEnds.push([newX, newY, direction]);
         // draw
@@ -226,9 +226,9 @@ function growMyc(mycMap, openEnd, newOpenEnds, growthDirections, ctx) {
 }
 
 module.exports.createAllGrowthDirections = createAllGrowthDirections;
-module.exports.createMycMap = createMycMap;
+module.exports.createScreen = createScreen;
 module.exports.createOpenEnds = createOpenEnds;
-module.exports.setupMycMap = setupMycMap;
+module.exports.setupScreen = setupScreen;
 module.exports.bigEnough = bigEnough;
 module.exports.possibleGrowthDirections = possibleGrowthDirections;
 module.exports.overlapDirections = overlapDirections;

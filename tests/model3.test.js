@@ -1,7 +1,7 @@
 const model = require('../model3');
 
-function createMockMycMap() {
-    const mycMap = model.createMycMap();
+function createMockScreen() {
+    const screen = model.createScreen();
     let data = [
         [250,150],
         [250,148],
@@ -20,9 +20,9 @@ function createMockMycMap() {
         [255,156],
         [256,158]]
     for (let i = 0; i < data.length; i++) {
-        mycMap[data[i][0]][data[i][1]] = {mycelium: "primary"};
+        screen[data[i][0]][data[i][1]] = {mycelium: "primary"};
     };
-    return mycMap;
+    return screen;
 }
 
 function createMockOpenEnds() {
@@ -33,11 +33,10 @@ function createMockOpenEnds() {
         [256,158,7]]
 }
 
-test('MycMap constructor works', () => {
-    const mycMap = new MycMap(1, 2, "main");
-    expect(mycMap.x).toBe(1);
-    expect(mycMap.y).toBe(2);
-    expect(mycMap.mycelium).toBe("main");
+test('ScreenData constructor works', () => {
+    const screenData = new ScreenData("main", 100);
+    expect(screenData.mycelium).toEqual("main");
+    expect(screenData.strength).toEqual(100);
 });
 
 test('Mycelium constructor works', () => {
@@ -53,12 +52,12 @@ test('createAllGrowthDirections is as expected', () => {
     expect(model.createAllGrowthDirections()[0].toString()).toBe("0,-2");
 });
 
-test('mycMap is setup correctly', () => {
+test('screen is setup correctly', () => {
     const openEnds = model.createOpenEnds();
-    const mycMap = model.createMycMap();
-    model.setupMycMap(mycMap);
+    const screen = model.createScreen();
+    model.setupScreen(screen);
     openEnds.forEach(openEnd => {
-        expect(mycMap[openEnd[0]][openEnd[1]]).toEqual({mycelium: "primary"});
+        expect(screen[openEnd[0]][openEnd[1]]).toEqual({mycelium: "primary"});
     });
 });
 
@@ -100,7 +99,7 @@ test('overlapDirections returns array of possible directions', () => {
 });
 
 test('isOpenEnd returns true if open end', () => {
-    const mycMap = createMockMycMap();
+    const screen = createMockScreen();
     const trueOpenEnds = createMockOpenEnds();
     const falseOpenEnds = [
         [250,148,0],
@@ -109,10 +108,10 @@ test('isOpenEnd returns true if open end', () => {
         [256,154,8],
         [245,149,4]];
     trueOpenEnds.forEach(openEnd => {
-        expect(model.isOpenEnd(mycMap, openEnd)).toBe(true);
+        expect(model.isOpenEnd(screen, openEnd)).toBe(true);
     });
     falseOpenEnds.forEach(openEnd => {
-        expect(model.isOpenEnd(mycMap, openEnd)).toBe(false);
+        expect(model.isOpenEnd(screen, openEnd)).toBe(false);
     });
 });
 
@@ -133,9 +132,9 @@ test('probResult returns result based on given probabilities', () => {
     console.log("bigger " + bigger, "split " + split, "nothing " + nothing);
 });
 
-function mycCount(mycMap) {
-    const mycMapFlat = mycMap.flat().filter((val) => {return val != undefined});
-    return mycMapFlat.length;
+function mycCount(screen) {
+    const screenFlat = screen.flat().filter((val) => {return val != undefined});
+    return screenFlat.length;
 }
 
 test('growthDirections returns array of two 0-15 values for directions', () => {
@@ -149,17 +148,17 @@ test('growthDirections returns array of two 0-15 values for directions', () => {
 });
 
 test('growMyc increases mycelial size as expected', () => {
-    const mycMap = createMockMycMap();
+    const screen = createMockScreen();
     const openEnds = createMockOpenEnds();
     const newOpenEnds = [];
-    const initMycCount = mycCount(mycMap);
+    const initMycCount = mycCount(screen);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    model.growMyc(mycMap, openEnds[0], newOpenEnds, [15, 13], ctx);
-    expect(mycCount(mycMap)).toEqual(initMycCount + 2);
-    expect(mycMap[251][138].mycelium).toEqual("primary");
-    expect(mycMap[250][139].mycelium).toEqual("primary");
+    model.growMyc(screen, openEnds[0], newOpenEnds, [15, 13], ctx);
+    expect(mycCount(screen)).toEqual(initMycCount + 2);
+    expect(screen[251][138].mycelium).toEqual("primary");
+    expect(screen[250][139].mycelium).toEqual("primary");
     expect(newOpenEnds.length).toEqual(2);
     expect(newOpenEnds[0]).toEqual([251, 138, 15]);
     expect(newOpenEnds[1]).toEqual([250, 139, 13]);
