@@ -3,14 +3,14 @@
 // mycMap array contains the state of mycelia (0 or 1) at each x,y position.
 function createMycMap() {
     const result = [];
-    for (let i = 0; i < 5000; i++) {
+    for (let i = 0; i < 2000; i++) {
         result[i] = [];
     };
     return result;
 }
 
 function setupMycMap(mycMap) {
-    mycMap[1500][1500] = {mycelium: "primary"};
+    mycMap[1000][1000] = {mycelium: "primary"};
     const openEnds = createOpenEnds();
     openEnds.forEach(openEnd => {
         mycMap[openEnd[0]][openEnd[1]] = {mycelium: "primary"};
@@ -18,14 +18,14 @@ function setupMycMap(mycMap) {
 }
 
 function createOpenEnds() {
-    return [[1500, 1498, 0],
-        [1502, 1498, 2],
-        [1502, 1500, 4],
-        [1502, 1502, 6],
-        [1500, 1502, 8],
-        [1498, 1502, 10],
-        [1498, 1500, 12],
-        [1498, 1498, 14]];
+    return [[1000, 998, 0],
+        [1002, 998, 2],
+        [1002, 1000, 4],
+        [1002, 1002, 6],
+        [1000, 1002, 8],
+        [998, 1002, 10],
+        [998, 1000, 12],
+        [998, 998, 14]];
 }
 
 function createAllGrowthDirections() {
@@ -95,23 +95,23 @@ function runMyc() {
 
     // Create gradient
     ctx.globalCompositeOperation = "multiply";
-    const grad=ctx.createRadialGradient(1000,1000,100,1000,1000,5000);
+    const grad=ctx.createRadialGradient(500,500,40,500,500,3500);
     grad.addColorStop(0,"red");
     grad.addColorStop(0.03,"#ff9999");
     grad.addColorStop(1,"white");
     ctx.fillStyle = grad;
-    ctx.fillRect(10,10,9980,9980);
+    ctx.fillRect(10,10,4980,4980);
     
-    const grad2=ctx.createRadialGradient(6000,1000,100,6000,1000,5000);
+    const grad2=ctx.createRadialGradient(2000,1000,40,2000,1000,3500);
     grad2.addColorStop(0,"#0000ff");
     grad2.addColorStop(0.03,"#9999ff");
     grad2.addColorStop(1,"white");
     ctx.fillStyle = grad2;
-    ctx.fillRect(10,10,9980,9980);
+    ctx.fillRect(10,10,4980,4980);
 
     // draw starting mycelia
     ctx.globalCompositeOperation = "source-over";
-    drawMyc(1500, 1500, ctx);
+    drawMyc(1000, 1000, ctx);
     openEnds.forEach(openEnd => {
         drawMyc(openEnd[0], openEnd[1], ctx);
     });
@@ -150,9 +150,9 @@ function bigEnough(openEnds) {
     let result = false;
     openEnds.forEach(openEnd => {
         if (openEnd[0] <= 2 ||
-            openEnd[0] >= 4998 ||
+            openEnd[0] >= 1998 ||
             openEnd[1] <= 2 ||
-            openEnd[1] >= 4998) {
+            openEnd[1] >= 1998) {
             result = true;
         }
     });

@@ -67,9 +67,9 @@ test('bigEnough returns true if reached edge of screen', () => {
     expect(model.bigEnough(openEnds)).toBe(false);
     const edges = [
         [2,150],
-        [498,150],
+        [1998,150],
         [250,2],
-        [250,298]]
+        [250,1998]]
     edges.forEach(edge => {
         openEnds.pop();
         openEnds.push(edge);
