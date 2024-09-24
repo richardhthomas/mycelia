@@ -10,7 +10,7 @@ function createMycMap() {
 }
 
 function setupMycMap(mycMap) {
-    mycMap[2500][2500] = {mycelium: "primary"};
+    mycMap[1500][1500] = {mycelium: "primary"};
     const openEnds = createOpenEnds();
     openEnds.forEach(openEnd => {
         mycMap[openEnd[0]][openEnd[1]] = {mycelium: "primary"};
@@ -18,14 +18,14 @@ function setupMycMap(mycMap) {
 }
 
 function createOpenEnds() {
-    return [[2500, 2498, 0],
-        [2502, 2498, 2],
-        [2502, 2500, 4],
-        [2502, 2502, 6],
-        [2500, 2502, 8],
-        [2498, 2502, 10],
-        [2498, 2500, 12],
-        [2498, 2498, 14]];
+    return [[1500, 1498, 0],
+        [1502, 1498, 2],
+        [1502, 1500, 4],
+        [1502, 1502, 6],
+        [1500, 1502, 8],
+        [1498, 1502, 10],
+        [1498, 1500, 12],
+        [1498, 1498, 14]];
 }
 
 function createAllGrowthDirections() {
@@ -110,12 +110,13 @@ function runMyc() {
     ctx.fillRect(10,10,9980,9980);
 
     // draw starting mycelia
-    drawMyc(2500, 2500, ctx);
+    ctx.globalCompositeOperation = "source-over";
+    drawMyc(1500, 1500, ctx);
     openEnds.forEach(openEnd => {
         drawMyc(openEnd[0], openEnd[1], ctx);
     });
 
-    //growAll(openEnds, mycMap, ctx, delay);
+    growAll(openEnds, mycMap, ctx, delay);
 }
 
 function growAll(openEnds, mycMap, ctx, delay) {
