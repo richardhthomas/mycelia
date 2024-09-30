@@ -1,4 +1,38 @@
+class Mycelium {
+    #growthTypeProb;
+    #growthDirProb;
+    #colour;
 
+    constructor(growthTypeProb, growthDirProb, colour) {
+        this.#growthTypeProb = growthTypeProb;
+        this.#growthDirProb = growthDirProb;
+        this.#colour = colour;
+    }
+
+    get growthTypeProb() {
+        return this.#growthTypeProb;
+    }
+
+    set growthTypeProb(value) {
+        this.#growthTypeProb = value;
+    }
+
+    get growthDirProb() {
+        return this.#growthDirProb;
+    }
+
+    set growthDirProb(value) {
+        this.#growthDirProb = value;
+    }
+
+    get colour() {
+        return this.#colour;
+    }
+
+    set colour(value) {
+        this.#colour = value;
+    }
+}
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
 function createScreen() {
@@ -75,12 +109,12 @@ function createAllDirections() {
 }
 
 // defines probabilities of growing bigger or splitting (vs doing nothing)
-function createGrowthTypeProbability() {
+function createGrowthTypeProb() {
     return {bigger: 40, split: 20, nothing: 50};
 }
 
 // defines probabilities of growing 2 deviations or 1 deviation from straight ahead
-function createGrowthDirectionProbability() {
+function createGrowthDirProb() {
     return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
 }
 
@@ -121,15 +155,15 @@ function runMyc() {
 
 function growAll(openEnds, screen, ctx, delay) {
     let newOpenEnds = [];
-    const growthTypeProbability = createGrowthTypeProbability();
-    const growthDirectionProbability = createGrowthDirectionProbability();
+    const growthTypeProb = createGrowthTypeProb();
+    const growthDirProb = createGrowthDirProb();
     openEnds.forEach(openEnd => {
         if (isOpenEnd(screen, openEnd)) {
-            let action = probResult(growthTypeProbability);
+            let action = probResult(growthTypeProb);
             if (action == "nothing") {
                 newOpenEnds.push(openEnd);
             } else {
-                let directions = growthDirections(openEnd, growthDirectionProbability);
+                let directions = growthDirections(openEnd, growthDirProb);
                 if (action == "bigger") {directions.pop();}
                 growMyc(screen, openEnd, newOpenEnds, directions, ctx);
             }
@@ -199,8 +233,8 @@ function probResult(probability) {
     }
 }
 
-function growthDirections(openEnd, growthDirectionProbability) {
-    const copygdp = {...growthDirectionProbability};
+function growthDirections(openEnd, growthDirProb) {
+    const copygdp = {...growthDirProb};
     const result = [];
     let p = probResult(copygdp);
     result.push(possibleGrowthDirections(openEnd)[Number.parseInt(p)]);
@@ -234,7 +268,8 @@ module.exports.possibleGrowthDirections = possibleGrowthDirections;
 module.exports.overlapDirections = overlapDirections;
 module.exports.isOpenEnd = isOpenEnd;
 module.exports.growMyc = growMyc;
-module.exports.createGrowthTypeProbability = createGrowthTypeProbability;
-module.exports.createGrowthDirectionProbability = createGrowthDirectionProbability;
+module.exports.createGrowthTypeProb = createGrowthTypeProb;
+module.exports.createGrowthDirProb = createGrowthDirProb;
 module.exports.probResult = probResult;
 module.exports.growthDirections = growthDirections;
+module.exports.Mycelium = Mycelium;

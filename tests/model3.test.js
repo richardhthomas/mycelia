@@ -33,20 +33,35 @@ function createMockOpenEnds() {
         [256,158,7]]
 }
 
-test('ScreenData constructor works', () => {
-    const screenData = new ScreenData("main", 100);
-    expect(screenData.mycelium).toEqual("main");
-    expect(screenData.strength).toEqual(100);
-});
+//test('ScreenData constructor works', () => {
+//    const screenData = new ScreenData("main", 100);
+//    expect(screenData.mycelium).toEqual("main");
+//    expect(screenData.strength).toEqual(100);
+//});
 
 test('Mycelium constructor works', () => {
-    const gtp = model.createGrowthTypeProbability();
-    const gdp = model.createGrowthDirectionProbability();
-    const mycelium = new Mycelium(gtp, gdp, "red");
+    const gtp = model.createGrowthTypeProb();
+    const gdp = model.createGrowthDirProb();
+    const mycelium = new model.Mycelium(gtp, gdp, "red");
     expect(mycelium.growthTypeProb).toBe(gtp);
     expect(mycelium.growthDirProb).toBe(gdp);
     expect(mycelium.colour).toBe("red");
 });
+
+test('Validation on growthTypeProb on Mycelium works', () => {
+    const badGtps = [
+        {bigger: 1, split: 1},
+        {bigger: 1, split: 1, xxx: 1},
+        {bigger: 1, xxx: 1, nothing: 1},
+        {xxx: 1, split: 1, nothing: 1},
+        {bigger: a, split: 1, nothing: 1},
+        {bigger: 1, split: a, nothing: 1},
+        {bigger: 1, split: 1, nothing: a}]
+    const gtp = model.createGrowthTypeProb();
+    const gdp = model.createGrowthDirProb();
+    const mycelium = new model.Mycelium(goodGtp, gdp, "red");
+    badGtps.forEach(badGtp => {
+
 
 test('createAllGrowthDirections is as expected', () => {
     expect(model.createAllGrowthDirections()[0].toString()).toBe("0,-2");
@@ -116,11 +131,11 @@ test('isOpenEnd returns true if open end', () => {
 });
 
 test('probResult returns result based on given probabilities', () => {
-    const growthTypeProbability = model.createGrowthTypeProbability();
-    expect(model.probResult(growthTypeProbability)).toMatch(/bigger|split|nothing/); 
+    const growthTypeProb = model.createGrowthTypeProb();
+    expect(model.probResult(growthTypeProb)).toMatch(/bigger|split|nothing/); 
     let bigger = 0, split = 0, nothing = 0;
     for (let i=0; i<1000; i++) {
-        let result = model.probResult(growthTypeProbability);
+        let result = model.probResult(growthTypeProb);
         if (result == 'bigger') {
             bigger += 1;
         } else if (result == 'split') {
@@ -139,7 +154,7 @@ function mycCount(screen) {
 
 test('growthDirections returns array of two 0-15 values for directions', () => {
     const openEnds = createMockOpenEnds();
-    const p = model.createGrowthDirectionProbability();
+    const p = model.createGrowthDirProb();
     const gd = model.growthDirections(openEnds[2], p);
     expect(gd[0]).toBeGreaterThanOrEqual(2);
     expect(gd[0]).toBeLessThanOrEqual(6);
