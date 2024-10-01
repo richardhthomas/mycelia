@@ -14,7 +14,22 @@ class Mycelium {
     }
 
     set growthTypeProb(value) {
-        this.#growthTypeProb = value;
+        const keys = Object.keys(value);
+        const goodKeys = ['bigger', 'split', 'nothing'];
+        let keysAreValid = true;
+        goodKeys.forEach(goodKey => {
+            if (!keys.includes(goodKey)) {keysAreValid = false;}
+        });
+        const vals = Object.values(value);
+        let valsAreValid = true;
+        vals.forEach(val => {
+            if (!Number.isInteger(val) || val < 1) {valsAreValid = false;}
+        });
+        if (keys.length == 3 && keysAreValid && valsAreValid) {
+            this.#growthTypeProb = value;
+        } else {
+            throw 'Invalid growthTypeProb';
+        }
     }
 
     get growthDirProb() {

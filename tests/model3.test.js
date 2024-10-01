@@ -54,14 +54,18 @@ test('Validation on growthTypeProb on Mycelium works', () => {
         {bigger: 1, split: 1, xxx: 1},
         {bigger: 1, xxx: 1, nothing: 1},
         {xxx: 1, split: 1, nothing: 1},
-        {bigger: a, split: 1, nothing: 1},
-        {bigger: 1, split: a, nothing: 1},
-        {bigger: 1, split: 1, nothing: a}]
-    const gtp = model.createGrowthTypeProb();
+        {bigger: "a", split: 1, nothing: 1},
+        {bigger: 1, split: "a", nothing: 1},
+        {bigger: 1, split: 1, nothing: "a"},
+        {bigger: 0, split: 1, nothing: 1}]
+    const goodGtp = model.createGrowthTypeProb();
     const gdp = model.createGrowthDirProb();
     const mycelium = new model.Mycelium(goodGtp, gdp, "red");
     badGtps.forEach(badGtp => {
-
+        expect(() => {mycelium.growthTypeProb = badGtp}).toThrow('Invalid growthTypeProb');
+    });
+    expect(() => {new model.Mycelium(badGtps[1], gdp, "red")}).toThrow('Invalid growthTypeProb');
+});
 
 test('createAllGrowthDirections is as expected', () => {
     expect(model.createAllGrowthDirections()[0].toString()).toBe("0,-2");
