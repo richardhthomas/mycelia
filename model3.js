@@ -4,7 +4,9 @@ class Mycelium {
     #colour;
 
     constructor(growthTypeProb, growthDirProb, colour) {
-        this.#growthTypeProb = growthTypeProb;
+        if (this.#growthTypeProbValidation(growthTypeProb)) {
+            this.#growthTypeProb = growthTypeProb;
+        }
         this.#growthDirProb = growthDirProb;
         this.#colour = colour;
     }
@@ -14,21 +16,8 @@ class Mycelium {
     }
 
     set growthTypeProb(value) {
-        const keys = Object.keys(value);
-        const goodKeys = ['bigger', 'split', 'nothing'];
-        let keysAreValid = true;
-        goodKeys.forEach(goodKey => {
-            if (!keys.includes(goodKey)) {keysAreValid = false;}
-        });
-        const vals = Object.values(value);
-        let valsAreValid = true;
-        vals.forEach(val => {
-            if (!Number.isInteger(val) || val < 1) {valsAreValid = false;}
-        });
-        if (keys.length == 3 && keysAreValid && valsAreValid) {
+        if (this.#growthTypeProbValidation(value)) {
             this.#growthTypeProb = value;
-        } else {
-            throw 'Invalid growthTypeProb';
         }
     }
 
@@ -46,6 +35,25 @@ class Mycelium {
 
     set colour(value) {
         this.#colour = value;
+    }
+
+    #growthTypeProbValidation(value) {
+        const keys = Object.keys(value);
+        const goodKeys = ['bigger', 'split', 'nothing'];
+        let keysAreValid = true;
+        goodKeys.forEach(goodKey => {
+            if (!keys.includes(goodKey)) {keysAreValid = false;}
+        });
+        const vals = Object.values(value);
+        let valsAreValid = true;
+        vals.forEach(val => {
+            if (!Number.isInteger(val) || val < 1) {valsAreValid = false;}
+        });
+        if (keys.length == 3 && keysAreValid && valsAreValid) {
+            return true;
+        } else {
+            throw 'Invalid growthTypeProb';
+        }
     }
 }
 
