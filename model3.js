@@ -78,6 +78,22 @@ class Mycelium {
             throw 'Invalid growthDirProb';
         }
     }
+
+    static get allDirs() {
+        return allDirections;
+    }
+
+    static set allDirs(value) {
+        throw 'Cannot redefine constant allDirs';
+    }
+    
+    static get allGrowthDirs() {
+        return allGrowthDirections;
+    }
+
+    static set allGrowthDirs(value) {
+        throw 'Cannot redefine constant allGrowthDirs';
+    }
 }
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
@@ -108,8 +124,8 @@ function createOpenEnds() {
         [998, 998, 14]];
 }
 
-function createAllGrowthDirections() {
-    return [[0,-2],
+const allGrowthDirections = [
+    [0,-2],
     [1,-2],
     [2,-2],
     [2,-1],
@@ -125,34 +141,32 @@ function createAllGrowthDirections() {
     [-2,-1],
     [-2,-2],
     [-1,-2]];
-}
 
-function createAllDirections() {
-    return [[0,-1],
-        [0,-2],
-        [1,-2],
-        [1,-1],
-        [2,-2],
-        [2,-1],
-        [1,0],
-        [2,0],
-        [2,1],
-        [1,1],
-        [2,2],
-        [1,2],
-        [0,1],
-        [0,2],
-        [-1,2],
-        [-1,1],
-        [-2,2],
-        [-2,1],
-        [-1,0],
-        [-2,0],
-        [-2,-1],
-        [-1,-1],
-        [-2,-2],
-        [-1,-2]];
-}
+const allDirections = [
+    [0,-1],
+    [0,-2],
+    [1,-2],
+    [1,-1],
+    [2,-2],
+    [2,-1],
+    [1,0],
+    [2,0],
+    [2,1],
+    [1,1],
+    [2,2],
+    [1,2],
+    [0,1],
+    [0,2],
+    [-1,2],
+    [-1,1],
+    [-2,2],
+    [-2,1],
+    [-1,0],
+    [-2,0],
+    [-2,-1],
+    [-1,-1],
+    [-2,-2],
+    [-1,-2]];
 
 // defines probabilities of growing bigger or splitting (vs doing nothing)
 function createGrowthTypeProb() {
@@ -305,7 +319,7 @@ function growMyc(screen, openEnd, newOpenEnds, growthDirections, ctx) {
     });
 }
 
-module.exports.createAllGrowthDirections = createAllGrowthDirections;
+//module.exports.createAllGrowthDirections = createAllGrowthDirections;
 module.exports.createScreen = createScreen;
 module.exports.createOpenEnds = createOpenEnds;
 module.exports.setupScreen = setupScreen;

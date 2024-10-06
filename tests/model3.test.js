@@ -88,8 +88,14 @@ test('Validation on growthDirProb on Mycelium', () => {
     expect(() => {new model.Mycelium(gtp, badGdps[1], "red")}).toThrow('Invalid growthDirProb');
 });
 
-test('createAllGrowthDirections is as expected', () => {
-    expect(model.createAllGrowthDirections()[0].toString()).toBe("0,-2");
+test('allDirs is as expected', () => {
+    expect(model.Mycelium.allDirs[0].toString()).toBe("0,-1");
+    expect(() => {model.Mycelium.allDirs = "a"}).toThrow('Cannot redefine constant allDirs');
+});
+
+test('allGrowthDirs is as expected', () => {
+    expect(model.Mycelium.allGrowthDirs[0].toString()).toBe("0,-2");
+    expect(() => {model.Mycelium.allGrowthDirs = "a"}).toThrow('Cannot redefine constant allGrowthDirs');
 });
 
 test('screen is setup correctly', () => {
