@@ -39,7 +39,7 @@ function createMockOpenEnds() {
 //    expect(screenData.strength).toEqual(100);
 //});
 
-test('Mycelium constructor works', () => {
+test('Mycelium constructor', () => {
     const gtp = model.createGrowthTypeProb();
     const gdp = model.createGrowthDirProb();
     const mycelium = new model.Mycelium(gtp, gdp, "red");
@@ -48,7 +48,7 @@ test('Mycelium constructor works', () => {
     expect(mycelium.colour).toBe("red");
 });
 
-test('Validation on growthTypeProb on Mycelium works', () => {
+test('Validation on growthTypeProb on Mycelium', () => {
     const badGtps = [
         {bigger: 1, split: 1},
         {bigger: 1, split: 1, xxx: 1},
@@ -65,6 +65,27 @@ test('Validation on growthTypeProb on Mycelium works', () => {
         expect(() => {mycelium.growthTypeProb = badGtp}).toThrow('Invalid growthTypeProb');
     });
     expect(() => {new model.Mycelium(badGtps[1], gdp, "red")}).toThrow('Invalid growthTypeProb');
+});
+
+test('Validation on growthDirProb on Mycelium', () => {
+    const badGdps = [
+        {"a": 5, "1": 12, "2": 120, "3": 12, "4": 5},
+        {"0": 5, "a": 12, "2": 120, "3": 12, "4": 5},
+        {"0": 5, "1": 12, "a": 120, "3": 12, "4": 5},
+        {"0": 5, "1": 12, "2": 120, "a": 12, "4": 5},
+        {"0": 5, "1": 12, "2": 120, "3": 12, "a": 5},
+        {"0": "a", "1": 12, "2": 120, "3": 12, "4": 5},
+        {"0": 5, "1": "a", "2": 120, "3": 12, "4": 5},
+        {"0": 5, "1": 12, "2": "a", "3": 12, "4": 5},
+        {"0": 5, "1": 12, "2": 120, "3": "a", "4": 5},
+        {"0": 5, "1": 12, "2": 120, "3": 12, "4": "a"}]
+    const gtp = model.createGrowthTypeProb();
+    const goodGdp = model.createGrowthDirProb();
+    const mycelium = new model.Mycelium(gtp, goodGdp, "red");
+    badGdps.forEach(badGdp => {
+        expect(() => {mycelium.growthDirProb = badGdp}).toThrow('Invalid growthDirProb');
+    });
+    expect(() => {new model.Mycelium(gtp, badGdps[1], "red")}).toThrow('Invalid growthDirProb');
 });
 
 test('createAllGrowthDirections is as expected', () => {

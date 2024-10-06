@@ -7,7 +7,9 @@ class Mycelium {
         if (this.#growthTypeProbValidation(growthTypeProb)) {
             this.#growthTypeProb = growthTypeProb;
         }
-        this.#growthDirProb = growthDirProb;
+        if (this.#growthDirProbValidation(growthDirProb)) {
+            this.#growthDirProb = growthDirProb;
+        }
         this.#colour = colour;
     }
 
@@ -26,7 +28,9 @@ class Mycelium {
     }
 
     set growthDirProb(value) {
-        this.#growthDirProb = value;
+        if (this.#growthDirProbValidation(value)) {
+            this.#growthDirProb = value;
+        }
     }
 
     get colour() {
@@ -53,6 +57,25 @@ class Mycelium {
             return true;
         } else {
             throw 'Invalid growthTypeProb';
+        }
+    }
+
+    #growthDirProbValidation(value) {
+        const keys = Object.keys(value);
+        const goodKeys = ['0', '1', '2', '3', '4'];
+        let keysAreValid = true;
+        goodKeys.forEach(goodKey => {
+            if (!keys.includes(goodKey)) {keysAreValid = false;}
+        });
+        const vals = Object.values(value);
+        let valsAreValid = true;
+        vals.forEach(val => {
+            if (!Number.isInteger(val) || val < 0) {valsAreValid = false;}
+        });
+        if (keys.length == 5 && keysAreValid && valsAreValid) {
+            return true;
+        } else {
+            throw 'Invalid growthDirProb';
         }
     }
 }
