@@ -25,6 +25,13 @@ function createMockScreen() {
     return screen;
 }
 
+function createMockMycelium() {
+    return new model.Mycelium(
+        model.createGrowthTypeProb(),
+        model.createGrowthDirProb(),
+        'red')
+}
+
 function createMockOpenEnds() {
     return [
         [252,140,15],
@@ -40,11 +47,9 @@ function createMockOpenEnds() {
 //});
 
 test('Mycelium constructor', () => {
-    const gtp = model.createGrowthTypeProb();
-    const gdp = model.createGrowthDirProb();
-    const mycelium = new model.Mycelium(gtp, gdp, "red");
-    expect(mycelium.growthTypeProb).toBe(gtp);
-    expect(mycelium.growthDirProb).toBe(gdp);
+    const mycelium = createMockMycelium();
+    expect(mycelium.growthTypeProb).toEqual(model.createGrowthTypeProb());
+    expect(mycelium.growthDirProb).toEqual(model.createGrowthDirProb());
     expect(mycelium.colour).toBe("red");
 });
 
@@ -58,13 +63,11 @@ test('Validation on growthTypeProb on Mycelium', () => {
         {bigger: 1, split: "a", nothing: 1},
         {bigger: 1, split: 1, nothing: "a"},
         {bigger: 0, split: 1, nothing: 1}]
-    const goodGtp = model.createGrowthTypeProb();
-    const gdp = model.createGrowthDirProb();
-    const mycelium = new model.Mycelium(goodGtp, gdp, "red");
+    const mycelium = createMockMycelium(); 
     badGtps.forEach(badGtp => {
         expect(() => {mycelium.growthTypeProb = badGtp}).toThrow('Invalid growthTypeProb');
     });
-    expect(() => {new model.Mycelium(badGtps[1], gdp, "red")}).toThrow('Invalid growthTypeProb');
+    expect(() => {new model.Mycelium(badGtps[1], model.createGrowthDirProb(), "red")}).toThrow('Invalid growthTypeProb');
 });
 
 test('Validation on growthDirProb on Mycelium', () => {
@@ -79,13 +82,11 @@ test('Validation on growthDirProb on Mycelium', () => {
         {"0": 5, "1": 12, "2": "a", "3": 12, "4": 5},
         {"0": 5, "1": 12, "2": 120, "3": "a", "4": 5},
         {"0": 5, "1": 12, "2": 120, "3": 12, "4": "a"}]
-    const gtp = model.createGrowthTypeProb();
-    const goodGdp = model.createGrowthDirProb();
-    const mycelium = new model.Mycelium(gtp, goodGdp, "red");
+    const mycelium = createMockMycelium(); 
     badGdps.forEach(badGdp => {
         expect(() => {mycelium.growthDirProb = badGdp}).toThrow('Invalid growthDirProb');
     });
-    expect(() => {new model.Mycelium(gtp, badGdps[1], "red")}).toThrow('Invalid growthDirProb');
+    expect(() => {new model.Mycelium(model.createGrowthTypeProb(), badGdps[1], "red")}).toThrow('Invalid growthDirProb');
 });
 
 test('allDirs is as expected', () => {
