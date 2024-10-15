@@ -268,7 +268,7 @@ function overlapDirections(openEnd) {
 }
 
 function isOpenEnd(screen, openEnd) {
-    const allDirections = createAllDirections();
+    const allDirections = Mycelium.allDirs;
     const directionsToCheck = overlapDirections(openEnd);
     for (let dir of directionsToCheck) {
         let xToCheck = openEnd[0] + allDirections[dir][0];
@@ -305,7 +305,7 @@ function growthDirections(openEnd, growthDirProb) {
 }
 
 function growMyc(screen, openEnd, newOpenEnds, growthDirections, ctx) {
-    const allGrowthDirections = createAllGrowthDirections();
+    const allGrowthDirections = Mycelium.allGrowthDirs;
     growthDirections.forEach(direction => {
         // calc position of new growth
         let newX = openEnd[0] + allGrowthDirections[direction][0];
