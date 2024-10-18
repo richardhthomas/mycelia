@@ -2,8 +2,9 @@ class Mycelium {
     #growthTypeProb;
     #growthDirProb;
     #colour;
+    #openEnds;
 
-    constructor(growthTypeProb, growthDirProb, colour) {
+    constructor(growthTypeProb, growthDirProb, colour, openEnds) {
         if (this.#growthTypeProbValidation(growthTypeProb)) {
             this.#growthTypeProb = growthTypeProb;
         }
@@ -11,6 +12,7 @@ class Mycelium {
             this.#growthDirProb = growthDirProb;
         }
         this.#colour = colour;
+        this.#openEnds = openEnds;
     }
 
     get growthTypeProb() {
@@ -39,6 +41,18 @@ class Mycelium {
 
     set colour(value) {
         this.#colour = value;
+    }
+
+    get openEnds() {
+        return this.#openEnds;
+    }
+
+    set openEnds(value) {
+        if (this.#openEndsValidation(value)) {
+            this.#openEnds = value;
+        } else {
+            throw 'Invalid openEnds';
+        }
     }
 
     #growthTypeProbValidation(value) {
@@ -77,6 +91,22 @@ class Mycelium {
         } else {
             throw 'Invalid growthDirProb';
         }
+    }
+
+    #openEndsValidation(value) {
+        if (!Array.isArray(value)) {return false;}
+        let valsAreValid = true;
+        value.forEach(openEnd => {
+            if (!Array.isArray(openEnd)) {valsAreValid = false;}
+            if (!openEnd.length == 3) {valsAreValid = false;}
+        });
+        if (valsAreValid) {return true;} else {return false;}
+        value.forEach(openEnd => {
+            if (!Number.isInteger(openEnd[0]) || openEnd[0] < 1) {valsAreValid = false;}
+            if (!Number.isInteger(openEnd[1]) || openEnd[1] < 1) {valsAreValid = false;}
+            if (!Number.isInteger(openEnd[2]) || openEnd[2] < 0 || openEnd[2] > 15) {valsAreValid = false;}
+        });
+        if (valsAreValid) {return true;} else {return false;}
     }
 
     static get allDirs() {
