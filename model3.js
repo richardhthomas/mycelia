@@ -12,7 +12,7 @@ class Mycelium {
             this.#growthDirProb = growthDirProb;
         }
         this.#colour = colour;
-        this.#openEnds = openEnds;
+        this.#openEnds = new OpenEnds(...openEnds);
     }
 
     get growthTypeProb() {
@@ -49,7 +49,7 @@ class Mycelium {
 
     set openEnds(value) {
         if (this.#openEndsValidation(value)) {
-            this.#openEnds = value;
+            this.#openEnds = new OpenEnds(...value);
         } else {
             throw 'Invalid openEnds';
         }
@@ -98,9 +98,9 @@ class Mycelium {
         let valsAreValid = true;
         value.forEach(openEnd => {
             if (!Array.isArray(openEnd)) {valsAreValid = false;}
-            if (!openEnd.length == 3) {valsAreValid = false;}
+            if (!(openEnd.length == 3)) {valsAreValid = false;}
         });
-        if (valsAreValid) {return true;} else {return false;}
+        if (!valsAreValid) {return false;} 
         value.forEach(openEnd => {
             if (!Number.isInteger(openEnd[0]) || openEnd[0] < 1) {valsAreValid = false;}
             if (!Number.isInteger(openEnd[1]) || openEnd[1] < 1) {valsAreValid = false;}
@@ -123,6 +123,27 @@ class Mycelium {
 
     static set allGrowthDirs(value) {
         throw 'Cannot redefine constant allGrowthDirs';
+    }
+}
+
+class OpenEnds extends Array {
+    push(element) {
+        if (this.#openEndsElementValidation(element)) {
+            super.push(element);
+        } else {
+            throw 'Invalid openEnds'
+        }
+    }
+
+    #openEndsElementValidation(element) {
+        let valsAreValid = true;
+        if (!Array.isArray(element)) {valsAreValid = false;}
+        if (!(element.length == 3)) {valsAreValid = false;}
+        if (!valsAreValid) {return false;}
+        if (!Number.isInteger(element[0]) || element[0] < 1) {valsAreValid = false;}
+        if (!Number.isInteger(element[1]) || element[1] < 1) {valsAreValid = false;}
+        if (!Number.isInteger(element[2]) || element[2] < 0 || element[2] > 15) {valsAreValid = false;}
+        if (valsAreValid) {return true;} else {return false;}
     }
 }
 

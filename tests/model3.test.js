@@ -113,8 +113,9 @@ test('validation on openEnds on Mycelium', () => {
         [250, 150, 16],
         [-100, 150, 3]];
     badOpenEnds.forEach(badOpenEnd => {
-        let newOpenEnds = mycelium.openEnds.push(badOpenEnd);
-        expect(() => {mycelium.openEnds = newOpenEnds}).toThrow('Invalid openEnds');
+        console.log(badOpenEnd);
+        expect(() => {mycelium.openEnds = [badOpenEnd]}).toThrow('Invalid openEnds'); 
+        expect(() => {mycelium.openEnds.push(badOpenEnd)}).toThrow('Invalid openEnds'); 
     });
 });
 
