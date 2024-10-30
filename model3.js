@@ -12,7 +12,9 @@ class Mycelium {
             this.#growthDirProb = growthDirProb;
         }
         this.#colour = colour;
-        this.#openEnds = new OpenEnds(...openEnds);
+        if (this.#openEndsValidation(openEnds)) {
+            this.#openEnds = new OpenEnds(...openEnds);
+        }
     }
 
     get growthTypeProb() {
@@ -50,8 +52,6 @@ class Mycelium {
     set openEnds(value) {
         if (this.#openEndsValidation(value)) {
             this.#openEnds = new OpenEnds(...value);
-        } else {
-            throw 'Invalid openEnds';
         }
     }
 
@@ -93,20 +93,9 @@ class Mycelium {
         }
     }
 
+    //see openEnds class for validation of array elements
     #openEndsValidation(value) {
-        if (!Array.isArray(value)) {return false;}
-        let valsAreValid = true;
-        value.forEach(openEnd => {
-            if (!Array.isArray(openEnd)) {valsAreValid = false;}
-            if (!(openEnd.length == 3)) {valsAreValid = false;}
-        });
-        if (!valsAreValid) {return false;} 
-        value.forEach(openEnd => {
-            if (!Number.isInteger(openEnd[0]) || openEnd[0] < 1) {valsAreValid = false;}
-            if (!Number.isInteger(openEnd[1]) || openEnd[1] < 1) {valsAreValid = false;}
-            if (!Number.isInteger(openEnd[2]) || openEnd[2] < 0 || openEnd[2] > 15) {valsAreValid = false;}
-        });
-        if (valsAreValid) {return true;} else {return false;}
+        if (Array.isArray(value)) {return true;} else {throw 'Invalid openEnds';}
     }
 
     static get allDirs() {
@@ -127,11 +116,18 @@ class Mycelium {
 }
 
 class OpenEnds extends Array {
+    constructor(...elements) {
+        super(...elements);
+        if (!elements.every((element) => this.#openEndsElementValidation(element))) {
+            throw 'Invalid openEnds';
+        }
+    }
+
     push(element) {
         if (this.#openEndsElementValidation(element)) {
             super.push(element);
         } else {
-            throw 'Invalid openEnds'
+            throw 'Invalid openEnds';
         }
     }
 

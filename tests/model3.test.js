@@ -102,7 +102,7 @@ test('Validation on growthDirProb on Mycelium', () => {
         [[252,140,15]])}).toThrow('Invalid growthDirProb');
 });
 
-test('validation on openEnds on Mycelium', () => {
+test('validation of openEnds on Mycelium and OpenEnds', () => {
     const mycelium = createMockMycelium();
     expect(() => {mycelium.openEnds = 250}).toThrow('Invalid openEnds');
     expect(() => {mycelium.openEnds = [250, 150, 3]}).toThrow('Invalid openEnds');
@@ -113,10 +113,19 @@ test('validation on openEnds on Mycelium', () => {
         [250, 150, 16],
         [-100, 150, 3]];
     badOpenEnds.forEach(badOpenEnd => {
-        console.log(badOpenEnd);
         expect(() => {mycelium.openEnds = [badOpenEnd]}).toThrow('Invalid openEnds'); 
         expect(() => {mycelium.openEnds.push(badOpenEnd)}).toThrow('Invalid openEnds'); 
+        expect(() => {new model.Mycelium(
+            model.createGrowthTypeProb(), 
+            model.createGrowthDirProb(), 
+            "red", 
+            [badOpenEnd])}).toThrow('Invalid openEnds');
     });
+    expect(() => {new model.Mycelium(
+        model.createGrowthTypeProb(), 
+        model.createGrowthDirProb(), 
+       "red", 
+        250)}).toThrow('Invalid openEnds');
 });
 
 test('allDirs is as expected', () => {
