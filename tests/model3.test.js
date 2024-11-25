@@ -148,17 +148,17 @@ test('screen is setup correctly', () => {
 });
 
 test('bigEnough returns true if reached edge of screen', () => {
-    const openEnds = createMockOpenEnds();
-    expect(model.bigEnough(openEnds)).toBe(false);
+    const mycelium = createMockMycelium();
+    expect(mycelium.bigEnough()).toBe(false);
     const edges = [
-        [2,150],
-        [1998,150],
-        [250,2],
-        [250,1998]]
+        [2,150,1],
+        [1998,150,1],
+        [250,2,1],
+        [250,1998,1]]
     edges.forEach(edge => {
-        openEnds.pop();
-        openEnds.push(edge);
-        expect(model.bigEnough(openEnds)).toBe(true);
+        mycelium.openEnds.pop();
+        mycelium.openEnds.push(edge);
+        expect(mycelium.bigEnough()).toBe(true);
     });
 });
 

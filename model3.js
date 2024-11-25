@@ -113,6 +113,19 @@ class Mycelium {
     static set allGrowthDirs(value) {
         throw 'Cannot redefine constant allGrowthDirs';
     }
+
+    bigEnough = () => {
+        let result = false;
+        this.openEnds.forEach(openEnd => {
+            if (openEnd[0] <= 2 ||
+                openEnd[0] >= 1998 ||
+                openEnd[1] <= 2 ||
+                openEnd[1] >= 1998) {
+                result = true;
+            }
+        });
+        return result;
+    }
 }
 
 class OpenEnds extends Array {
@@ -287,18 +300,18 @@ function drawMyc(x, y, ctx) {
     ctx.fillRect(x*2,y*2,4,4);
 }
 
-function bigEnough(openEnds) {
-    let result = false;
-    openEnds.forEach(openEnd => {
-        if (openEnd[0] <= 2 ||
-            openEnd[0] >= 1998 ||
-            openEnd[1] <= 2 ||
-            openEnd[1] >= 1998) {
-            result = true;
-        }
-    });
-    return result;
-}
+//function bigEnough(mycelium) {
+//    let result = false;
+//    mycelium.openEnds.forEach(openEnd => {
+//        if (openEnd[0] <= 2 ||
+//            openEnd[0] >= 1998 ||
+//            openEnd[1] <= 2 ||
+//            openEnd[1] >= 1998) {
+//            result = true;
+//        }
+//    });
+//    return result;
+//}
 
 function possibleGrowthDirections(openEnd) {
     const v = openEnd[2]; 
@@ -370,7 +383,7 @@ function growMyc(screen, openEnd, newOpenEnds, growthDirections, ctx) {
 module.exports.createScreen = createScreen;
 module.exports.createOpenEnds = createOpenEnds;
 module.exports.setupScreen = setupScreen;
-module.exports.bigEnough = bigEnough;
+//module.exports.bigEnough = bigEnough;
 module.exports.possibleGrowthDirections = possibleGrowthDirections;
 module.exports.overlapDirections = overlapDirections;
 module.exports.isOpenEnd = isOpenEnd;
