@@ -36,13 +36,13 @@ function createMockMycelium() {
         [256,158,7]])
 }
 
-function createMockOpenEnds() {
-    return [
-        [252,140,15],
-        [242,152,11],
-        [258,154,4],
-        [256,158,7]]
-}
+//function createMockOpenEnds() {
+//    return [
+//        [252,140,15],
+//        [242,152,11],
+//        [258,154,4],
+//        [256,158,7]]
+//}
 
 //test('ScreenData constructor works', () => {
 //    const screenData = new ScreenData("main", 100);
@@ -139,10 +139,11 @@ test('allGrowthDirs is as expected', () => {
 });
 
 test('screen is setup correctly', () => {
-    const openEnds = model.createOpenEnds();
+    const mycelium = createMockMycelium();
+    const mycelia = { primary: mycelium }
     const screen = model.createScreen();
-    model.setupScreen(screen);
-    openEnds.forEach(openEnd => {
+    model.setupScreen(screen, mycelia);
+    mycelium.openEnds.forEach(openEnd => {
         expect(screen[openEnd[0]][openEnd[1]]).toEqual({mycelium: "primary"});
     });
 });
@@ -173,6 +174,18 @@ test('possibleGrowthDirections returns array of possible directions', () => {
     });
 });
 
+test('possibleGrowthDirections on openEnds returns array of possible directions', () => {
+    const mycelium = createMockMycelium();
+    const expectedValues = [
+        [13,14,15,0,1],
+        [9,10,11,12,13],
+        [2,3,4,5,6],
+        [5,6,7,8,9]];
+    expectedValues.forEach((values, index) => {
+        expect(mycelium.openEnds[index].possibleGrowthDirections()).toEqual(values);
+    });
+});
+
 test('overlapDirections returns array of possible directions', () => {
     const expectedValues = [
         [[252,140,15],[20,21,22,23,0,1,2]],
@@ -186,7 +199,7 @@ test('overlapDirections returns array of possible directions', () => {
 
 test('isOpenEnd returns true if open end', () => {
     const screen = createMockScreen();
-    const trueOpenEnds = createMockOpenEnds();
+    const trueOpenEnds = createMockMycelium().openEnds;
     const falseOpenEnds = [
         [250,148,0],
         [251,144,0],
@@ -224,7 +237,7 @@ function mycCount(screen) {
 }
 
 test('growthDirections returns array of two 0-15 values for directions', () => {
-    const openEnds = createMockOpenEnds();
+    const openEnds = createMockMycelium().openEnds;
     const p = model.createGrowthDirProb();
     const gd = model.growthDirections(openEnds[2], p);
     expect(gd[0]).toBeGreaterThanOrEqual(2);
@@ -235,7 +248,7 @@ test('growthDirections returns array of two 0-15 values for directions', () => {
 
 test('growMyc increases mycelial size as expected', () => {
     const screen = createMockScreen();
-    const openEnds = createMockOpenEnds();
+    const openEnds = createMockMycelium().openEnds;
     const newOpenEnds = [];
     const initMycCount = mycCount(screen);
     const canvas = document.createElement('canvas');

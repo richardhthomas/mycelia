@@ -165,12 +165,14 @@ function createScreen() {
     return result;
 }
 
-function setupScreen(screen) {
+function setupScreen(screen, mycelia) {
     screen[1000][1000] = {mycelium: "primary"};
-    const openEnds = createOpenEnds();
-    openEnds.forEach(openEnd => {
-        screen[openEnd[0]][openEnd[1]] = {mycelium: "primary"};
-    });
+    //***line above needs to be generalised
+    for (let [name, mycelium] of Object.entries(mycelia)) {
+        mycelium.openEnds.forEach(openEnd => {
+            screen[openEnd[0]][openEnd[1]] = {mycelium: name};
+        });
+    };
 }
 
 function createOpenEnds() {
@@ -239,9 +241,22 @@ function createGrowthDirProb() {
 }
 
 function runMyc() {
-	const screen = createScreen(); 
-    setupScreen(screen);
-    let openEnds = createOpenEnds();
+    let mycelium = new Mycelium(
+        createGrowthTypeProb(),
+        createGrowthDirProb(),
+        "red",
+        [[1000, 998, 0],
+        [1002, 998, 2],
+        [1002, 1000, 4],
+        [1002, 1002, 6],
+        [1000, 1002, 8],
+        [998, 1002, 10],
+        [998, 1000, 12],
+        [998, 998, 14]]);
+	let mycelia = { primary: mycelium };
+    const screen = createScreen(); 
+    setupScreen(screen, mycelium);
+    //let openEnds = createOpenEnds();
     const delay = 100;
     const canvas = document.getElementById("mainCanvas");
     const ctx = canvas.getContext("2d");
@@ -266,32 +281,31 @@ function runMyc() {
     // draw starting mycelia
     ctx.globalCompositeOperation = "source-over";
     drawMyc(1000, 1000, ctx);
-    openEnds.forEach(openEnd => {
+    mycelium.openEnds.forEach(openEnd => {
         drawMyc(openEnd[0], openEnd[1], ctx);
     });
 
-    growAll(openEnds, screen, ctx, delay);
+    //*** line below needs generalising to multiple mycelia
+    growAll(mycelium, screen, ctx, delay);
 }
 
-function growAll(openEnds, screen, ctx, delay) {
+function growAll(mycelium, screen, ctx, delay) {
     let newOpenEnds = [];
-    const growthTypeProb = createGrowthTypeProb();
-    const growthDirProb = createGrowthDirProb();
-    openEnds.forEach(openEnd => {
+    mycelium.openEnds.forEach(openEnd => {
         if (isOpenEnd(screen, openEnd)) {
-            let action = probResult(growthTypeProb);
+            let action = probResult(mycelium.growthTypeProb);
             if (action == "nothing") {
                 newOpenEnds.push(openEnd);
             } else {
-                let directions = growthDirections(openEnd, growthDirProb);
+                let directions = growthDirections(openEnd, mycelium.growthDirProb);
                 if (action == "bigger") {directions.pop();}
                 growMyc(screen, openEnd, newOpenEnds, directions, ctx);
             }
         }
     });
     openEnds = newOpenEnds;
-    if (!bigEnough(openEnds)) {
-        setTimeout(() => {growAll(openEnds, screen, ctx, delay);}, delay);
+    if (!mycelium.bigEnough()) {
+        setTimeout(() => {growAll(mycelium, screen, ctx, delay);}, delay);
     }
 }
 
@@ -379,11 +393,9 @@ function growMyc(screen, openEnd, newOpenEnds, growthDirections, ctx) {
     });
 }
 
-//module.exports.createAllGrowthDirections = createAllGrowthDirections;
 module.exports.createScreen = createScreen;
 module.exports.createOpenEnds = createOpenEnds;
 module.exports.setupScreen = setupScreen;
-//module.exports.bigEnough = bigEnough;
 module.exports.possibleGrowthDirections = possibleGrowthDirections;
 module.exports.overlapDirections = overlapDirections;
 module.exports.isOpenEnd = isOpenEnd;
