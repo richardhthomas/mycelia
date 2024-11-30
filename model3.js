@@ -93,7 +93,7 @@ class Mycelium {
         }
     }
 
-    //see openEnds class for validation of array elements
+    //see openEnd class for validation of array elements
     #openEndsValidation(value) {
         if (Array.isArray(value)) {return true;} else {throw 'Invalid openEnds';}
     }
@@ -114,13 +114,13 @@ class Mycelium {
         throw 'Cannot redefine constant allGrowthDirs';
     }
 
-    bigEnough = () => {
+    bigEnough() {
         let result = false;
         this.openEnds.forEach(openEnd => {
-            if (openEnd[0] <= 2 ||
-                openEnd[0] >= 1998 ||
-                openEnd[1] <= 2 ||
-                openEnd[1] >= 1998) {
+            if (openEnd.xposn <= 2 ||
+                openEnd.xposn >= 1998 ||
+                openEnd.yposn <= 2 ||
+                openEnd.yposn >= 1998) {
                 result = true;
             }
         });
@@ -145,16 +145,101 @@ class OpenEnds extends Array {
     }
 
     #openEndsElementValidation(element) {
-        let valsAreValid = true;
-        if (!Array.isArray(element)) {valsAreValid = false;}
-        if (!(element.length == 3)) {valsAreValid = false;}
-        if (!valsAreValid) {return false;}
-        if (!Number.isInteger(element[0]) || element[0] < 1) {valsAreValid = false;}
-        if (!Number.isInteger(element[1]) || element[1] < 1) {valsAreValid = false;}
-        if (!Number.isInteger(element[2]) || element[2] < 0 || element[2] > 15) {valsAreValid = false;}
-        if (valsAreValid) {return true;} else {return false;}
+        return (element.constructor.name === OpenEnd.name) ? true : false;
     }
 }
+
+class OpenEnd {
+    #xposn
+    #yposn
+    #dirn
+
+    constructor(xposn, yposn, dirn) {
+        if (this.#xposnValidation(xposn)) {this.#xposn = xposn;}
+        if (this.#yposnValidation(yposn)) {this.#yposn = yposn;}
+        if (this.#dirnValidation(dirn)) {this.#dirn = dirn;}
+    }
+    
+    get xposn() {
+        return this.#xposn;
+    }
+
+    set xposn(value) {
+        if (this.#xposnValidation(value)) {
+            this.#xposn = value;
+        }
+    }
+    
+    get yposn() {
+        return this.#yposn;
+    }
+
+    set yposn(value) {
+        if (this.#yposnValidation(value)) {
+            this.#yposn = value;
+        }
+    }
+    
+    get dirn() {
+        return this.#dirn;
+    }
+
+    set dirn(value) {
+        if (this.#dirnValidation(value)) {
+            this.#dirn = value;
+        }
+    }
+
+    #xposnValidation(xposn) {
+        if (Number.isInteger(xposn) && xposn > 1) {
+            return true;
+        } else {
+            throw 'Invalid openEnd';
+        }
+    }
+    
+    #yposnValidation(yposn) {
+        if (Number.isInteger(yposn) && yposn > 1) {
+            return true;
+        } else {
+            throw 'Invalid openEnd';
+        }
+    }
+    
+    #dirnValidation(dirn) {
+        if (Number.isInteger(dirn) && dirn >= 0 && dirn < 16) {
+            return true;
+        } else {
+            throw 'Invalid openEnd';
+        }
+    }
+
+    possibleGrowthDirections() {
+        const v = this.dirn; 
+        const w = [v+14, v+15, v+16, v+17, v+18];
+        return w.map(val => {return val % 16});
+    }
+
+    overlapDirections() {
+        const v = this.dirn; //centre of spread with 16 directions
+        const c = v + Math.floor((v+2)/2); //convert to 24 instead of 16 directions
+        const spread24 = [c+21, c+22, c+23, c+24, c+25, c+26, c+27];
+        if (v % 2 === 0) {spread24.unshift(c+20)};
+        return spread24.map(val => {return val % 24});
+    }
+
+    isOpenEnd(screen) {
+        const allDirections = Mycelium.allDirs;
+        const directionsToCheck = this.overlapDirections();
+        for (let dir of directionsToCheck) {
+            let xToCheck = this.xposn + allDirections[dir][0];
+            let yToCheck = this.yposn + allDirections[dir][1];
+            if (screen[xToCheck][yToCheck] !== undefined) {return false};
+        }
+        return true;
+    }
+}
+
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
 function createScreen() {
@@ -170,7 +255,7 @@ function setupScreen(screen, mycelia) {
     //***line above needs to be generalised
     for (let [name, mycelium] of Object.entries(mycelia)) {
         mycelium.openEnds.forEach(openEnd => {
-            screen[openEnd[0]][openEnd[1]] = {mycelium: name};
+            screen[openEnd.xposn][openEnd.yposn] = {mycelium: name};
         });
     };
 }
@@ -327,30 +412,30 @@ function drawMyc(x, y, ctx) {
 //    return result;
 //}
 
-function possibleGrowthDirections(openEnd) {
-    const v = openEnd[2]; 
-    const w = [v+14, v+15, v+16, v+17, v+18];
-    return w.map(val => {return val % 16});
-}
+//function possibleGrowthDirections(openEnd) {
+//    const v = openEnd[2]; 
+//    const w = [v+14, v+15, v+16, v+17, v+18];
+//    return w.map(val => {return val % 16});
+//}
 
-function overlapDirections(openEnd) {
-    const v = openEnd[2]; //centre of spread with 16 directions
-    const c = v + Math.floor((v+2)/2); //convert to 24 instead of 16 directions
-    const spread24 = [c+21, c+22, c+23, c+24, c+25, c+26, c+27];
-    if (v % 2 === 0) {spread24.unshift(c+20)};
-    return spread24.map(val => {return val % 24});
-}
+//function overlapDirections(openEnd) {
+//    const v = openEnd[2]; //centre of spread with 16 directions
+//    const c = v + Math.floor((v+2)/2); //convert to 24 instead of 16 directions
+//    const spread24 = [c+21, c+22, c+23, c+24, c+25, c+26, c+27];
+//    if (v % 2 === 0) {spread24.unshift(c+20)};
+//    return spread24.map(val => {return val % 24});
+//}
 
-function isOpenEnd(screen, openEnd) {
-    const allDirections = Mycelium.allDirs;
-    const directionsToCheck = overlapDirections(openEnd);
-    for (let dir of directionsToCheck) {
-        let xToCheck = openEnd[0] + allDirections[dir][0];
-        let yToCheck = openEnd[1] + allDirections[dir][1];
-        if (screen[xToCheck][yToCheck] !== undefined) {return false};
-    }
-    return true;
-}
+//function isOpenEnd(screen, openEnd) {
+//    const allDirections = Mycelium.allDirs;
+//    const directionsToCheck = overlapDirections(openEnd);
+//    for (let dir of directionsToCheck) {
+//        let xToCheck = openEnd[0] + allDirections[dir][0];
+//        let yToCheck = openEnd[1] + allDirections[dir][1];
+//        if (screen[xToCheck][yToCheck] !== undefined) {return false};
+//    }
+//    return true;
+//}
 
 function probResult(probability) {
     let total = 0;
@@ -396,12 +481,13 @@ function growMyc(screen, openEnd, newOpenEnds, growthDirections, ctx) {
 module.exports.createScreen = createScreen;
 module.exports.createOpenEnds = createOpenEnds;
 module.exports.setupScreen = setupScreen;
-module.exports.possibleGrowthDirections = possibleGrowthDirections;
-module.exports.overlapDirections = overlapDirections;
-module.exports.isOpenEnd = isOpenEnd;
+//module.exports.possibleGrowthDirections = possibleGrowthDirections;
+//module.exports.overlapDirections = overlapDirections;
+//module.exports.isOpenEnd = isOpenEnd;
 module.exports.growMyc = growMyc;
 module.exports.createGrowthTypeProb = createGrowthTypeProb;
 module.exports.createGrowthDirProb = createGrowthDirProb;
 module.exports.probResult = probResult;
 module.exports.growthDirections = growthDirections;
 module.exports.Mycelium = Mycelium;
+module.exports.OpenEnd = OpenEnd;
