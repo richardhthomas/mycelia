@@ -238,6 +238,18 @@ class OpenEnd {
         }
         return true;
     }
+
+    // this function doesn't work yet - just copied from outside class
+    growthDirections(openEnd, growthDirProb) {
+        const copygdp = {...growthDirProb};
+        const result = [];
+        let p = probResult(copygdp);
+        result.push(possibleGrowthDirections(openEnd)[Number.parseInt(p)]);
+        copygdp[p] = 0;
+        let q = probResult(copygdp);
+        result.push(possibleGrowthDirections(openEnd)[Number.parseInt(q)]);
+        return result;
+    }
 }
 
 
