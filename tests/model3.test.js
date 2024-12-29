@@ -185,7 +185,7 @@ test('bigEnough returns true if reached edge of screen', () => {
 //    });
 //});
 
-test('possibleGrowthDirections on openEnds returns array of possible directions', () => {
+test('possibleGrowthDirections returns array of possible directions', () => {
     const mycelium = createMockMycelium();
     const expectedValues = [
         [13,14,15,0,1],
@@ -252,7 +252,7 @@ test('growthDirections returns array of two 0-15 values for directions', () => {
    // const openEnds = createMockMycelium().openEnds;
    // const p = model.createGrowthDirProb();
    // const gd = model.growthDirections(openEnds[2], p);
-    const gd = mycelium.openEnds[2].growthDirections();
+    const gd = mycelium.openEnds[2].growthDirections(mycelium.growthDirProb);
     expect(gd[0]).toBeGreaterThanOrEqual(2);
     expect(gd[0]).toBeLessThanOrEqual(6);
     expect(gd[1]).toBeGreaterThanOrEqual(2);
