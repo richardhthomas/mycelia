@@ -231,15 +231,15 @@ test('growthDirections returns array of two 0-15 values for directions', () => {
     expect(gd[1]).toBeLessThanOrEqual(6);
 });
 
-test('growMyc increases mycelial size as expected', () => {
+test('grow on OpenEnd increases mycelial size as expected', () => {
     const screen = createMockScreen();
-    const openEnds = createMockMycelium().openEnds;
+    const mycelium = createMockMycelium();
     const newOpenEnds = [];
     const initMycCount = mycCount(screen);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    model.growMyc(screen, openEnds[0], newOpenEnds, [15, 13], ctx);
+    mycelium.openEnds[0].grow(screen, newOpenEnds, [15, 13], ctx);
     expect(mycCount(screen)).toEqual(initMycCount + 2);
     expect(screen[251][138].mycelium).toEqual("primary");
     expect(screen[250][139].mycelium).toEqual("primary");

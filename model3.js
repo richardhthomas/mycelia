@@ -249,6 +249,21 @@ class OpenEnd {
         result.push(this.possibleGrowthDirections()[Number.parseInt(q)]);
         return result;
     }
+
+    grow(screen, newOpenEnds, growthDirections, ctx) {
+        const allGrowthDirections = Mycelium.allGrowthDirs;
+        growthDirections.forEach(direction => {
+            // calc position of new growth
+            let newX = this.xposn + allGrowthDirections[direction][0];
+            let newY = this.yposn + allGrowthDirections[direction][1];
+            // update Screen 
+            screen[newX][newY] = {mycelium: "primary"};
+            // add new openEnd
+            newOpenEnds.push(new OpenEnd(newX, newY, direction));
+            // draw
+            drawMyc(newX, newY, ctx);
+        });
+    }
 }
 
 
@@ -392,7 +407,7 @@ function growAll(mycelium, screen, ctx, delay) {
             } else {
                 let directions = openEnd.growthDirections(mycelium.growthDirProb);
                 if (action == "bigger") {directions.pop();}
-                growMyc(screen, openEnd, newOpenEnds, directions, ctx);
+                openEnd.grow(screen, newOpenEnds, directions, ctx);
             }
         }
     });
@@ -422,25 +437,9 @@ function probResult(probability) {
     }
 }
 
-function growMyc(screen, openEnd, newOpenEnds, growthDirections, ctx) {
-    const allGrowthDirections = Mycelium.allGrowthDirs;
-    growthDirections.forEach(direction => {
-        // calc position of new growth
-        let newX = openEnd.xposn + allGrowthDirections[direction][0];
-        let newY = openEnd.yposn + allGrowthDirections[direction][1];
-        // update Screen 
-        screen[newX][newY] = {mycelium: "primary"};
-        // add new openEnd
-        newOpenEnds.push(new OpenEnd(newX, newY, direction));
-        // draw
-        drawMyc(newX, newY, ctx);
-    });
-}
-
 module.exports.createScreen = createScreen;
 module.exports.createOpenEnds = createOpenEnds;
 module.exports.setupScreen = setupScreen;
-module.exports.growMyc = growMyc;
 module.exports.createGrowthTypeProb = createGrowthTypeProb;
 module.exports.createGrowthDirProb = createGrowthDirProb;
 module.exports.probResult = probResult;
