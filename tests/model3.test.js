@@ -40,20 +40,6 @@ function createMockOpenEnd() {
     return new model.OpenEnd(250, 150, 3);
 }
 
-//function createMockOpenEnds() {
-//    return [
-//        [252,140,15],
-//        [242,152,11],
-//        [258,154,4],
-//        [256,158,7]]
-//}
-
-//test('ScreenData constructor works', () => {
-//    const screenData = new ScreenData("main", 100);
-//    expect(screenData.mycelium).toEqual("main");
-//    expect(screenData.strength).toEqual(100);
-//});
-
 test('Mycelium constructor', () => {
     const mycelium = createMockMycelium();
     expect(mycelium.growthTypeProb).toEqual(model.createGrowthTypeProb());
@@ -174,17 +160,6 @@ test('bigEnough returns true if reached edge of screen', () => {
     });
 });
 
-//test('possibleGrowthDirections returns array of possible directions', () => {
-//    const expectedValues = [
-//        [[252,140,15],[13,14,15,0,1]],
-//        [[242,152,11],[9,10,11,12,13]],
-//        [[258,154,4],[2,3,4,5,6]],
-//        [[256,158,7],[5,6,7,8,9]]];
-//    expectedValues.forEach(values => {
-//        expect(model.possibleGrowthDirections(values[0])).toEqual(values[1]);
-//    });
-//});
-
 test('possibleGrowthDirections returns array of possible directions', () => {
     const mycelium = createMockMycelium();
     const expectedValues = [
@@ -249,9 +224,6 @@ function mycCount(screen) {
 
 test('growthDirections returns array of two 0-15 values for directions', () => {
     const mycelium = createMockMycelium();
-   // const openEnds = createMockMycelium().openEnds;
-   // const p = model.createGrowthDirProb();
-   // const gd = model.growthDirections(openEnds[2], p);
     const gd = mycelium.openEnds[2].growthDirections(mycelium.growthDirProb);
     expect(gd[0]).toBeGreaterThanOrEqual(2);
     expect(gd[0]).toBeLessThanOrEqual(6);
@@ -272,6 +244,10 @@ test('growMyc increases mycelial size as expected', () => {
     expect(screen[251][138].mycelium).toEqual("primary");
     expect(screen[250][139].mycelium).toEqual("primary");
     expect(newOpenEnds.length).toEqual(2);
-    expect(newOpenEnds[0]).toEqual([251, 138, 15]);
-    expect(newOpenEnds[1]).toEqual([250, 139, 13]);
+    expect(newOpenEnds[0].xposn).toEqual(251);
+    expect(newOpenEnds[0].yposn).toEqual(138);
+    expect(newOpenEnds[0].dirn).toEqual(15);
+    expect(newOpenEnds[1].xposn).toEqual(250);
+    expect(newOpenEnds[1].yposn).toEqual(139);
+    expect(newOpenEnds[1].dirn).toEqual(13);
 });
