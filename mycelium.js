@@ -1,4 +1,6 @@
-export class Mycelium {
+const OpenEnds = require('./openEnds.js');
+
+class Mycelium {
     #growthTypeProb;
     #growthDirProb;
     #colour;
@@ -99,7 +101,31 @@ export class Mycelium {
     }
 
     static get allDirs() {
-        return allDirections;
+        return [
+            [0,-1],
+            [0,-2],
+            [1,-2],
+            [1,-1],
+            [2,-2],
+            [2,-1],
+            [1,0],
+            [2,0],
+            [2,1],
+            [1,1],
+            [2,2],
+            [1,2],
+            [0,1],
+            [0,2],
+            [-1,2],
+            [-1,1],
+            [-2,2],
+            [-2,1],
+            [-1,0],
+            [-2,0],
+            [-2,-1],
+            [-1,-1],
+            [-2,-2],
+            [-1,-2]];
     }
 
     static set allDirs(value) {
@@ -107,7 +133,23 @@ export class Mycelium {
     }
     
     static get allGrowthDirs() {
-        return allGrowthDirections;
+        return [
+            [0,-2],
+            [1,-2],
+            [2,-2],
+            [2,-1],
+            [2,0],
+            [2,1],
+            [2,2],
+            [1,2],
+            [0,2],
+            [-1,2],
+            [-2,2],
+            [-2,1],
+            [-2,0],
+            [-2,-1],
+            [-2,-2],
+            [-1,-2]];
     }
 
     static set allGrowthDirs(value) {
@@ -127,3 +169,49 @@ export class Mycelium {
         return result;
     }
 }
+
+const allGrowthDirections = [
+    [0,-2],
+    [1,-2],
+    [2,-2],
+    [2,-1],
+    [2,0],
+    [2,1],
+    [2,2],
+    [1,2],
+    [0,2],
+    [-1,2],
+    [-2,2],
+    [-2,1],
+    [-2,0],
+    [-2,-1],
+    [-2,-2],
+    [-1,-2]];
+
+const allDirections = [
+    [0,-1],
+    [0,-2],
+    [1,-2],
+    [1,-1],
+    [2,-2],
+    [2,-1],
+    [1,0],
+    [2,0],
+    [2,1],
+    [1,1],
+    [2,2],
+    [1,2],
+    [0,1],
+    [0,2],
+    [-1,2],
+    [-1,1],
+    [-2,2],
+    [-2,1],
+    [-1,0],
+    [-2,0],
+    [-2,-1],
+    [-1,-1],
+    [-2,-2],
+    [-1,-2]];
+
+module.exports = {Mycelium};

@@ -1,4 +1,6 @@
-export class OpenEnds extends Array {
+const {OpenEnd} = require('./openEnd.js');
+
+class OpenEnds extends Array {
     constructor(...elements) {
         super(...elements);
         if (!elements.every((element) => this.#openEndsElementValidation(element))) {
@@ -18,3 +20,5 @@ export class OpenEnds extends Array {
         return (element.constructor.name === OpenEnd.name) ? true : false;
     }
 }
+
+module.exports = OpenEnds;

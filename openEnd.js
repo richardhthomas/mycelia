@@ -1,4 +1,6 @@
-export class OpenEnd {
+const {Mycelium} = require('./mycelium.js');
+
+class OpenEnd {
     #xposn
     #yposn
     #dirn
@@ -78,7 +80,17 @@ export class OpenEnd {
     }
 
     isOpenEnd(screen) {
-        const allDirections = Mycelium.allDirs;
+        //const allDirections = Mycelium.allDirs;
+        const m = new Mycelium(
+            {bigger: 40, split: 20, nothing: 50},
+            {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
+        'red',
+        [new OpenEnd(252,140,15),
+        new OpenEnd(242,152,11),
+        new OpenEnd(258,154,4),
+        new OpenEnd(256,158,7)]);
+
+        console.log(m.colour);
         const directionsToCheck = this.overlapDirections();
         for (let dir of directionsToCheck) {
             let xToCheck = this.xposn + allDirections[dir][0];
@@ -114,3 +126,15 @@ export class OpenEnd {
         });
     }
 }
+const m = new Mycelium(
+            {bigger: 40, split: 20, nothing: 50},
+            {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
+        'red',
+        [new OpenEnd(252,140,15),
+        new OpenEnd(242,152,11),
+        new OpenEnd(258,154,4),
+        new OpenEnd(256,158,7)]);
+
+        console.log(m.colour);
+
+module.exports = {OpenEnd};
