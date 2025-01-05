@@ -164,9 +164,16 @@ class OpenEnd {
             // add new openEnd
             newOpenEnds.push(new OpenEnd(newX, newY, direction));
             // draw
-            drawMyc(newX, newY, ctx);
+            newOpenEnds.at(-1).drawMyc(ctx);
+            //drawMyc(newX, newY, ctx);
         });
     }
+
+    drawMyc(ctx) {
+        ctx.fillStyle = "red";
+        ctx.fillRect(this.xposn*2, this.yposn*2, 4, 4);
+    }
+
 }
 
 module.exports = OpenEnd;

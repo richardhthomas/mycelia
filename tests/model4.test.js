@@ -1,4 +1,6 @@
 const model = require('../model4');
+const Mycelium = require('../mycelium.js');
+const OpenEnd = require('../openEnd.js');
 
 function createMockScreen() {
     const screen = model.createScreen();
@@ -26,18 +28,18 @@ function createMockScreen() {
 }
 
 function createMockMycelium() {
-    return new model.Mycelium(
+    return new Mycelium(
         model.createGrowthTypeProb(),
         model.createGrowthDirProb(),
         'red',
-        [new model.OpenEnd(252,140,15),
-        new model.OpenEnd(242,152,11),
-        new model.OpenEnd(258,154,4),
-        new model.OpenEnd(256,158,7)]);
+        [new OpenEnd(252,140,15),
+        new OpenEnd(242,152,11),
+        new OpenEnd(258,154,4),
+        new OpenEnd(256,158,7)]);
 }
 
 function createMockOpenEnd() {
-    return new model.OpenEnd(250, 150, 3);
+    return new OpenEnd(250, 150, 3);
 }
 
 test('screen is setup correctly', () => {

@@ -1,5 +1,5 @@
 const Mycelium = require('./mycelium.js');
-//const OpenEnds = require('./openEnds.js');
+const OpenEnds = require('./openEnds.js');
 const OpenEnd = require('./openEnd.js');
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
@@ -30,7 +30,7 @@ function createOpenEnds() {
         [998, 1002, 10],
         [998, 1000, 12],
         [998, 998, 14]];
-    let openEnds = [];
+    let openEnds = new OpenEnds();
     data.forEach(openEnd => {
         openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
     });
@@ -80,9 +80,11 @@ function runMyc() {
 
     // draw starting mycelia
     ctx.globalCompositeOperation = "source-over";
-    drawMyc(1000, 1000, ctx);
+//    drawMyc(1000, 1000, ctx);
+    ctx.fillStyle = "red";
+    ctx.fillRect(2000, 2000, 4, 4);
     mycelium.openEnds.forEach(openEnd => {
-        drawMyc(openEnd.xposn, openEnd.yposn, ctx);
+        openEnd.drawMyc(ctx);
     });
 
     //*** line below needs generalising to multiple mycelia
@@ -90,7 +92,7 @@ function runMyc() {
 }
 
 function growAll(mycelium, screen, ctx, delay) {
-    let newOpenEnds = [];
+    let newOpenEnds = new OpenEnds();
     mycelium.openEnds.forEach(openEnd => {
         if (openEnd.isOpenEnd(screen)) {
             let action = probResult(mycelium.growthTypeProb);
@@ -109,10 +111,10 @@ function growAll(mycelium, screen, ctx, delay) {
     }
 }
 
-function drawMyc(x, y, ctx) {
-    ctx.fillStyle = "red";
-    ctx.fillRect(x*2,y*2,4,4);
-}
+//function drawMyc(x, y, ctx) {
+//    ctx.fillStyle = "red";
+//    ctx.fillRect(x*2,y*2,4,4);
+//}
 
 function probResult(probability) {
     let total = 0;
@@ -135,5 +137,3 @@ module.exports.setupScreen = setupScreen;
 module.exports.createGrowthTypeProb = createGrowthTypeProb;
 module.exports.createGrowthDirProb = createGrowthDirProb;
 module.exports.probResult = probResult;
-module.exports.Mycelium = Mycelium;
-module.exports.OpenEnd = OpenEnd;
