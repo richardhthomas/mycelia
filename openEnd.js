@@ -1,5 +1,3 @@
-const {Mycelium} = require('./mycelium.js');
-
 class OpenEnd {
     #xposn
     #yposn
@@ -64,6 +62,62 @@ class OpenEnd {
             throw 'Invalid openEnd';
         }
     }
+    
+    static get allDirs() {
+        return [
+            [0,-1],
+            [0,-2],
+            [1,-2],
+            [1,-1],
+            [2,-2],
+            [2,-1],
+            [1,0],
+            [2,0],
+            [2,1],
+            [1,1],
+            [2,2],
+            [1,2],
+            [0,1],
+            [0,2],
+            [-1,2],
+            [-1,1],
+            [-2,2],
+            [-2,1],
+            [-1,0],
+            [-2,0],
+            [-2,-1],
+            [-1,-1],
+            [-2,-2],
+            [-1,-2]];
+    }
+
+    static set allDirs(value) {
+        throw 'Cannot redefine constant allDirs';
+    }
+    
+    static get allGrowthDirs() {
+        return [
+            [0,-2],
+            [1,-2],
+            [2,-2],
+            [2,-1],
+            [2,0],
+            [2,1],
+            [2,2],
+            [1,2],
+            [0,2],
+            [-1,2],
+            [-2,2],
+            [-2,1],
+            [-2,0],
+            [-2,-1],
+            [-2,-2],
+            [-1,-2]];
+    }
+
+    static set allGrowthDirs(value) {
+        throw 'Cannot redefine constant allGrowthDirs';
+    }
 
     possibleGrowthDirections() {
         const v = this.dirn; 
@@ -80,21 +134,10 @@ class OpenEnd {
     }
 
     isOpenEnd(screen) {
-        //const allDirections = Mycelium.allDirs;
-        const m = new Mycelium(
-            {bigger: 40, split: 20, nothing: 50},
-            {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
-        'red',
-        [new OpenEnd(252,140,15),
-        new OpenEnd(242,152,11),
-        new OpenEnd(258,154,4),
-        new OpenEnd(256,158,7)]);
-
-        console.log(m.colour);
         const directionsToCheck = this.overlapDirections();
         for (let dir of directionsToCheck) {
-            let xToCheck = this.xposn + allDirections[dir][0];
-            let yToCheck = this.yposn + allDirections[dir][1];
+            let xToCheck = this.xposn + OpenEnd.allDirs[dir][0];
+            let yToCheck = this.yposn + OpenEnd.allDirs[dir][1];
             if (screen[xToCheck][yToCheck] !== undefined) {return false};
         }
         return true;
@@ -112,11 +155,10 @@ class OpenEnd {
     }
 
     grow(screen, newOpenEnds, growthDirections, ctx) {
-        const allGrowthDirections = Mycelium.allGrowthDirs;
         growthDirections.forEach(direction => {
             // calc position of new growth
-            let newX = this.xposn + allGrowthDirections[direction][0];
-            let newY = this.yposn + allGrowthDirections[direction][1];
+            let newX = this.xposn + OpenEnd.allGrowthDirs[direction][0];
+            let newY = this.yposn + OpenEnd.allGrowthDirs[direction][1];
             // update Screen 
             screen[newX][newY] = {mycelium: "primary"};
             // add new openEnd
@@ -126,15 +168,5 @@ class OpenEnd {
         });
     }
 }
-const m = new Mycelium(
-            {bigger: 40, split: 20, nothing: 50},
-            {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
-        'red',
-        [new OpenEnd(252,140,15),
-        new OpenEnd(242,152,11),
-        new OpenEnd(258,154,4),
-        new OpenEnd(256,158,7)]);
 
-        console.log(m.colour);
-
-module.exports = {OpenEnd};
+module.exports = OpenEnd;

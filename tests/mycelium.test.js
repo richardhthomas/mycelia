@@ -1,6 +1,6 @@
 const model = require('../model4');
 const Mycelium = require('../mycelium.js');
-const {OpenEnd} = require('../openEnd.js');
+const OpenEnd = require('../openEnd.js');
 
 function createMockScreen() {
     const screen = model.createScreen();
@@ -103,16 +103,6 @@ test('validation of openEnds', () => {
         model.createGrowthDirProb(), 
        "red", 
         250)}).toThrow('Invalid openEnds');
-});
-
-test('allDirs is as expected', () => {
-    expect(Mycelium.allDirs[0].toString()).toBe("0,-1");
-    expect(() => {Mycelium.allDirs = "a"}).toThrow('Cannot redefine constant allDirs');
-});
-
-test('allGrowthDirs is as expected', () => {
-    expect(Mycelium.allGrowthDirs[0].toString()).toBe("0,-2");
-    expect(() => {Mycelium.allGrowthDirs = "a"}).toThrow('Cannot redefine constant allGrowthDirs');
 });
 
 test('bigEnough returns true if reached edge of screen', () => {

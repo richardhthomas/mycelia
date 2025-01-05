@@ -1,0 +1,68 @@
+const model = require('../model4');
+
+function createMockScreen() {
+    const screen = model.createScreen();
+    let data = [
+        [250,150],
+        [250,148],
+        [250,146],
+        [251,144],
+        [253,142],
+        [252,140],
+        [248,150],
+        [246,150],
+        [244,151],
+        [242,152],
+        [252,152],
+        [254,154],
+        [256,154],
+        [258,154],
+        [255,156],
+        [256,158]]
+    for (let i = 0; i < data.length; i++) {
+        screen[data[i][0]][data[i][1]] = {mycelium: "primary"};
+    };
+    return screen;
+}
+
+function createMockMycelium() {
+    return new model.Mycelium(
+        model.createGrowthTypeProb(),
+        model.createGrowthDirProb(),
+        'red',
+        [new model.OpenEnd(252,140,15),
+        new model.OpenEnd(242,152,11),
+        new model.OpenEnd(258,154,4),
+        new model.OpenEnd(256,158,7)]);
+}
+
+function createMockOpenEnd() {
+    return new model.OpenEnd(250, 150, 3);
+}
+
+test('screen is setup correctly', () => {
+    const mycelium = createMockMycelium();
+    const mycelia = { primary: mycelium }
+    const screen = model.createScreen();
+    model.setupScreen(screen, mycelia);
+    mycelium.openEnds.forEach(openEnd => {
+        expect(screen[openEnd.xposn][openEnd.yposn]).toEqual({mycelium: "primary"});
+    });
+});
+
+test('probResult returns result based on given probabilities', () => {
+    const growthTypeProb = model.createGrowthTypeProb();
+    expect(model.probResult(growthTypeProb)).toMatch(/bigger|split|nothing/); 
+    let bigger = 0, split = 0, nothing = 0;
+    for (let i=0; i<1000; i++) {
+        let result = model.probResult(growthTypeProb);
+        if (result == 'bigger') {
+            bigger += 1;
+        } else if (result == 'split') {
+            split += 1;
+        } else {
+            nothing += 1;
+        }
+    }
+    console.log("bigger " + bigger, "split " + split, "nothing " + nothing);
+});

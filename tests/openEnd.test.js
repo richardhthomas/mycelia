@@ -1,7 +1,6 @@
 const model = require('../model4');
 const Mycelium = require('../mycelium.js');
-const OpenEnds = require('../openEnds.js');
-const {OpenEnd} = require('../openEnd.js');
+const OpenEnd = require('../openEnd.js');
 
 function createMockScreen() {
     const screen = model.createScreen();
@@ -40,7 +39,7 @@ function createMockMycelium() {
 }
 
 function createMockOpenEnd() {
-    return new model.OpenEnd(250, 150, 3);
+    return new OpenEnd(250, 150, 3);
 }
 
 
@@ -60,10 +59,20 @@ test('validation of openEnd', () => {
         expect(() => {openEnd.xposn = badOpenEnd[0]}).toThrow('Invalid openEnd'); 
         expect(() => {openEnd.yposn = badOpenEnd[1]}).toThrow('Invalid openEnd'); 
         expect(() => {openEnd.dirn = badOpenEnd[2]}).toThrow('Invalid openEnd'); 
-        expect(() => {new model.OpenEnd(badOpenEnd[0],
+        expect(() => {new OpenEnd(badOpenEnd[0],
             badOpenEnd[1],
             badOpenEnd[2])}).toThrow('Invalid openEnd');
     });
+});
+
+test('allDirs is as expected', () => {
+    expect(OpenEnd.allDirs[0].toString()).toBe("0,-1");
+    expect(() => {OpenEnd.allDirs = "a"}).toThrow('Cannot redefine constant allDirs');
+});
+
+test('allGrowthDirs is as expected', () => {
+    expect(OpenEnd.allGrowthDirs[0].toString()).toBe("0,-2");
+    expect(() => {OpenEnd.allGrowthDirs = "a"}).toThrow('Cannot redefine constant allGrowthDirs');
 });
 
 test('possibleGrowthDirections returns array of possible directions', () => {
@@ -99,8 +108,6 @@ test('isOpenEnd returns true if open end', () => {
         new OpenEnd(256,154,8),
         new OpenEnd(245,149,4)];
     const mycelium = createMockMycelium();
-    //console.log(Mycelium.allDirs);
-    //console.log(mycelium.allDirs);
     createMockMycelium().openEnds.forEach(openEnd => {
         expect(openEnd.isOpenEnd(screen)).toBe(true);
     });

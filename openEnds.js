@@ -1,4 +1,4 @@
-const {OpenEnd} = require('./openEnd.js');
+const OpenEnd = require('./openEnd.js');
 
 class OpenEnds extends Array {
     constructor(...elements) {

@@ -100,61 +100,6 @@ class Mycelium {
         if (Array.isArray(value)) {return true;} else {throw 'Invalid openEnds';}
     }
 
-    static get allDirs() {
-        return [
-            [0,-1],
-            [0,-2],
-            [1,-2],
-            [1,-1],
-            [2,-2],
-            [2,-1],
-            [1,0],
-            [2,0],
-            [2,1],
-            [1,1],
-            [2,2],
-            [1,2],
-            [0,1],
-            [0,2],
-            [-1,2],
-            [-1,1],
-            [-2,2],
-            [-2,1],
-            [-1,0],
-            [-2,0],
-            [-2,-1],
-            [-1,-1],
-            [-2,-2],
-            [-1,-2]];
-    }
-
-    static set allDirs(value) {
-        throw 'Cannot redefine constant allDirs';
-    }
-    
-    static get allGrowthDirs() {
-        return [
-            [0,-2],
-            [1,-2],
-            [2,-2],
-            [2,-1],
-            [2,0],
-            [2,1],
-            [2,2],
-            [1,2],
-            [0,2],
-            [-1,2],
-            [-2,2],
-            [-2,1],
-            [-2,0],
-            [-2,-1],
-            [-2,-2],
-            [-1,-2]];
-    }
-
-    static set allGrowthDirs(value) {
-        throw 'Cannot redefine constant allGrowthDirs';
-    }
 
     bigEnough() {
         let result = false;
@@ -170,48 +115,4 @@ class Mycelium {
     }
 }
 
-const allGrowthDirections = [
-    [0,-2],
-    [1,-2],
-    [2,-2],
-    [2,-1],
-    [2,0],
-    [2,1],
-    [2,2],
-    [1,2],
-    [0,2],
-    [-1,2],
-    [-2,2],
-    [-2,1],
-    [-2,0],
-    [-2,-1],
-    [-2,-2],
-    [-1,-2]];
-
-const allDirections = [
-    [0,-1],
-    [0,-2],
-    [1,-2],
-    [1,-1],
-    [2,-2],
-    [2,-1],
-    [1,0],
-    [2,0],
-    [2,1],
-    [1,1],
-    [2,2],
-    [1,2],
-    [0,1],
-    [0,2],
-    [-1,2],
-    [-1,1],
-    [-2,2],
-    [-2,1],
-    [-1,0],
-    [-2,0],
-    [-2,-1],
-    [-1,-1],
-    [-2,-2],
-    [-1,-2]];
-
-module.exports = {Mycelium};
+module.exports = Mycelium;
