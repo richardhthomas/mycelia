@@ -1,3 +1,5 @@
+const utils = require('./utils.js');
+
 class OpenEnd {
     #xposn
     #yposn
@@ -146,10 +148,10 @@ class OpenEnd {
     growthDirections(growthDirProb) {
         const copygdp = {...growthDirProb};
         const result = [];
-        let p = probResult(copygdp);
+        let p = utils.probResult(copygdp);
         result.push(this.possibleGrowthDirections()[Number.parseInt(p)]);
         copygdp[p] = 0;
-        let q = probResult(copygdp);
+        let q = utils.probResult(copygdp);
         result.push(this.possibleGrowthDirections()[Number.parseInt(q)]);
         return result;
     }
