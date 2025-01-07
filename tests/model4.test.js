@@ -1,6 +1,8 @@
-const model = require('../model4');
-const Mycelium = require('../mycelium.js');
-const OpenEnd = require('../openEnd.js');
+import {Mycelium} from "../mycelium.js";
+import {OpenEnds} from "../openEnds.js";
+import {OpenEnd} from "../openEnd.js";
+import {probResult} from "../utils.js";
+import * as model from '../model4.js';
 
 function createMockScreen() {
     const screen = model.createScreen();

@@ -81,7 +81,6 @@ function runMyc() {
 
     // draw starting mycelia
     ctx.globalCompositeOperation = "source-over";
-//    drawMyc(1000, 1000, ctx);
     ctx.fillStyle = "red";
     ctx.fillRect(2000, 2000, 4, 4);
     mycelium.openEnds.forEach(openEnd => {
@@ -116,9 +115,4 @@ window.onload = function() {
     runMyc();
 };
 
-//module.exports.createScreen = createScreen;
-//module.exports.createOpenEnds = createOpenEnds;
-//module.exports.setupScreen = setupScreen;
-//module.exports.createGrowthTypeProb = createGrowthTypeProb;
-//module.exports.createGrowthDirProb = createGrowthDirProb;
-
+export { createScreen, createOpenEnds, setupScreen, createGrowthTypeProb, createGrowthDirProb };

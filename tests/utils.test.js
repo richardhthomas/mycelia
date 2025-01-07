@@ -1,5 +1,5 @@
-const model = require('../model4');
-const utils = require('../utils.js');
+import * as model from '../model4.js';
+import * as utils from '../utils.js';
 
 test('probResult returns result based on given probabilities', () => {
     const growthTypeProb = model.createGrowthTypeProb();

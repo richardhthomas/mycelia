@@ -4,7 +4,7 @@
   "description": "mycelia game demo",
   "main": "model1.js",
   "scripts": {
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,8 @@
     "setupFiles": [
       "jest-canvas-mock"
     ],
-    "testEnvironment": "jsdom"
-  }
+    "testEnvironment": "jsdom",
+    "transform": {}
+  },
+  "type": "module"
 }
