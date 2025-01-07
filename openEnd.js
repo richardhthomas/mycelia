@@ -1,4 +1,4 @@
-const utils = require('./utils.js');
+import {probResult} from "./utils.js";
 
 class OpenEnd {
     #xposn
@@ -148,10 +148,10 @@ class OpenEnd {
     growthDirections(growthDirProb) {
         const copygdp = {...growthDirProb};
         const result = [];
-        let p = utils.probResult(copygdp);
+        let p = probResult(copygdp);
         result.push(this.possibleGrowthDirections()[Number.parseInt(p)]);
         copygdp[p] = 0;
-        let q = utils.probResult(copygdp);
+        let q = probResult(copygdp);
         result.push(this.possibleGrowthDirections()[Number.parseInt(q)]);
         return result;
     }
@@ -178,4 +178,4 @@ class OpenEnd {
 
 }
 
-module.exports = OpenEnd;
+export {OpenEnd};

@@ -1,9 +1,7 @@
-const Mycelium = require(['./mycelium.js'], function(result){
-    return result;
-});
-//const Mycelium = require('./mycelium.js');
-//const OpenEnds = require('./openEnds.js');
-//const OpenEnd = require('./openEnd.js');
+import {Mycelium} from "./mycelium.js";
+import {OpenEnds} from "./openEnds.js";
+import {OpenEnd} from "./openEnd.js";
+import {probResult} from "./utils.js";
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
 function createScreen() {
@@ -114,29 +112,13 @@ function growAll(mycelium, screen, ctx, delay) {
     }
 }
 
-//function drawMyc(x, y, ctx) {
-//    ctx.fillStyle = "red";
-//    ctx.fillRect(x*2,y*2,4,4);
-//}
+window.onload = function() {
+    runMyc();
+};
 
-//function probResult(probability) {
-//    let total = 0;
-//    for (let p in probability) {
-//        total += probability[p];
-//    }
-//    let x = Math.floor((Math.random() * total) + 1);
-//    for (let [result, prob] of Object.entries(probability)) {
-//        if (x <= prob) {
-//            return result;
-//        } else {
-//            x -= prob;
-//        }
-//    }
-//}
+//module.exports.createScreen = createScreen;
+//module.exports.createOpenEnds = createOpenEnds;
+//module.exports.setupScreen = setupScreen;
+//module.exports.createGrowthTypeProb = createGrowthTypeProb;
+//module.exports.createGrowthDirProb = createGrowthDirProb;
 
-module.exports.createScreen = createScreen;
-module.exports.createOpenEnds = createOpenEnds;
-module.exports.setupScreen = setupScreen;
-module.exports.createGrowthTypeProb = createGrowthTypeProb;
-module.exports.createGrowthDirProb = createGrowthDirProb;
-//module.exports.probResult = probResult;

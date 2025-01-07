@@ -1,4 +1,4 @@
-const OpenEnds = require('./openEnds.js');
+import {OpenEnds} from "./openEnds.js";
 
 class Mycelium {
     #growthTypeProb;
@@ -115,4 +115,4 @@ class Mycelium {
     }
 }
 
-module.exports = Mycelium;
+export {Mycelium};

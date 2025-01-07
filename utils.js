@@ -13,4 +13,4 @@ function probResult(probability) {
     }
 }
 
-module.exports = {probResult};
+export {probResult};

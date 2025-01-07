@@ -1,4 +1,4 @@
-const OpenEnd = require('./openEnd.js');
+import {OpenEnd} from "./openEnd.js";
 
 class OpenEnds extends Array {
     constructor(...elements) {
@@ -21,4 +21,4 @@ class OpenEnds extends Array {
     }
 }
 
-module.exports = OpenEnds;
+export {OpenEnds};
