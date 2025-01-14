@@ -65,7 +65,7 @@ class OpenEnd {
         }
     }
     
-    static get allDirs() {
+    static get ALL_DIRS() {
         return [
             [0,-1],
             [0,-2],
@@ -93,11 +93,11 @@ class OpenEnd {
             [-1,-2]];
     }
 
-    static set allDirs(value) {
-        throw 'Cannot redefine constant allDirs';
+    static set ALL_DIRS(value) {
+        throw 'Cannot redefine constant ALL_DIRS';
     }
     
-    static get allGrowthDirs() {
+    static get ALL_GROWTH_DIRS() {
         return [
             [0,-2],
             [1,-2],
@@ -117,8 +117,8 @@ class OpenEnd {
             [-1,-2]];
     }
 
-    static set allGrowthDirs(value) {
-        throw 'Cannot redefine constant allGrowthDirs';
+    static set ALL_GROWTH_DIRS(value) {
+        throw 'Cannot redefine constant ALL_GROWTH_DIRS';
     }
 
     possibleGrowthDirections() {
@@ -138,8 +138,8 @@ class OpenEnd {
     isOpenEnd(screen) {
         const directionsToCheck = this.overlapDirections();
         for (let dir of directionsToCheck) {
-            let xToCheck = this.xposn + OpenEnd.allDirs[dir][0];
-            let yToCheck = this.yposn + OpenEnd.allDirs[dir][1];
+            let xToCheck = this.xposn + OpenEnd.ALL_DIRS[dir][0];
+            let yToCheck = this.yposn + OpenEnd.ALL_DIRS[dir][1];
             if (screen[xToCheck][yToCheck] !== undefined) {return false};
         }
         return true;
@@ -159,8 +159,8 @@ class OpenEnd {
     grow(screen, newOpenEnds, growthDirections, ctx) {
         growthDirections.forEach(direction => {
             // calc position of new growth
-            let newX = this.xposn + OpenEnd.allGrowthDirs[direction][0];
-            let newY = this.yposn + OpenEnd.allGrowthDirs[direction][1];
+            let newX = this.xposn + OpenEnd.ALL_GROWTH_DIRS[direction][0];
+            let newY = this.yposn + OpenEnd.ALL_GROWTH_DIRS[direction][1];
             // update Screen 
             screen[newX][newY] = {mycelium: "primary"};
             // add new openEnd

@@ -25,14 +25,14 @@ test('validation of openEnd', () => {
     });
 });
 
-test('allDirs is as expected', () => {
-    expect(OpenEnd.allDirs[0].toString()).toBe("0,-1");
-    expect(() => {OpenEnd.allDirs = "a"}).toThrow('Cannot redefine constant allDirs');
+test('ALL_DIRS is as expected', () => {
+    expect(OpenEnd.ALL_DIRS[0].toString()).toBe("0,-1");
+    expect(() => {OpenEnd.ALL_DIRS = "a"}).toThrow('Cannot redefine constant ALL_DIRS');
 });
 
-test('allGrowthDirs is as expected', () => {
-    expect(OpenEnd.allGrowthDirs[0].toString()).toBe("0,-2");
-    expect(() => {OpenEnd.allGrowthDirs = "a"}).toThrow('Cannot redefine constant allGrowthDirs');
+test('ALL_GROWTH_DIRS is as expected', () => {
+    expect(OpenEnd.ALL_GROWTH_DIRS[0].toString()).toBe("0,-2");
+    expect(() => {OpenEnd.ALL_GROWTH_DIRS = "a"}).toThrow('Cannot redefine constant ALL_GROWTH_DIRS');
 });
 
 test('possibleGrowthDirections returns array of possible directions', () => {
