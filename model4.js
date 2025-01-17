@@ -3,6 +3,26 @@ import {OpenEnds} from "./openEnds.js";
 import {OpenEnd} from "./openEnd.js";
 import {probResult} from "./utils.js";
 
+function pointerScroll(elem) {
+    function dragStart(ev) {
+        elem.setPointerCapture(ev.pointerId);
+    }
+  
+    function dragEnd(ev) {
+        elem.releasePointerCapture(ev.pointerId);
+    }
+
+    function drag(ev) {
+        elem.hasPointerCapture(ev.pointerId) && (elem.scrollLeft -= ev.movementX) && (elem.scrollTop -=ev.movementY);
+    }
+
+    elem.addEventListener("pointerdown", dragStart);
+    elem.addEventListener("pointerup", dragEnd);
+    elem.addEventListener("pointermove", drag);
+};
+
+document.querySelectorAll(".parent").forEach(pointerScroll);
+
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
 function createScreen() {
     const result = [];

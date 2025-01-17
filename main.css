@@ -1,4 +1,11 @@
-#play-area-canvas
-{
+#play-area {
+    height: 800px;
+    width: 100%;
+    overflow: auto;
     border-style: solid;
+    touch-action: none; /* Prevent highlighting with touch screen */
+    user-select: none; /* Prevent text highlighting */
+}
+
+#play-area-canvas {
 }
