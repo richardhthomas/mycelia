@@ -1,7 +1,7 @@
 #play-area {
     height: 800px;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
     border-style: solid;
     touch-action: none; /* Prevent highlighting with touch screen */
     user-select: none; /* Prevent text highlighting */
