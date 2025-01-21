@@ -1,6 +1,15 @@
-#play-area {
-    height: 800px;
+html, body {
+    height: 100%;
     width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#play-area {
+    max-height: 800px; /* needed for pointer scroll to work (or absolute height) */
+    height: 85%;
+    width: 95%;
+    margin: auto;
     overflow: hidden;
     border-style: solid;
     touch-action: none; /* Prevent highlighting with touch screen */
@@ -8,4 +17,22 @@
 }
 
 #play-area-canvas {
+}
+
+#controls {
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.control-button {
+    height: 90%;
+    width: 5%;
+    border-style: solid;
+    margin: 0px 1% 0px 1%;
+    padding: 0.1%;
 }
