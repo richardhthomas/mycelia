@@ -4,7 +4,6 @@ import {OpenEnd} from "./openEnd.js";
 import {probResult} from "./utils.js";
 import {pointerScroll} from "./ui.js";
 
-pointerScroll(document.getElementById('play-area'));
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
 function createScreen() {
@@ -117,6 +116,7 @@ function growAll(mycelium, screen, ctx, delay) {
 }
 
 window.onload = function() {
+    pointerScroll(document.getElementById('play-area'));
     runMyc();
 };
 
