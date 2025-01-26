@@ -74,14 +74,15 @@ function runMyc() {
     grad.addColorStop(0.03,"#ff9999");
     grad.addColorStop(1,"white");
     ctx.fillStyle = grad;
-    ctx.fillRect(10,10,3980,3980);
+    ctx.fillRect(0,0,4000,4000);
     
     const grad2=ctx.createRadialGradient(2000,1000,40,2000,1000,3500);
     grad2.addColorStop(0,"#0000ff");
     grad2.addColorStop(0.03,"#9999ff");
     grad2.addColorStop(1,"white");
     ctx.fillStyle = grad2;
-    ctx.fillRect(10,10,3980,3980);
+    ctx.fillRect(0,0,4000,4000);
+
 
     // draw starting mycelia
     ctx.globalCompositeOperation = "source-over";

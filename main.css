@@ -1,17 +1,14 @@
 html, body {
-    height: 100%;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
+    border: 0;
 }
 
 #play-area {
-    max-height: 800px; /* needed for pointer scroll to work (or absolute height) */
-    height: 85%;
-    width: 95%;
-    margin: auto;
+    height: 750px; /* height or max-height needed for pointer scroll to work */
+    margin: 10px 10px 0px 10px;
     overflow: hidden;
-    border-style: solid;
+    border: 3px solid black;
     touch-action: none; /* Prevent highlighting with touch screen */
     user-select: none; /* Prevent text highlighting */
 }
@@ -20,7 +17,7 @@ html, body {
 }
 
 #controls {
-    height: 10%;
+    height: 86px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -30,9 +27,9 @@ html, body {
 }
 
 .control-button {
-    height: 90%;
-    width: 5%;
-    border-style: solid;
-    margin: 0px 1% 0px 1%;
-    padding: 0.1%;
+    height: 70px;
+    width: 70px;
+    border: 3px solid black;
+    margin: 0px 10px 0px 10px;
+    padding: 5px;
 }
