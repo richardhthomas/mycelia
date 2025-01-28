@@ -34,7 +34,7 @@ function pointerScroll(elem) {
     elem.addEventListener("pointermove", drag);
 }
 
-function createButtons(runMyc, gameState) {
+function createButtons() {
     const button1Canvas = document.getElementById("button1-canvas");
     const button1Ctx = button1Canvas.getContext("2d");
     button1Canvas.width = 70;
@@ -42,17 +42,6 @@ function createButtons(runMyc, gameState) {
     button1Ctx.globalCompositeOperation = "source-over";
     drawPauseButton();
 
-    function button1Click() {
-        if (gameState.pause) {
-            drawPauseButton();
-            gameState.pause = false;
-            //runMyc(gameState);
-        } else {
-            drawPlayButton();
-            gameState.pause = true;
-            //runMyc(gameState);
-        }
-    }
 
     function drawPauseButton() {
         button1Ctx.clearRect(0, 0, 70, 70);
@@ -74,7 +63,18 @@ function createButtons(runMyc, gameState) {
         button1Ctx.fillRect(20, 20, 30, 30);
     }
 
-    button1Canvas.addEventListener("pointerdown", button1Click);
+    function button1Click() {
+        if (pause) {
+            drawPauseButton();
+            pause = false;
+        } else {
+            drawPlayButton();
+            pause = true;
+        }
+    }
+    
+    button1Canvas.addEventListener("pointerdown", function() {
+        button1Click();
+    });
 }
-
 export { pointerScroll, createButtons };

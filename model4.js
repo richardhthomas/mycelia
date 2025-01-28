@@ -97,13 +97,17 @@ function createGame() {
         "ctx": ctx,
         "mycelium": mycelium,
         "screen": screen,
-        "delay": delay,
-        "pause": false}
+        "delay": delay}
 }
 
 function runMyc(gameState) {
     //*** line below needs generalising to multiple mycelia
-    growAll(gameState.mycelium, gameState.screen, gameState.ctx, gameState.delay, gameState.pause);
+    //growAll(gameState.mycelium, gameState.screen, gameState.ctx, gameState.delay, gameState.pause);
+    if (!gameState.mycelium.bigEnough() && !pause) {
+        growAll(gameState.mycelium, gameState.screen, gameState.ctx, gameState.delay);
+    }
+    
+    setTimeout(() => {runMyc(gameState);}, gameState.delay);
 }
 
 function growAll(mycelium, screen, ctx, delay, pause) {
@@ -121,14 +125,13 @@ function growAll(mycelium, screen, ctx, delay, pause) {
         }
     });
     mycelium.openEnds = newOpenEnds;
-    if (!mycelium.bigEnough() && !pause) {
-        setTimeout(() => {growAll(mycelium, screen, ctx, delay, pause);}, delay);
-    }
 }
+
+let pause = false;
 
 window.onload = function() {
     let gameState = createGame(); 
-    createButtons(runMyc, gameState);
+    createButtons();
     pointerScroll(document.getElementById('play-area'));
     runMyc(gameState);
 };
