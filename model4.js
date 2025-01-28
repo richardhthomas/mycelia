@@ -2,7 +2,7 @@ import {Mycelium} from "./mycelium.js";
 import {OpenEnds} from "./openEnds.js";
 import {OpenEnd} from "./openEnd.js";
 import {probResult} from "./utils.js";
-import {pointerScroll} from "./ui.js";
+import {pointerScroll, createButtons} from "./ui.js";
 
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
@@ -51,7 +51,7 @@ function createGrowthDirProb() {
     return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
 }
 
-function runMyc() {
+function createGame() {
     let mycelium = new Mycelium(
         createGrowthTypeProb(),
         createGrowthDirProb(),
@@ -92,11 +92,21 @@ function runMyc() {
         openEnd.drawMyc(ctx);
     });
 
-    //*** line below needs generalising to multiple mycelia
-    growAll(mycelium, screen, ctx, delay);
+    return {
+        "canvas": canvas,
+        "ctx": ctx,
+        "mycelium": mycelium,
+        "screen": screen,
+        "delay": delay,
+        "pause": false}
 }
 
-function growAll(mycelium, screen, ctx, delay) {
+function runMyc(gameState) {
+    //*** line below needs generalising to multiple mycelia
+    growAll(gameState.mycelium, gameState.screen, gameState.ctx, gameState.delay, gameState.pause);
+}
+
+function growAll(mycelium, screen, ctx, delay, pause) {
     let newOpenEnds = new OpenEnds();
     mycelium.openEnds.forEach(openEnd => {
         if (openEnd.isOpenEnd(screen)) {
@@ -111,14 +121,16 @@ function growAll(mycelium, screen, ctx, delay) {
         }
     });
     mycelium.openEnds = newOpenEnds;
-    if (!mycelium.bigEnough()) {
-        setTimeout(() => {growAll(mycelium, screen, ctx, delay);}, delay);
+    if (!mycelium.bigEnough() && !pause) {
+        setTimeout(() => {growAll(mycelium, screen, ctx, delay, pause);}, delay);
     }
 }
 
 window.onload = function() {
+    let gameState = createGame(); 
+    createButtons(runMyc, gameState);
     pointerScroll(document.getElementById('play-area'));
-    runMyc();
+    runMyc(gameState);
 };
 
 export { createScreen, createOpenEnds, setupScreen, createGrowthTypeProb, createGrowthDirProb };

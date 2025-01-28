@@ -34,4 +34,47 @@ function pointerScroll(elem) {
     elem.addEventListener("pointermove", drag);
 }
 
-export { pointerScroll };
+function createButtons(runMyc, gameState) {
+    const button1Canvas = document.getElementById("button1-canvas");
+    const button1Ctx = button1Canvas.getContext("2d");
+    button1Canvas.width = 70;
+    button1Canvas.height = 70;
+    button1Ctx.globalCompositeOperation = "source-over";
+    drawPauseButton();
+
+    function button1Click() {
+        if (gameState.pause) {
+            drawPauseButton();
+            gameState.pause = false;
+            //runMyc(gameState);
+        } else {
+            drawPlayButton();
+            gameState.pause = true;
+            //runMyc(gameState);
+        }
+    }
+
+    function drawPauseButton() {
+        button1Ctx.clearRect(0, 0, 70, 70);
+        button1Ctx.reset();
+        button1Ctx.fillStyle = "black";
+        button1Ctx.fillRect(20, 20, 10, 30);
+        button1Ctx.fillRect(40, 20, 10, 30);
+    }
+
+    function drawPlayButton() {
+        button1Ctx.clearRect(0, 0, 70, 70);
+        button1Ctx.fillStyle = "black";
+        button1Ctx.beginPath();
+        button1Ctx.moveTo(20, 20);
+        button1Ctx.lineTo(20, 50);
+        button1Ctx.lineTo(50, 35);
+        button1Ctx.lineTo(20, 20);
+        button1Ctx.clip();
+        button1Ctx.fillRect(20, 20, 30, 30);
+    }
+
+    button1Canvas.addEventListener("pointerdown", button1Click);
+}
+
+export { pointerScroll, createButtons };
