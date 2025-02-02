@@ -2,7 +2,7 @@ import {Mycelium} from "./mycelium.js";
 import {OpenEnds} from "./openEnds.js";
 import {OpenEnd} from "./openEnd.js";
 import {probResult} from "./utils.js";
-import {pointerScroll, createButtons} from "./ui.js";
+import {pointerScroll, createButtons, buttons} from "./ui.js";
 
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
@@ -127,11 +127,22 @@ function growAll(mycelium, screen, ctx, delay, pause) {
     mycelium.openEnds = newOpenEnds;
 }
 
+function buttonAClick() {
+    if (pause) {
+        buttons.a.drawPause;
+        pause = false;
+    } else {
+        buttons.a.drawPlay;
+        pause = true;
+    }
+}
+
 let pause = false;
 
 window.onload = function() {
     let gameState = createGame(); 
     createButtons();
+    buttons.a.canvas.addEventListener("pointerdown", buttonAClick);
     pointerScroll(document.getElementById('play-area'));
     runMyc(gameState);
 };

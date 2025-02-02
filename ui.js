@@ -34,47 +34,39 @@ function pointerScroll(elem) {
     elem.addEventListener("pointermove", drag);
 }
 
+const buttons = {
+    a: {
+        canvas: document.getElementById("button1-canvas"),
+        get ctx() {return this.canvas.getContext("2d");},
+        get drawPause() {return pauseButton();},
+        get drawPlay() {return playButton();}
+    }
+};
+
 function createButtons() {
-    const button1Canvas = document.getElementById("button1-canvas");
-    const button1Ctx = button1Canvas.getContext("2d");
-    button1Canvas.width = 70;
-    button1Canvas.height = 70;
-    button1Ctx.globalCompositeOperation = "source-over";
-    drawPauseButton();
-
-
-    function drawPauseButton() {
-        button1Ctx.clearRect(0, 0, 70, 70);
-        button1Ctx.reset();
-        button1Ctx.fillStyle = "black";
-        button1Ctx.fillRect(20, 20, 10, 30);
-        button1Ctx.fillRect(40, 20, 10, 30);
-    }
-
-    function drawPlayButton() {
-        button1Ctx.clearRect(0, 0, 70, 70);
-        button1Ctx.fillStyle = "black";
-        button1Ctx.beginPath();
-        button1Ctx.moveTo(20, 20);
-        button1Ctx.lineTo(20, 50);
-        button1Ctx.lineTo(50, 35);
-        button1Ctx.lineTo(20, 20);
-        button1Ctx.clip();
-        button1Ctx.fillRect(20, 20, 30, 30);
-    }
-
-    function button1Click() {
-        if (pause) {
-            drawPauseButton();
-            pause = false;
-        } else {
-            drawPlayButton();
-            pause = true;
-        }
-    }
-    
-    button1Canvas.addEventListener("pointerdown", function() {
-        button1Click();
-    });
+    buttons.a.canvas.width = 70;
+    buttons.a.canvas.height = 70;
+    buttons.a.ctx.globalCompositeOperation = "source-over";
+    pauseButton();
 }
-export { pointerScroll, createButtons };
+
+function pauseButton() {
+    buttons.a.ctx.clearRect(0, 0, 70, 70);
+    buttons.a.ctx.reset();
+    buttons.a.ctx.fillStyle = "black";
+    buttons.a.ctx.fillRect(20, 20, 10, 30);
+    buttons.a.ctx.fillRect(40, 20, 10, 30);
+}
+
+function playButton() {
+    buttons.a.ctx.clearRect(0, 0, 70, 70);
+    buttons.a.ctx.fillStyle = "black";
+    buttons.a.ctx.beginPath();
+    buttons.a.ctx.moveTo(20, 20);
+    buttons.a.ctx.lineTo(20, 50);
+    buttons.a.ctx.lineTo(50, 35);
+    buttons.a.ctx.lineTo(20, 20);
+    buttons.a.ctx.clip();
+    buttons.a.ctx.fillRect(20, 20, 30, 30);
+}
+export { pointerScroll, createButtons, buttons};
