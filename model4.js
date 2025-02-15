@@ -137,12 +137,34 @@ function buttonAClick() {
     }
 }
 
+function dragstartHandler(ev) {
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+}
+
+function dragoverHandler(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "copy";
+}
+
+function dropHandler(ev) {
+    ev.preventDefault();
+    let id = ev.dataTransfer.getData("text/plain");
+    //let nodeCopy = document.getElementById(id).cloneNode(true);
+    //nodeCopy.id = "newButtonB";
+    //ev.target.appendChild(nodeCopy);
+    //console.log(ev.target.id);
+}
+
 let pause = false;
 
 window.onload = function() {
     let gameState = createGame(); 
     createButtons();
     buttons.a.canvas.addEventListener("pointerdown", buttonAClick);
+    buttons.b.div.addEventListener("dragstart", dragstartHandler);
+    let playArea = document.getElementById("play-area");
+    playArea.addEventListener("dragover", dragoverHandler);
+    playArea.addEventListener("drop", dropHandler);
     pointerScroll(document.getElementById('play-area'));
     runMyc(gameState);
 };

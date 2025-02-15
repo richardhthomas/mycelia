@@ -42,6 +42,7 @@ const buttons = {
         get drawPlay() {return playButton();}
     },
     b: {
+        div: document.getElementById("buttonB"),
         canvas: document.getElementById("buttonB-canvas"),
         get ctx() {return this.canvas.getContext("2d");}
     }
