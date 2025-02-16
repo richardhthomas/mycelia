@@ -146,25 +146,28 @@ function dragoverHandler(ev) {
     ev.dataTransfer.dropEffect = "copy";
 }
 
-function dropHandler(ev) {
+function dropHandler(ev, gameState) {
     ev.preventDefault();
     let id = ev.dataTransfer.getData("text/plain");
-    //let nodeCopy = document.getElementById(id).cloneNode(true);
-    //nodeCopy.id = "newButtonB";
-    //ev.target.appendChild(nodeCopy);
+    let offsetX = ev.offsetX;
+    //gameState.ctx.beginPath();
+    gameState.ctx.moveTo(ev.offsetX, ev.offsetY);
+    buttons.b.dsb(gameState.ctx);
+    console.log(ev.offsetX);
     //console.log(ev.target.id);
 }
+
 
 let pause = false;
 
 window.onload = function() {
-    let gameState = createGame(); 
+    var gameState = createGame(); 
     createButtons();
     buttons.a.canvas.addEventListener("pointerdown", buttonAClick);
     buttons.b.div.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
     playArea.addEventListener("dragover", dragoverHandler);
-    playArea.addEventListener("drop", dropHandler);
+    playArea.addEventListener("drop", (ev) => { dropHandler(ev, gameState) });
     pointerScroll(document.getElementById('play-area'));
     runMyc(gameState);
 };

@@ -44,7 +44,8 @@ const buttons = {
     b: {
         div: document.getElementById("buttonB"),
         canvas: document.getElementById("buttonB-canvas"),
-        get ctx() {return this.canvas.getContext("2d");}
+        get ctx() {return this.canvas.getContext("2d");},
+        dsb: straightButton
     }
 };
 
@@ -53,7 +54,7 @@ function createButtons() {
     buttons.a.canvas.height = 70;
     buttons.a.ctx.globalCompositeOperation = "source-over";
     pauseButton();
-    straightButton();
+    buttons.b.dsb(buttons.b.ctx);
 }
 
 function pauseButton() {
@@ -76,26 +77,29 @@ function playButton() {
     buttons.a.ctx.fillRect(20, 20, 30, 30);
 }
 
-function straightButton() {
-    buttons.b.ctx.clearRect(0, 0, 70, 70);
-    buttons.b.ctx.fillStyle = "black";
-    buttons.b.ctx.fillRect(28, 17, 4, 4);
-    buttons.b.ctx.fillRect(26, 21, 4, 4);
-    buttons.b.ctx.fillRect(22, 25, 4, 4);
-    buttons.b.ctx.fillRect(20, 29, 4, 4);
-    buttons.b.ctx.fillRect(22, 33, 4, 4);
-    buttons.b.ctx.fillRect(26, 37, 4, 4);
-    buttons.b.ctx.fillRect(28, 41, 4, 4);
-    buttons.b.ctx.fillRect(26, 45, 4, 4);
-    buttons.b.ctx.fillRect(24, 49, 4, 4);
-    buttons.b.ctx.fillRect(40, 17, 4, 24);
-    buttons.b.ctx.beginPath();
-    buttons.b.ctx.moveTo(34, 41);
-    buttons.b.ctx.lineTo(50, 41);
-    buttons.b.ctx.lineTo(42, 53);
-    buttons.b.ctx.lineTo(34, 41);
-    buttons.b.ctx.clip();
-    buttons.b.ctx.fillRect(34, 41, 16, 12);
+function straightButton(ctx) {
+    //ctx.beginPath();
+    ctx.moveTo(900, 200);
+    //ctx.clearRect(0, 0, 70, 70);
+    //ctx.fillStyle = "black";
+    //ctx.fillRect(28, 17, 4, 4);
+    //ctx.fillRect(26, 21, 4, 4);
+    //ctx.fillRect(22, 25, 4, 4);
+    //ctx.fillRect(20, 29, 4, 4);
+    //ctx.fillRect(22, 33, 4, 4);
+    //ctx.fillRect(26, 37, 4, 4);
+    //ctx.fillRect(28, 41, 4, 4);
+    //ctx.fillRect(26, 45, 4, 4);
+    //ctx.fillRect(24, 49, 4, 4);
+    //ctx.fillRect(40, 17, 4, 24);
+    //ctx.beginPath();
+    //ctx.moveTo(34, 41);
+    ctx.lineTo(50, 41);
+    ctx.lineTo(42, 53);
+    ctx.lineTo(34, 41);
+    ctx.clip();
+    ctx.fillRect(34, 41, 16, 12);
+    ctx.reset();
 }
 
 export { pointerScroll, createButtons, buttons};
