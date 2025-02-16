@@ -129,10 +129,10 @@ function growAll(mycelium, screen, ctx, delay, pause) {
 
 function buttonAClick() {
     if (pause) {
-        buttons.a.drawPause;
+        buttons.pause.drawPause();
         pause = false;
     } else {
-        buttons.a.drawPlay;
+        buttons.pause.drawPlay();
         pause = true;
     }
 }
@@ -150,9 +150,8 @@ function dropHandler(ev, gameState) {
     ev.preventDefault();
     let id = ev.dataTransfer.getData("text/plain");
     let offsetX = ev.offsetX;
-    //gameState.ctx.beginPath();
     gameState.ctx.moveTo(ev.offsetX, ev.offsetY);
-    buttons.b.dsb(gameState.ctx);
+    buttons.straight.draw(gameState.ctx);
     console.log(ev.offsetX);
     //console.log(ev.target.id);
 }
@@ -163,8 +162,8 @@ let pause = false;
 window.onload = function() {
     var gameState = createGame(); 
     createButtons();
-    buttons.a.canvas.addEventListener("pointerdown", buttonAClick);
-    buttons.b.div.addEventListener("dragstart", dragstartHandler);
+    buttons.pause.canvas.addEventListener("pointerdown", buttonAClick);
+    buttons.straight.div.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
     playArea.addEventListener("dragover", dragoverHandler);
     playArea.addEventListener("drop", (ev) => { dropHandler(ev, gameState) });

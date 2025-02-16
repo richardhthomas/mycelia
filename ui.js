@@ -35,71 +35,67 @@ function pointerScroll(elem) {
 }
 
 const buttons = {
-    a: {
+    pause: {
         canvas: document.getElementById("buttonA-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        get drawPause() {return pauseButton();},
-        get drawPlay() {return playButton();}
+        drawPause: drawPauseButton,
+        drawPlay: drawPlayButton
     },
-    b: {
+    straight: {
         div: document.getElementById("buttonB"),
         canvas: document.getElementById("buttonB-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        dsb: straightButton
+        draw: drawStraightButton
     }
 };
 
 function createButtons() {
-    buttons.a.canvas.width = 70;
-    buttons.a.canvas.height = 70;
-    buttons.a.ctx.globalCompositeOperation = "source-over";
-    pauseButton();
-    buttons.b.dsb(buttons.b.ctx);
+    buttons.pause.canvas.width = 70;
+    buttons.pause.canvas.height = 70;
+    buttons.pause.ctx.globalCompositeOperation = "source-over";
+    buttons.pause.drawPause(); 
+    buttons.straight.canvas.width = 70;
+    buttons.straight.canvas.height = 70;
+    buttons.straight.draw(buttons.straight.ctx);
 }
 
-function pauseButton() {
-    buttons.a.ctx.clearRect(0, 0, 70, 70);
-    buttons.a.ctx.reset();
-    buttons.a.ctx.fillStyle = "black";
-    buttons.a.ctx.fillRect(20, 20, 10, 30);
-    buttons.a.ctx.fillRect(40, 20, 10, 30);
+function drawPauseButton() {
+    buttons.pause.ctx.clearRect(0, 0, 70, 70);
+    buttons.pause.ctx.fillStyle = "black";
+    buttons.pause.ctx.fillRect(20, 20, 10, 30);
+    buttons.pause.ctx.fillRect(40, 20, 10, 30);
 }
 
-function playButton() {
-    buttons.a.ctx.clearRect(0, 0, 70, 70);
-    buttons.a.ctx.fillStyle = "black";
-    buttons.a.ctx.beginPath();
-    buttons.a.ctx.moveTo(20, 20);
-    buttons.a.ctx.lineTo(20, 50);
-    buttons.a.ctx.lineTo(50, 35);
-    buttons.a.ctx.lineTo(20, 20);
-    buttons.a.ctx.clip();
-    buttons.a.ctx.fillRect(20, 20, 30, 30);
+function drawPlayButton() {
+    buttons.pause.ctx.clearRect(0, 0, 70, 70);
+    buttons.pause.ctx.fillStyle = "black";
+    buttons.pause.ctx.beginPath();
+    buttons.pause.ctx.moveTo(20, 20);
+    buttons.pause.ctx.lineTo(20, 50);
+    buttons.pause.ctx.lineTo(50, 35);
+    buttons.pause.ctx.lineTo(20, 20);
+    buttons.pause.ctx.fill();
 }
 
-function straightButton(ctx) {
-    //ctx.beginPath();
-    ctx.moveTo(900, 200);
-    //ctx.clearRect(0, 0, 70, 70);
-    //ctx.fillStyle = "black";
-    //ctx.fillRect(28, 17, 4, 4);
-    //ctx.fillRect(26, 21, 4, 4);
-    //ctx.fillRect(22, 25, 4, 4);
-    //ctx.fillRect(20, 29, 4, 4);
-    //ctx.fillRect(22, 33, 4, 4);
-    //ctx.fillRect(26, 37, 4, 4);
-    //ctx.fillRect(28, 41, 4, 4);
-    //ctx.fillRect(26, 45, 4, 4);
-    //ctx.fillRect(24, 49, 4, 4);
-    //ctx.fillRect(40, 17, 4, 24);
-    //ctx.beginPath();
-    //ctx.moveTo(34, 41);
+function drawStraightButton(ctx) {
+    ctx.clearRect(0, 0, 70, 70);
+    ctx.fillStyle = "black";
+    ctx.fillRect(28, 17, 4, 4);
+    ctx.fillRect(26, 21, 4, 4);
+    ctx.fillRect(22, 25, 4, 4);
+    ctx.fillRect(20, 29, 4, 4);
+    ctx.fillRect(22, 33, 4, 4);
+    ctx.fillRect(26, 37, 4, 4);
+    ctx.fillRect(28, 41, 4, 4);
+    ctx.fillRect(26, 45, 4, 4);
+    ctx.fillRect(24, 49, 4, 4);
+    ctx.fillRect(40, 17, 4, 24);
+    ctx.beginPath();
+    ctx.moveTo(34, 41);
     ctx.lineTo(50, 41);
     ctx.lineTo(42, 53);
     ctx.lineTo(34, 41);
-    ctx.clip();
-    ctx.fillRect(34, 41, 16, 12);
-    ctx.reset();
+    ctx.fill();
 }
 
 export { pointerScroll, createButtons, buttons};
