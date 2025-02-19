@@ -56,7 +56,7 @@ function createButtons() {
     buttons.pause.drawPause(); 
     buttons.straight.canvas.width = 70;
     buttons.straight.canvas.height = 70;
-    buttons.straight.draw(buttons.straight.ctx);
+    buttons.straight.draw(buttons.straight.ctx, 0, 0);
 }
 
 function drawPauseButton() {
@@ -77,24 +77,24 @@ function drawPlayButton() {
     buttons.pause.ctx.fill();
 }
 
-function drawStraightButton(ctx) {
-    ctx.clearRect(0, 0, 70, 70);
+function drawStraightButton(ctx, xposn, yposn) {
+    ctx.clearRect(xposn, yposn, 70, 70);
     ctx.fillStyle = "black";
-    ctx.fillRect(28, 17, 4, 4);
-    ctx.fillRect(26, 21, 4, 4);
-    ctx.fillRect(22, 25, 4, 4);
-    ctx.fillRect(20, 29, 4, 4);
-    ctx.fillRect(22, 33, 4, 4);
-    ctx.fillRect(26, 37, 4, 4);
-    ctx.fillRect(28, 41, 4, 4);
-    ctx.fillRect(26, 45, 4, 4);
-    ctx.fillRect(24, 49, 4, 4);
-    ctx.fillRect(40, 17, 4, 24);
+    ctx.fillRect(xposn+28, yposn+17, 4, 4);
+    ctx.fillRect(xposn+26, yposn+21, 4, 4);
+    ctx.fillRect(xposn+22, yposn+25, 4, 4);
+    ctx.fillRect(xposn+20, yposn+29, 4, 4);
+    ctx.fillRect(xposn+22, yposn+33, 4, 4);
+    ctx.fillRect(xposn+26, yposn+37, 4, 4);
+    ctx.fillRect(xposn+28, yposn+41, 4, 4);
+    ctx.fillRect(xposn+26, yposn+45, 4, 4);
+    ctx.fillRect(xposn+24, yposn+49, 4, 4);
+    ctx.fillRect(xposn+40, yposn+17, 4, 24);
     ctx.beginPath();
-    ctx.moveTo(34, 41);
-    ctx.lineTo(50, 41);
-    ctx.lineTo(42, 53);
-    ctx.lineTo(34, 41);
+    ctx.moveTo(xposn+34, yposn+41);
+    ctx.lineTo(xposn+50, yposn+41);
+    ctx.lineTo(xposn+42, yposn+53);
+    ctx.lineTo(xposn+34, yposn+41);
     ctx.fill();
 }
 

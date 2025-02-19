@@ -149,9 +149,7 @@ function dragoverHandler(ev) {
 function dropHandler(ev, gameState) {
     ev.preventDefault();
     let id = ev.dataTransfer.getData("text/plain");
-    let offsetX = ev.offsetX;
-    gameState.ctx.moveTo(ev.offsetX, ev.offsetY);
-    buttons.straight.draw(gameState.ctx);
+    buttons.straight.draw(gameState.ctx, ev.offsetX-35, ev.offsetY-35);
     console.log(ev.offsetX);
     //console.log(ev.target.id);
 }
