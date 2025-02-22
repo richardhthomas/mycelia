@@ -138,7 +138,8 @@ function buttonAClick() {
 }
 
 function dragstartHandler(ev) {
-    ev.dataTransfer.setData("text/plain", ev.target.id);
+    ev.dataTransfer.setData("startOffsetX", ev.offsetX.toString());
+    ev.dataTransfer.setData("startOffsetY", ev.offsetY.toString());
 }
 
 function dragoverHandler(ev) {
@@ -148,10 +149,9 @@ function dragoverHandler(ev) {
 
 function dropHandler(ev, gameState) {
     ev.preventDefault();
-    let id = ev.dataTransfer.getData("text/plain");
-    buttons.straight.draw(gameState.ctx, ev.offsetX-35, ev.offsetY-35);
-    console.log(ev.offsetX);
-    //console.log(ev.target.id);
+    let offsetX = ev.offsetX - ev.dataTransfer.getData("startOffsetX");
+    let offsetY = ev.offsetY - ev.dataTransfer.getData("startOffsetY");
+    buttons.straight.draw(gameState.ctx, offsetX, offsetY);
 }
 
 
@@ -161,7 +161,7 @@ window.onload = function() {
     var gameState = createGame(); 
     createButtons();
     buttons.pause.canvas.addEventListener("pointerdown", buttonAClick);
-    buttons.straight.div.addEventListener("dragstart", dragstartHandler);
+    buttons.straight.canvas.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
     playArea.addEventListener("dragover", dragoverHandler);
     playArea.addEventListener("drop", (ev) => { dropHandler(ev, gameState) });

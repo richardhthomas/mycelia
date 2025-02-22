@@ -78,7 +78,7 @@ function drawPlayButton() {
 }
 
 function drawStraightButton(ctx, xposn, yposn) {
-    ctx.clearRect(xposn, yposn, 70, 70);
+//    ctx.clearRect(xposn, yposn, 70, 70);
     ctx.fillStyle = "black";
     ctx.fillRect(xposn+28, yposn+17, 4, 4);
     ctx.fillRect(xposn+26, yposn+21, 4, 4);
