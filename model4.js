@@ -115,7 +115,6 @@ function growAll(mycelium, screen, ctx, delay, pause) {
     mycelium.openEnds.forEach(openEnd => {
         if (openEnd.isOpenEnd(screen)) {
             let action = probResult(mycelium.growthTypeProb);
-            console.log("hello");
             if (action == "nothing") {
                 newOpenEnds.push(openEnd);
             } else {
@@ -141,6 +140,7 @@ function buttonAClick() {
 function dragstartHandler(ev) {
     ev.dataTransfer.setData("startOffsetX", ev.offsetX.toString());
     ev.dataTransfer.setData("startOffsetY", ev.offsetY.toString());
+    ev.dataTransfer.setData("buttonId", ev.target.id);
 }
 
 function dragoverHandler(ev) {
@@ -155,7 +155,6 @@ function dropHandler(ev, gameState) {
     buttons.straight.draw(gameState.ctx, offsetX, offsetY);
     gameState.mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
     gameState.mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
-
 }
 
 
