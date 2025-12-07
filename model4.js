@@ -152,9 +152,16 @@ function dropHandler(ev, gameState) {
     ev.preventDefault();
     let offsetX = ev.offsetX - ev.dataTransfer.getData("startOffsetX");
     let offsetY = ev.offsetY - ev.dataTransfer.getData("startOffsetY");
-    buttons.straight.draw(gameState.ctx, offsetX, offsetY);
-    gameState.mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
-    gameState.mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
+    let buttonDropped = ev.dataTransfer.getData("buttonId");
+    if (buttonDropped == "buttonB-canvas") {
+        buttons.straight.draw(gameState.ctx, offsetX, offsetY);
+        gameState.mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
+        gameState.mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
+    } else if (buttonDropped == "buttonC-canvas") {
+        buttons.bent.draw(gameState.ctx, offsetX, offsetY);
+        gameState.mycelium.growthDirProb = {"0": 10, "1": 20, "2": 50, "3": 20, "4": 10};
+        gameState.mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
+    }
 }
 
 
@@ -165,6 +172,7 @@ window.onload = function() {
     createButtons();
     buttons.pause.canvas.addEventListener("pointerdown", buttonAClick);
     buttons.straight.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.bent.canvas.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
     playArea.addEventListener("dragover", dragoverHandler);
     playArea.addEventListener("drop", (ev) => { dropHandler(ev, gameState) });
