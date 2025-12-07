@@ -64,6 +64,12 @@ const buttons = {
         canvas: document.getElementById("buttonE-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
         draw: drawSplitLessButton
+    },
+    faster: {
+        div: document.getElementById("buttonF"),
+        canvas: document.getElementById("buttonF-canvas"),
+        get ctx() {return this.canvas.getContext("2d");},
+        draw: drawFasterButton
     }
 };
 
@@ -84,6 +90,9 @@ function createButtons() {
     buttons.splitLess.canvas.width = 70;
     buttons.splitLess.canvas.height = 70;
     buttons.splitLess.draw(buttons.splitLess.ctx, 0, 0);
+    buttons.faster.canvas.width = 70;
+    buttons.faster.canvas.height = 70;
+    buttons.faster.draw(buttons.faster.ctx, 0, 0);
 }
 
 function drawPauseButton() {
@@ -182,4 +191,33 @@ function drawSplitLessButton(ctx, xposn, yposn) {
     ctx.fill();
 }
 
+function drawFasterButton(ctx, xposn, yposn) {
+//    ctx.clearRect(xposn, yposn, 70, 70);
+    ctx.fillStyle = "black";
+    ctx.fillRect(xposn+34, yposn+17, 4, 4);
+    ctx.fillRect(xposn+26, yposn+19, 4, 4);
+    ctx.fillRect(xposn+36, yposn+21, 4, 4);
+    ctx.fillRect(xposn+30, yposn+23, 4, 4);
+    ctx.fillRect(xposn+34, yposn+25, 6, 4);
+    ctx.fillRect(xposn+22, yposn+27, 4, 2);
+    ctx.fillRect(xposn+40, yposn+27, 4, 2);
+    ctx.fillRect(xposn+18, yposn+29, 14, 4);
+    ctx.fillRect(xposn+36, yposn+29, 10, 4);
+    ctx.fillRect(xposn+32, yposn+31, 4, 2);
+    ctx.fillRect(xposn+46, yposn+31, 2, 2);
+    ctx.fillRect(xposn+16, yposn+33, 14, 4);
+    ctx.fillRect(xposn+32, yposn+33, 4, 2);
+    ctx.fillRect(xposn+36, yposn+33, 12, 4);
+    ctx.fillRect(xposn+30, yposn+35, 2, 2);
+    ctx.fillRect(xposn+18, yposn+37, 16, 4);
+    ctx.fillRect(xposn+36, yposn+37, 4, 4);
+    ctx.fillRect(xposn+40, yposn+37, 2, 2);
+    ctx.fillRect(xposn+22, yposn+41, 12, 4);
+    ctx.fillRect(xposn+36, yposn+41, 4, 2);
+    ctx.fillRect(xposn+34, yposn+43, 2, 2);
+    ctx.fillRect(xposn+32, yposn+45, 4, 2);
+    ctx.fillRect(xposn+26, yposn+47, 4, 4);
+    ctx.fillRect(xposn+32, yposn+47, 14, 4);
+    ctx.fillRect(xposn+22, yposn+49, 4, 4);
+}
 export { pointerScroll, createButtons, buttons};
