@@ -70,6 +70,12 @@ const buttons = {
         canvas: document.getElementById("buttonF-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
         draw: drawFasterButton
+    },
+    slower: {
+        div: document.getElementById("buttonG"),
+        canvas: document.getElementById("buttonG-canvas"),
+        get ctx() {return this.canvas.getContext("2d");},
+        draw: drawSlowerButton
     }
 };
 
@@ -93,6 +99,9 @@ function createButtons() {
     buttons.faster.canvas.width = 70;
     buttons.faster.canvas.height = 70;
     buttons.faster.draw(buttons.faster.ctx, 0, 0);
+    buttons.slower.canvas.width = 70;
+    buttons.slower.canvas.height = 70;
+    buttons.slower.draw(buttons.slower.ctx, 0, 0);
 }
 
 function drawPauseButton() {
@@ -220,4 +229,24 @@ function drawFasterButton(ctx, xposn, yposn) {
     ctx.fillRect(xposn+32, yposn+47, 14, 4);
     ctx.fillRect(xposn+22, yposn+49, 4, 4);
 }
+
+function drawSlowerButton(ctx, xposn, yposn) {
+//    ctx.clearRect(xposn, yposn, 70, 70);
+    ctx.fillStyle = "black";
+    ctx.fillRect(xposn+26, yposn+27, 12, 14);
+    ctx.fillRect(xposn+24, yposn+29, 2, 10);
+    ctx.fillRect(xposn+22, yposn+31, 2, 10);
+    ctx.fillRect(xposn+20, yposn+33, 2, 8);
+    ctx.fillRect(xposn+18, yposn+35, 2, 2);
+    ctx.fillRect(xposn+18, yposn+39, 2, 4);
+    ctx.fillRect(xposn+38, yposn+29, 4, 10);
+    ctx.fillRect(xposn+40, yposn+39, 2, 4);
+    ctx.fillRect(xposn+42, yposn+31, 2, 8);
+    ctx.fillRect(xposn+42, yposn+41, 2, 2);
+    ctx.fillRect(xposn+44, yposn+33, 2, 8);
+    ctx.fillRect(xposn+46, yposn+33, 4, 4);
+    ctx.fillRect(xposn+46, yposn+39, 2, 2);
+}
+
+
 export { pointerScroll, createButtons, buttons};
