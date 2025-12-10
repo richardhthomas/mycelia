@@ -1,12 +1,14 @@
 import {OpenEnds} from "./openEnds.js";
 
 class Mycelium {
+    #name;
     #growthTypeProb;
     #growthDirProb;
     #colour;
     #openEnds;
 
-    constructor(growthTypeProb, growthDirProb, colour, openEnds) {
+    constructor(name, growthTypeProb, growthDirProb, colour, openEnds) {
+        this.#name = name;
         if (this.#growthTypeProbValidation(growthTypeProb)) {
             this.#growthTypeProb = growthTypeProb;
         }
@@ -17,6 +19,14 @@ class Mycelium {
         if (this.#openEndsValidation(openEnds)) {
             this.#openEnds = new OpenEnds(...openEnds);
         }
+    }
+
+    get name() {
+        return this.#name;
+    }
+
+    set name(value) {
+        this.#name = value;
     }
 
     get growthTypeProb() {

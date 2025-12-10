@@ -5,6 +5,7 @@ import * as mocks from './mocks.js';
 
 test('Mycelium constructor', () => {
     const mycelium = mocks.createMockMycelium();
+    expect(mycelium.name).toBe("primary");
     expect(mycelium.growthTypeProb).toEqual(model.createGrowthTypeProb());
     expect(mycelium.growthDirProb).toEqual(model.createGrowthDirProb());
     expect(mycelium.colour).toBe("red");
@@ -26,6 +27,7 @@ test('Validation on growthTypeProb on Mycelium', () => {
         expect(() => {mycelium.growthTypeProb = badGtp}).toThrow('Invalid growthTypeProb');
     });
     expect(() => {new Mycelium(
+        "primary",
         badGtps[1], 
         model.createGrowthDirProb(), 
         "red", 
@@ -49,6 +51,7 @@ test('Validation on growthDirProb on Mycelium', () => {
         expect(() => {mycelium.growthDirProb = badGdp}).toThrow('Invalid growthDirProb');
     });
     expect(() => {new Mycelium(
+        "primary",
         model.createGrowthTypeProb(), 
         badGdps[1], 
         "red", 
@@ -60,6 +63,7 @@ test('validation of openEnds', () => {
     expect(() => {mycelium.openEnds = 250}).toThrow('Invalid openEnds');
     expect(() => {mycelium.openEnds = [250, 150, 3]}).toThrow('Invalid openEnds');
     expect(() => {new Mycelium(
+        "primary",
         model.createGrowthTypeProb(), 
         model.createGrowthDirProb(), 
        "red", 

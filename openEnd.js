@@ -156,23 +156,23 @@ class OpenEnd {
         return result;
     }
 
-    grow(screen, newOpenEnds, growthDirections, ctx) {
+    grow(mycelium, screen, newOpenEnds, growthDirections, ctx) {
         growthDirections.forEach(direction => {
             // calc position of new growth
             let newX = this.xposn + OpenEnd.ALL_GROWTH_DIRS[direction][0];
             let newY = this.yposn + OpenEnd.ALL_GROWTH_DIRS[direction][1];
             // update Screen 
-            screen[newX][newY] = {mycelium: "primary"};
+            screen[newX][newY] = {mycelium: mycelium.name};
             // add new openEnd
             newOpenEnds.push(new OpenEnd(newX, newY, direction));
             // draw
-            newOpenEnds.at(-1).drawMyc(ctx);
+            newOpenEnds.at(-1).drawMyc(mycelium, ctx);
             //drawMyc(newX, newY, ctx);
         });
     }
 
-    drawMyc(ctx) {
-        ctx.fillStyle = "red";
+    drawMyc(mycelium, ctx) {
+        ctx.fillStyle = mycelium.colour;
         ctx.fillRect(this.xposn*2, this.yposn*2, 4, 4);
     }
 

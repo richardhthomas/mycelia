@@ -7,7 +7,7 @@ import * as mocks from './mocks.js';
 
 test('screen is setup correctly', () => {
     const mycelium = mocks.createMockMycelium();
-    const mycelia = { primary: mycelium }
+    const mycelia = [ mycelium ]; 
     const screen = model.createScreen();
     model.setupScreen(screen, mycelia);
     mycelium.openEnds.forEach(openEnd => {

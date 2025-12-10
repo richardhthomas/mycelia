@@ -16,15 +16,16 @@ function createScreen() {
 
 function setupScreen(screen, mycelia) {
     screen[1000][1000] = {mycelium: "primary"};
+    screen[300][300] = {mycelium: "secondary"};
     //***line above needs to be generalised
-    for (let [name, mycelium] of Object.entries(mycelia)) {
+    mycelia.forEach(mycelium => {
         mycelium.openEnds.forEach(openEnd => {
-            screen[openEnd.xposn][openEnd.yposn] = {mycelium: name};
+            screen[openEnd.xposn][openEnd.yposn] = {mycelium: mycelium.name};
         });
-    };
+    });
 }
 
-function createOpenEnds() {
+function createOpenEnds1() {
     let data = [[1000, 998, 0],
         [1002, 998, 2],
         [1002, 1000, 4],
@@ -40,6 +41,16 @@ function createOpenEnds() {
     return openEnds;
 }
 
+function createOpenEnds2() {
+    let data = [
+        [302, 302, 6],
+        [300, 302, 8]];
+    let openEnds = new OpenEnds();
+    data.forEach(openEnd => {
+        openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
+    });
+    return openEnds;
+}
 
 // defines probabilities of growing bigger or splitting (vs doing nothing)
 function createGrowthTypeProb() {
@@ -52,14 +63,21 @@ function createGrowthDirProb() {
 }
 
 function createGame() {
-    let mycelium = new Mycelium(
+    let mycelium1 = new Mycelium(
+        "primary",
         createGrowthTypeProb(),
         createGrowthDirProb(),
         "red",
-        createOpenEnds());
-	let mycelia = { primary: mycelium };
+        createOpenEnds1());
+    let mycelium2 = new Mycelium(
+        "secondary",
+        createGrowthTypeProb(),
+        createGrowthDirProb(),
+        "blue",
+        createOpenEnds2());
+	let mycelia = [ mycelium1, mycelium2 ];
     const screen = createScreen(); 
-    setupScreen(screen, mycelium);
+    setupScreen(screen, mycelia);
     const delay = 100;
     const canvas = document.getElementById("play-area-canvas");
     const ctx = canvas.getContext("2d");
@@ -86,31 +104,39 @@ function createGame() {
 
     // draw starting mycelia
     ctx.globalCompositeOperation = "source-over";
+    //mycelia1
     ctx.fillStyle = "red";
     ctx.fillRect(2000, 2000, 4, 4);
-    mycelium.openEnds.forEach(openEnd => {
-        openEnd.drawMyc(ctx);
+    mycelium1.openEnds.forEach(openEnd => {
+        openEnd.drawMyc(mycelium1, ctx);
+    });
+    //mycelia2
+    ctx.fillStyle = "blue";
+    ctx.fillRect(600, 600, 4, 4);
+    mycelium2.openEnds.forEach(openEnd => {
+        openEnd.drawMyc(mycelium2, ctx);
     });
 
     return {
         "canvas": canvas,
         "ctx": ctx,
-        "mycelium": mycelium,
+        "mycelia": mycelia,
         "screen": screen,
         "delay": delay}
 }
 
 function runMyc(gameState) {
-    //*** line below needs generalising to multiple mycelia
-    //growAll(gameState.mycelium, gameState.screen, gameState.ctx, gameState.delay, gameState.pause);
-    if (!gameState.mycelium.bigEnough() && !pause) {
-        growAll(gameState.mycelium, gameState.screen, gameState.ctx, gameState.delay);
+    if (!pause) {
+        gameState.mycelia.forEach(mycelium => {
+            if (!mycelium.bigEnough()) {
+                growAll(mycelium, gameState.screen, gameState.ctx, gameState.delay);
+            }
+        }); 
     }
-    
     setTimeout(() => {runMyc(gameState);}, gameState.delay);
 }
 
-function growAll(mycelium, screen, ctx, delay, pause) {
+function growAll(mycelium, screen, ctx, delay) {
     let newOpenEnds = new OpenEnds();
     mycelium.openEnds.forEach(openEnd => {
         if (openEnd.isOpenEnd(screen)) {
@@ -120,7 +146,7 @@ function growAll(mycelium, screen, ctx, delay, pause) {
             } else {
                 let directions = openEnd.growthDirections(mycelium.growthDirProb);
                 if (action == "bigger") {directions.pop();}
-                openEnd.grow(screen, newOpenEnds, directions, ctx);
+                openEnd.grow(mycelium, screen, newOpenEnds, directions, ctx);
             }
         }
     });
@@ -180,4 +206,4 @@ window.onload = function() {
     runMyc(gameState);
 };
 
-export { createScreen, createOpenEnds, setupScreen, createGrowthTypeProb, createGrowthDirProb };
+export { createScreen, createOpenEnds1, setupScreen, createGrowthTypeProb, createGrowthDirProb };
