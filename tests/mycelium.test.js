@@ -75,9 +75,9 @@ test('bigEnough returns true if reached edge of screen', () => {
     expect(mycelium.bigEnough()).toBe(false);
     const edges = [
         new OpenEnd(2,150,1),
-        new OpenEnd(1998,150,1),
+        new OpenEnd(1198,150,1),
         new OpenEnd(250,2,1),
-        new OpenEnd(250,1998,1)]
+        new OpenEnd(250,698,1)]
     edges.forEach(edge => {
         mycelium.openEnds.pop();
         mycelium.openEnds.push(edge);
