@@ -13,6 +13,8 @@ test('Mycelium constructor', () => {
 });
 
 test('Validation on growthTypeProb on Mycelium', () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     const badGtps = [
         {bigger: 1, split: 1},
         {bigger: 1, split: 1, xxx: 1},
@@ -28,6 +30,7 @@ test('Validation on growthTypeProb on Mycelium', () => {
     });
     expect(() => {new Mycelium(
         "primary",
+        ctx,
         badGtps[1], 
         model.createGrowthDirProb(), 
         "red", 
@@ -35,6 +38,8 @@ test('Validation on growthTypeProb on Mycelium', () => {
 });
 
 test('Validation on growthDirProb on Mycelium', () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     const badGdps = [
         {"a": 5, "1": 12, "2": 120, "3": 12, "4": 5},
         {"0": 5, "a": 12, "2": 120, "3": 12, "4": 5},
@@ -52,6 +57,7 @@ test('Validation on growthDirProb on Mycelium', () => {
     });
     expect(() => {new Mycelium(
         "primary",
+        ctx,
         model.createGrowthTypeProb(), 
         badGdps[1], 
         "red", 
@@ -59,11 +65,14 @@ test('Validation on growthDirProb on Mycelium', () => {
 });
 
 test('validation of openEnds', () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     const mycelium = mocks.createMockMycelium();
     expect(() => {mycelium.openEnds = 250}).toThrow('Invalid openEnds');
     expect(() => {mycelium.openEnds = [250, 150, 3]}).toThrow('Invalid openEnds');
     expect(() => {new Mycelium(
         "primary",
+        ctx,
         model.createGrowthTypeProb(), 
         model.createGrowthDirProb(), 
        "red", 

@@ -28,8 +28,11 @@ function createMockScreen() {
 }
 
 function createMockMycelium() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     return new Mycelium(
         'primary',
+        ctx,
         model.createGrowthTypeProb(),
         model.createGrowthDirProb(),
         'red',
