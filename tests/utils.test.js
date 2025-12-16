@@ -1,5 +1,6 @@
 import * as model from '../model4.js';
 import * as utils from '../utils.js';
+import * as mocks from './mocks.js';
 
 test('probResult returns result based on given probabilities', () => {
     const growthTypeProb = model.createGrowthTypeProb();
@@ -15,4 +16,16 @@ test('probResult returns result based on given probabilities', () => {
             nothing += 1;
         }
     }
+});
+
+test('hoveroverDetection detects when over screen object', () => {
+    const screen = mocks.createMockScreen();
+    let hits = [[250,146], [260, 156], [240, 150], [256, 160], [252,138]];
+    let misses = [[261, 154], [239, 152], [256, 161], [252, 137]];
+    hits.forEach(hit => {
+        expect(utils.hoveroverDetection(hit[0], hit[1], screen).mycelium).toBe("primary");
+    });
+    misses.forEach(miss => {
+        expect(utils.hoveroverDetection(miss[0], miss[1], screen)).toBeUndefined();
+    });
 });
