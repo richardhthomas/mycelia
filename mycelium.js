@@ -115,9 +115,9 @@ class Mycelium {
         let result = false;
         this.openEnds.forEach(openEnd => {
             if (openEnd.xposn <= 2 ||
-                openEnd.xposn >= 1998 ||
+                openEnd.xposn >= 1198 ||
                 openEnd.yposn <= 2 ||
-                openEnd.yposn >= 1998) {
+                openEnd.yposn >= 698) {
                 result = true;
             }
         });
