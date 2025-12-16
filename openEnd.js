@@ -156,7 +156,7 @@ class OpenEnd {
         return result;
     }
 
-    grow(mycelium, screen, newOpenEnds, growthDirections, ctx) {
+    grow(mycelium, screen, newOpenEnds, growthDirections, ctxs) {
         growthDirections.forEach(direction => {
             // calc position of new growth
             let newX = this.xposn + OpenEnd.ALL_GROWTH_DIRS[direction][0];
@@ -166,8 +166,8 @@ class OpenEnd {
             // add new openEnd
             newOpenEnds.push(new OpenEnd(newX, newY, direction));
             // draw
+            let ctx = mycelium.name == "primary" ? ctxs[1] : ctxs[2];
             newOpenEnds.at(-1).drawMyc(mycelium, ctx);
-            //drawMyc(newX, newY, ctx);
         });
     }
 

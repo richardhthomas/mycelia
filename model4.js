@@ -79,47 +79,52 @@ function createGame() {
     const screen = createScreen(); 
     setupScreen(screen, mycelia);
     const delay = 100;
-    const canvas = document.getElementById("play-area-canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = 2400;
-    canvas.height = 1400;
+    const canvasA = document.getElementById("play-areaA-canvas");
+    const canvasB = document.getElementById("play-areaB-canvas");
+    const canvasC = document.getElementById("play-areaC-canvas");
+    const ctxA = canvasA.getContext("2d");
+    const ctxB = canvasB.getContext("2d");
+    const ctxC = canvasC.getContext("2d");
+    canvasA.width = canvasB.width = canvasC.width = 2400;
+    canvasA.height = canvasB.height = canvasC.height = 1400;
 
 
     // Create gradient
-    ctx.globalCompositeOperation = "multiply";
-    const grad=ctx.createRadialGradient(250,250,20,250,250,1000);
+    ctxA.globalCompositeOperation = "multiply";
+    const grad=ctxA.createRadialGradient(250,250,20,250,250,1000);
     grad.addColorStop(0,"red");
     grad.addColorStop(0.03,"#ff9999");
     grad.addColorStop(1,"white");
-    ctx.fillStyle = grad;
-    ctx.fillRect(0,0,2400,1400);
+    ctxA.fillStyle = grad;
+    ctxA.fillRect(0,0,2400,1400);
     
-    const grad2=ctx.createRadialGradient(1200,500,20,1200,500,1000);
+    const grad2=ctxA.createRadialGradient(1200,500,20,1200,500,1000);
     grad2.addColorStop(0,"#0000ff");
     grad2.addColorStop(0.03,"#9999ff");
     grad2.addColorStop(1,"white");
-    ctx.fillStyle = grad2;
-    ctx.fillRect(0,0,2400,1400);
+    ctxA.fillStyle = grad2;
+    ctxA.fillRect(0,0,2400,1400);
 
 
     // draw starting mycelia
-    ctx.globalCompositeOperation = "source-over";
+    ctxB.globalCompositeOperation = "source-over";
+    ctxC.globalCompositeOperation = "source-over";
     //mycelia1
-    ctx.fillStyle = "red";
-    ctx.fillRect(1200, 700, 4, 4);
+    ctxB.fillStyle = "red";
+    ctxB.fillRect(1200, 700, 4, 4);
     mycelium1.openEnds.forEach(openEnd => {
-        openEnd.drawMyc(mycelium1, ctx);
+        openEnd.drawMyc(mycelium1, ctxB);
     });
     //mycelia2
-    ctx.fillStyle = "blue";
-    ctx.fillRect(600, 348, 4, 4);
+    ctxC.fillStyle = "blue";
+    ctxC.fillRect(600, 348, 4, 4);
     mycelium2.openEnds.forEach(openEnd => {
-        openEnd.drawMyc(mycelium2, ctx);
+        openEnd.drawMyc(mycelium2, ctxC);
     });
 
     return {
-        "canvas": canvas,
-        "ctx": ctx,
+        "canvasses": [canvasA, canvasB, canvasC],
+        "ctxs": [ctxA, ctxB, ctxC],
         "mycelia": mycelia,
         "screen": screen,
         "delay": delay}
@@ -129,14 +134,14 @@ function runMyc(gameState) {
     if (!pause) {
         gameState.mycelia.forEach(mycelium => {
             if (!mycelium.bigEnough()) {
-                growAll(mycelium, gameState.screen, gameState.ctx, gameState.delay);
+                growAll(mycelium, gameState.screen, gameState.ctxs, gameState.delay);
             }
         }); 
     }
     setTimeout(() => {runMyc(gameState);}, gameState.delay);
 }
 
-function growAll(mycelium, screen, ctx, delay) {
+function growAll(mycelium, screen, ctxs, delay) {
     let newOpenEnds = new OpenEnds();
     mycelium.openEnds.forEach(openEnd => {
         if (openEnd.isOpenEnd(screen)) {
@@ -146,7 +151,7 @@ function growAll(mycelium, screen, ctx, delay) {
             } else {
                 let directions = openEnd.growthDirections(mycelium.growthDirProb);
                 if (action == "bigger") {directions.pop();}
-                openEnd.grow(mycelium, screen, newOpenEnds, directions, ctx);
+                openEnd.grow(mycelium, screen, newOpenEnds, directions, ctxs);
             }
         }
     });
@@ -180,11 +185,11 @@ function dropHandler(ev, gameState) {
     let offsetY = ev.offsetY - ev.dataTransfer.getData("startOffsetY");
     let buttonDropped = ev.dataTransfer.getData("buttonId");
     if (buttonDropped == "buttonB-canvas") {
-        buttons.straight.draw(gameState.ctx, offsetX, offsetY);
+        buttons.straight.draw(gameState.ctxs, offsetX, offsetY);
         gameState.mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
         gameState.mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
     } else if (buttonDropped == "buttonC-canvas") {
-        buttons.bent.draw(gameState.ctx, offsetX, offsetY);
+        buttons.bent.draw(gameState.ctxs, offsetX, offsetY);
         gameState.mycelium.growthDirProb = {"0": 10, "1": 20, "2": 50, "3": 20, "4": 10};
         gameState.mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
     }

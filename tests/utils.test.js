@@ -15,5 +15,4 @@ test('probResult returns result based on given probabilities', () => {
             nothing += 1;
         }
     }
-    console.log("bigger " + bigger, "split " + split, "nothing " + nothing);
 });

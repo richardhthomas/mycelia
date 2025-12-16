@@ -5,15 +5,17 @@ html, body {
 }
 
 #play-area {
+    position: relative;
     height: 750px; /* height or max-height needed for pointer scroll to work */
     margin: 10px 10px 0px 10px;
-    overflow: hidden;
+    overflow: hidden; 
     border: 3px solid black;
     touch-action: none; /* Prevent highlighting with touch screen */
     user-select: none; /* Prevent text highlighting */
 }
 
-#play-area-canvas {
+#play-areaA-canvas, #play-areaB-canvas, #play-areaC-canvas {
+    position: absolute;
 }
 
 #controls {
