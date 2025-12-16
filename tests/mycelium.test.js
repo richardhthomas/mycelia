@@ -30,6 +30,7 @@ test('Validation on growthTypeProb on Mycelium', () => {
     });
     expect(() => {new Mycelium(
         "primary",
+        canvas,
         ctx,
         badGtps[1], 
         model.createGrowthDirProb(), 
@@ -57,6 +58,7 @@ test('Validation on growthDirProb on Mycelium', () => {
     });
     expect(() => {new Mycelium(
         "primary",
+        canvas,
         ctx,
         model.createGrowthTypeProb(), 
         badGdps[1], 
@@ -72,6 +74,7 @@ test('validation of openEnds', () => {
     expect(() => {mycelium.openEnds = [250, 150, 3]}).toThrow('Invalid openEnds');
     expect(() => {new Mycelium(
         "primary",
+        canvas,
         ctx,
         model.createGrowthTypeProb(), 
         model.createGrowthDirProb(), 

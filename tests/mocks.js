@@ -32,6 +32,7 @@ function createMockMycelium() {
     const ctx = canvas.getContext('2d');
     return new Mycelium(
         'primary',
+        canvas,
         ctx,
         model.createGrowthTypeProb(),
         model.createGrowthDirProb(),

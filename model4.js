@@ -69,6 +69,7 @@ function createGame() {
     const ctxA = canvasA.getContext("2d");
     let mycelium1 = new Mycelium(
         "primary",
+        canvasB,
         canvasB.getContext("2d"),
         createGrowthTypeProb(),
         createGrowthDirProb(),
@@ -76,6 +77,7 @@ function createGame() {
         createOpenEnds1());
     let mycelium2 = new Mycelium(
         "secondary",
+        canvasC,
         canvasC.getContext("2d"),
         createGrowthTypeProb(),
         createGrowthDirProb(),
@@ -125,7 +127,6 @@ function createGame() {
     });
 
     return {
-        "canvasses": [canvasA, canvasB, canvasC], //I think canvasses are not needed here
         "mycelia": mycelia,
         "screen": screen,
         "delay": delay}
@@ -175,9 +176,35 @@ function dragstartHandler(ev) {
     ev.dataTransfer.setData("buttonId", ev.target.id);
 }
 
-function dragoverHandler(ev) {
+function dragoverHandler(ev, gameState) {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "copy";
+    let xposn = Math.floor(ev.offsetX/2);
+    let yposn = Math.floor(ev.offsetY/2);
+    let content = null; 
+    for (let x=-2; x<3; x++) {
+        for (let y=-2; y<3; y++) {
+            content = gameState.screen[xposn + x][yposn + y];
+            if (content) {break;}
+        }
+        if (content) {break;}
+    }
+    for (let i=0; i<gameState.mycelia.length; i++) {
+        let canvas = gameState.mycelia[i].canvas;
+        if (content && content.mycelium == gameState.mycelia[i].name) {
+            canvas.style.opacity="0.5";
+        } else {
+            canvas.style.opacity="1";
+        }
+    }
+}
+
+function dragleaveHandler(ev, gameState) {
+    ev.preventDefault();
+    for (let i=0; i<gameState.mycelia.length; i++) {
+        let canvas = gameState.mycelia[i].canvas;
+        canvas.style.opacity="1";
+    }
 }
 
 function dropHandler(ev, gameState) {
@@ -206,7 +233,8 @@ window.onload = function() {
     buttons.straight.canvas.addEventListener("dragstart", dragstartHandler);
     buttons.bent.canvas.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
-    playArea.addEventListener("dragover", dragoverHandler);
+    playArea.addEventListener("dragover",(ev) => { dragoverHandler(ev, gameState) });
+    playArea.addEventListener("dragleave",(ev) => { dragleaveHandler(ev, gameState) });
     playArea.addEventListener("drop", (ev) => { dropHandler(ev, gameState) });
     pointerScroll(document.getElementById('play-area'));
     runMyc(gameState);
