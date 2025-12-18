@@ -127,7 +127,8 @@ function createGame() {
     return {
         "mycelia": mycelia,
         "screen": screen,
-        "delay": delay}
+        "delay": delay,
+        "dragover": null}
 }
 
 function runMyc(gameState) {
@@ -169,8 +170,8 @@ function buttonAClick() {
 }
 
 function dragstartHandler(ev) {
-    ev.dataTransfer.setData("startOffsetX", ev.offsetX.toString());
-    ev.dataTransfer.setData("startOffsetY", ev.offsetY.toString());
+//    ev.dataTransfer.setData("startOffsetX", ev.offsetX.toString());
+//    ev.dataTransfer.setData("startOffsetY", ev.offsetY.toString());
     ev.dataTransfer.setData("buttonId", ev.target.id);
 }
 
@@ -180,6 +181,11 @@ function dragoverHandler(ev, gameState) {
     let xposn = Math.floor(ev.offsetX/2);
     let yposn = Math.floor(ev.offsetY/2);
     let content = hoveroverDetection(xposn, yposn, gameState.screen);
+    if (content) {
+        gameState.dragover = content.mycelium;
+    } else {
+        gameState.dragover = null;
+    }
     for (let i=0; i<gameState.mycelia.length; i++) {
         let canvas = gameState.mycelia[i].canvas;
         if (content && content.mycelium == gameState.mycelia[i].name) {
@@ -200,15 +206,23 @@ function dragleaveHandler(ev, gameState) {
 
 function dropHandler(ev, gameState) {
     ev.preventDefault();
-    let offsetX = ev.offsetX - ev.dataTransfer.getData("startOffsetX");
-    let offsetY = ev.offsetY - ev.dataTransfer.getData("startOffsetY");
+//    let offsetX = ev.offsetX - ev.dataTransfer.getData("startOffsetX");
+//    let offsetY = ev.offsetY - ev.dataTransfer.getData("startOffsetY");
     let buttonDropped = ev.dataTransfer.getData("buttonId");
     if (buttonDropped == "buttonB-canvas") {
-        buttons.straight.draw(gameState.ctxs, offsetX, offsetY);
-        gameState.mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
-        gameState.mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
+        let mycelium = null ?? gameState.dragover; 
+        if (mycelium) {
+            for (let i=0; i<gameState.mycelia.length; i++) {
+                if (mycelium == gameState.mycelia[i].name) {
+                    gameState.mycelia[i].canvas.style.opacity="0.2";
+                gameState.mycelia[i].growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
+                gameState.mycelia[i].growthTypeProb = {bigger: 40, split: 1, nothing: 50};
+                }
+            }
+        }
+//            buttons.straight.draw(gameState.ctxs, offsetX, offsetY);
     } else if (buttonDropped == "buttonC-canvas") {
-        buttons.bent.draw(gameState.ctxs, offsetX, offsetY);
+//        buttons.bent.draw(gameState.ctxs, offsetX, offsetY);
         gameState.mycelium.growthDirProb = {"0": 10, "1": 20, "2": 50, "3": 20, "4": 10};
         gameState.mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
     }
