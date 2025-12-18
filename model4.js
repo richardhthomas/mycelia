@@ -1,7 +1,7 @@
 import {Mycelium} from "./mycelium.js";
 import {OpenEnds} from "./openEnds.js";
 import {OpenEnd} from "./openEnd.js";
-import {probResult} from "./utils.js";
+import {probResult, hoveroverDetection} from "./utils.js";
 import {pointerScroll, createButtons, buttons} from "./ui.js";
 
 
@@ -100,8 +100,6 @@ function createGame() {
     ctxA.fillStyle = grad;
     ctxA.fillRect(0,0,2400,1400);
     
-//    canvasA.style.opacity="0.2";
-    
     const grad2=ctxA.createRadialGradient(1200,500,20,1200,500,1000);
     grad2.addColorStop(0,"#0000ff");
     grad2.addColorStop(0.03,"#9999ff");
@@ -181,14 +179,7 @@ function dragoverHandler(ev, gameState) {
     ev.dataTransfer.dropEffect = "copy";
     let xposn = Math.floor(ev.offsetX/2);
     let yposn = Math.floor(ev.offsetY/2);
-    let content = null; 
-    for (let x=-2; x<3; x++) {
-        for (let y=-2; y<3; y++) {
-            content = gameState.screen[xposn + x][yposn + y];
-            if (content) {break;}
-        }
-        if (content) {break;}
-    }
+    let content = hoveroverDetection(xposn, yposn, gameState.screen);
     for (let i=0; i<gameState.mycelia.length; i++) {
         let canvas = gameState.mycelia[i].canvas;
         if (content && content.mycelium == gameState.mycelia[i].name) {
