@@ -1,5 +1,6 @@
 import {Mycelium} from "../mycelium.js";
 import {OpenEnd} from "../openEnd.js";
+import {GameState} from "../gameState.js";
 import * as model from '../model4.js';
 
 function createMockScreen() {
@@ -47,4 +48,16 @@ function createMockOpenEnd() {
     return new OpenEnd(250, 150, 3);
 }
 
-export {createMockScreen, createMockMycelium, createMockOpenEnd};
+function createMockGameState() {
+    const backgroundCanvas = document.createElement('canvas');
+    const backgroundCtx = backgroundCanvas.getContext('2d');
+    return new GameState(
+        [createMockMycelium()],
+        createMockScreen(),
+        100,
+        null,
+        {canvas: backgroundCanvas, ctx: backgroundCtx});
+}
+
+
+export {createMockScreen, createMockMycelium, createMockOpenEnd, createMockGameState};

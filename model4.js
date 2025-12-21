@@ -215,8 +215,8 @@ function dropHandler(ev, gameState) {
             for (let i=0; i<gameState.mycelia.length; i++) {
                 if (mycelium == gameState.mycelia[i].name) {
                     gameState.mycelia[i].canvas.style.opacity="0.2";
-                gameState.mycelia[i].growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
-                gameState.mycelia[i].growthTypeProb = {bigger: 40, split: 1, nothing: 50};
+                    gameState.mycelia[i].growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
+                    gameState.mycelia[i].growthTypeProb = {bigger: 40, split: 1, nothing: 50};
                 }
             }
         }
