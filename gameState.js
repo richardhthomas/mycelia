@@ -24,7 +24,9 @@ class GameState {
         if (this.#dragOverValidation(dragOver)) {
             this.#dragOver = dragOver;
         }
-        this.#background = background;
+        if (this.#backgroundValidation(background)) {
+            this.#background = background;
+        }
     }
     
     get mycelia() {
@@ -72,7 +74,9 @@ class GameState {
     }
 
     set background(value) {
-        this.#background = value;
+        if (this.#backgroundValidation(value)) {
+            this.#background = value;
+        }
     }
 
     #myceliaValidation(value) {
@@ -93,14 +97,14 @@ class GameState {
             value.forEach(val1 => {
                 val1.forEach(val2 => {
                     if ((typeof val2) == "object") {
-                    for (const [k, v] of Object.entries(val2)) {
-                        if (k != 'mycelium') {
-                            throw 'Invalid screen on GameState';
+                        for (const [k, v] of Object.entries(val2)) {
+                            if (k != 'mycelium') {
+                                throw 'Invalid screen on GameState';
+                            }
+                            if ((typeof v) != "string") {
+                                throw 'Invalid screen on GameState';
+                            }
                         }
-                        if ((typeof v) != "string") {
-                            throw 'Invalid screen on GameState';
-                        }
-                    }
                     }
                 });
             });
@@ -122,13 +126,39 @@ class GameState {
     }
 
     #delayValidation(value) {
-
+        if (!Number.isInteger(value)) {
+            throw 'Invalid delay on GameState';
+        }
+        if (value < 1) {
+            throw 'Invalid delay on GameState';
+        }
+        return true;
     }
 
     #dragOverValidation(value) {
-
+        if (value !== undefined && (typeof value) != 'string') {
+            throw 'Invalid dragOver on GameState';
+        }
+        return true;
     }
 
+    #backgroundValidation(value) {
+        if ((typeof value) != "object") {
+            throw 'Invalid background on GameState';
+        }
+        for (const [k, v] of Object.entries(value)) {
+            if (k != 'canvas' && k != 'ctx') {
+                throw 'Invalid background on GameState';
+            }
+            if (k == 'canvas' && v.tagName != 'CANVAS') {
+                throw 'Invalid background on GameState';
+            }
+            if (k == 'ctx' && v.constructor.name != 'CanvasRenderingContext2D') {
+                throw 'Invalid background on GameState';
+            }
+        }
+        return true;
+    }
 }
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.

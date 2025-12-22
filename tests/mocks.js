@@ -55,7 +55,7 @@ function createMockGameState() {
         [createMockMycelium()],
         createMockScreen(),
         100,
-        null,
+        undefined,
         {canvas: backgroundCanvas, ctx: backgroundCtx});
 }
 

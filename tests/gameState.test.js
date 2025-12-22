@@ -7,8 +7,8 @@ test('GameState constructor', () => {
     expect(gameState.mycelia[0].name).toBe("primary");
     expect(gameState.screen[250][150].mycelium).toBe("primary");
     expect(gameState.delay).toEqual(100);
-    expect(gameState.dragover).toBeNull();
-    expect(gameState.background.canvas).toContain("canvas");
+    expect(gameState.dragover).toBeUndefined();
+    expect(gameState.background.canvas.tagName).toBe("CANVAS");
     expect(gameState.background.ctx).toBeInstanceOf(CanvasRenderingContext2D);
 });
 
@@ -29,7 +29,7 @@ test('Validation of mycelia on GameState', () => {
         badMycelias[4],
         mocks.createMockScreen(),
         100,
-        null,
+        undefined,
         {canvas: canvas, ctx: ctx})}).toThrow('Invalid mycelia on GameState');
 });
 
@@ -52,7 +52,7 @@ test('Validation of screen on GameState', () => {
         [mocks.createMockMycelium()],
         badScreens[4],
         100,
-        null,
+        undefined,
         {canvas: canvas, ctx: ctx})}).toThrow('Invalid screen on GameState');
 });
 
@@ -67,14 +67,14 @@ test('Validation of delay on GameState', () => {
         {something: "anything"}];
     const gameState = mocks.createMockGameState();
     badDelays.forEach(badDelay => {
-        expect(() => {gameState.delay = badDelay}).toThrow('Invalid delay on gameState');
+        expect(() => {gameState.delay = badDelay}).toThrow('Invalid delay on GameState');
     });
     expect(() => {new GameState(
         [mocks.createMockMycelium()],
         mocks.createMockScreen(),
         badDelays[2],
-        null,
-        {canvas: canvas, ctx: ctx})}).toThrow('Invalid delay on gameState');
+        undefined,
+        {canvas: canvas, ctx: ctx})}).toThrow('Invalid delay on GameState');
 });
 
 test ('Validation of dragOver on GameState', () => {
@@ -86,13 +86,33 @@ test ('Validation of dragOver on GameState', () => {
         {something: "anything"}];
     const gameState = mocks.createMockGameState();
     badDragOvers.forEach(badDragOver=> {
-        expect(() => {gameState.dragOver = badDragOver}).toThrow('Invalid dragOver on gameState');
+        expect(() => {gameState.dragOver = badDragOver}).toThrow('Invalid dragOver on GameState');
     });
     expect(() => {new GameState(
         [mocks.createMockMycelium()],
         mocks.createMockScreen(),
         100,
         badDragOvers[0],
-        {canvas: canvas, ctx: ctx})}).toThrow('Invalid dragOver on gameState');
+        {canvas: canvas, ctx: ctx})}).toThrow('Invalid dragOver on GameState');
 });
 
+test ('Validation of background on GameState', () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const badBackgrounds = [
+        "string",
+        10,
+        [1, 2, 3],
+        {something: "anything"},
+        {canvas: "string", ctx: 6}];
+    const gameState = mocks.createMockGameState();
+    badBackgrounds.forEach(badBackground=> {
+        expect(() => {gameState.background = badBackground}).toThrow('Invalid background on GameState');
+    });
+    expect(() => {new GameState(
+        [mocks.createMockMycelium()],
+        mocks.createMockScreen(),
+        100,
+        undefined,
+        badBackgrounds[4])}).toThrow('Invalid background on GameState');
+});
