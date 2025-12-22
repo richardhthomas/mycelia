@@ -8,11 +8,128 @@ class GameState {
     #mycelia;
     #screen;
     #delay;
-    #dragover;
+    #dragOver;
     #background;
 
-    constructor(mycelia, screen, delay, dragover, background) {
-        this.#mycelia = 
+    constructor(mycelia, screen, delay, dragOver, background) {
+        if (this.#myceliaValidation(mycelia)) {
+            this.#mycelia = mycelia;
+        }
+        if (this.#screenValidation(screen)) {
+            this.#screen = screen;
+        }
+        if (this.#delayValidation(delay)) {
+            this.#delay = delay;
+        }
+        if (this.#dragOverValidation(dragOver)) {
+            this.#dragOver = dragOver;
+        }
+        this.#background = background;
+    }
+    
+    get mycelia() {
+        return this.#mycelia;
+    }
+
+    set mycelia(value) {
+        if (this.#myceliaValidation(value)) {
+            this.#mycelia = value;
+        }
+    }
+    
+    get screen() {
+        return this.#screen;
+    }
+
+    set screen(value) {
+        if (this.#screenValidation(value)) {
+            this.#screen = value;
+        }
+    }
+
+    get delay() {
+        return this.#delay;
+    }
+
+    set delay(value) {
+        if (this.#delayValidation(value)) {
+            this.#delay = value;
+        }
+    }
+
+    get dragOver() {
+        return this.#dragOver;
+    }
+
+    set dragOver(value) {
+        if (this.#dragOverValidation(value)) {
+            this.#dragOver = value;
+        }
+    }
+
+    get background() {
+        return this.#background;
+    }
+
+    set background(value) {
+        this.#background = value;
+    }
+
+    #myceliaValidation(value) {
+        if (!Array.isArray(value)) {
+            throw 'Invalid mycelia on GameState';
+        } else {
+            value.forEach(val => {
+                if (val.constructor.name !== Mycelium.name) {
+                    throw 'Invalid mycelia on GameState';
+                }
+            });
+        }
+        return true;
+    }
+
+    #screenValidation(value) {
+        if (this.#screenIs2DArray(value)) {
+            value.forEach(val1 => {
+                val1.forEach(val2 => {
+                    if ((typeof val2) == "object") {
+                    for (const [k, v] of Object.entries(val2)) {
+                        if (k != 'mycelium') {
+                            throw 'Invalid screen on GameState';
+                        }
+                        if ((typeof v) != "string") {
+                            throw 'Invalid screen on GameState';
+                        }
+                    }
+                    }
+                });
+            });
+            return true;
+        } 
+    }
+
+    #screenIs2DArray(value) {
+        if (!Array.isArray(value)) {
+            throw 'Invalid screen on GameState';
+        } else {
+            value.forEach(val => {
+                if(!Array.isArray(val)) {
+                    throw 'Invalid screen on GameState';
+                }
+            });
+        }
+        return true;
+    }
+
+    #delayValidation(value) {
+
+    }
+
+    #dragOverValidation(value) {
+
+    }
+
+}
 
 // screen array contains the state of mycelia (0 or 1) at each x,y position.
 function createScreen() {
@@ -168,4 +285,4 @@ function growAll(mycelium, screen, delay) {
     mycelium.openEnds = newOpenEnds;
 }
 
-export { createScreen, createOpenEnds1, setupScreen, createGrowthTypeProb, createGrowthDirProb };
+export { GameState, createScreen, createOpenEnds1, setupScreen, createGrowthTypeProb, createGrowthDirProb };

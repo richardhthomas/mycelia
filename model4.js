@@ -128,7 +128,7 @@ function createGame() {
         "mycelia": mycelia,
         "screen": screen,
         "delay": delay,
-        "dragover": null}
+        "dragOver": null}
 }
 
 function runMyc(gameState) {
@@ -182,9 +182,9 @@ function dragoverHandler(ev, gameState) {
     let yposn = Math.floor(ev.offsetY/2);
     let content = hoveroverDetection(xposn, yposn, gameState.screen);
     if (content) {
-        gameState.dragover = content.mycelium;
+        gameState.dragOver = content.mycelium;
     } else {
-        gameState.dragover = null;
+        gameState.dragOver = null;
     }
     for (let i=0; i<gameState.mycelia.length; i++) {
         let canvas = gameState.mycelia[i].canvas;
@@ -202,6 +202,7 @@ function dragleaveHandler(ev, gameState) {
         let canvas = gameState.mycelia[i].canvas;
         canvas.style.opacity="1";
     }
+    gameState.dragOver = null;
 }
 
 function dropHandler(ev, gameState) {
@@ -210,7 +211,7 @@ function dropHandler(ev, gameState) {
 //    let offsetY = ev.offsetY - ev.dataTransfer.getData("startOffsetY");
     let buttonDropped = ev.dataTransfer.getData("buttonId");
     if (buttonDropped == "buttonB-canvas") {
-        let mycelium = null ?? gameState.dragover; 
+        let mycelium = null ?? gameState.dragOver; 
         if (mycelium) {
             for (let i=0; i<gameState.mycelia.length; i++) {
                 if (mycelium == gameState.mycelia[i].name) {
