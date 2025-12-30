@@ -1,4 +1,5 @@
 import {Mycelium} from "../mycelium.js";
+import {OpenEnds} from "../openEnds.js";
 import {OpenEnd} from "../openEnd.js";
 import * as model from '../model4.js';
 import * as mocks from './mocks.js';
@@ -23,7 +24,7 @@ test('Validation on growthTypeProb on Mycelium', () => {
         {bigger: "a", split: 1, nothing: 1},
         {bigger: 1, split: "a", nothing: 1},
         {bigger: 1, split: 1, nothing: "a"},
-        {bigger: 0, split: 1, nothing: 1}];
+        {bigger: 0, split: 0, nothing: 0}];
     const mycelium = mocks.createMockMycelium(); 
     badGtps.forEach(badGtp => {
         expect(() => {mycelium.growthTypeProb = badGtp}).toThrow('Invalid growthTypeProb');
@@ -95,4 +96,20 @@ test('bigEnough returns true if reached edge of screen', () => {
         mycelium.openEnds.push(edge);
         expect(mycelium.bigEnough()).toBe(true);
     });
+});
+
+test('grow on Mycelium populates new OpenEnds', () => {
+    const screen = mocks.createMockScreen();
+    const mycelium = mocks.createMockMycelium();
+    mycelium.growthTypeProb = {bigger: 40, split: 0, nothing: 0};
+    mycelium.growthDirProb = {"0": 0, "1": 0, "2": 120, "3": 0, "4": 0};
+    mycelium.grow(mycelium, screen);
+    const expectedNewOpenEnds = new OpenEnds(
+        new OpenEnd(251,138,15),
+        new OpenEnd(240,153,11),
+        new OpenEnd(260,154,4),
+        new OpenEnd(257,160,7));
+    for (let i=0; i < mycelium.openEnds.length; i++) {
+        expect(mycelium.openEnds[i]).toEqual(expectedNewOpenEnds[i]);
+    }
 });

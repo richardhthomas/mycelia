@@ -95,8 +95,6 @@ test('grow on OpenEnd increases mycelial size as expected', () => {
     const mycelium = mocks.createMockMycelium();
     const newOpenEnds = [];
     const initMycCount = mycCount(screen);
-    //const canvas = document.createElement('canvas');
-    //const ctx = canvas.getContext('2d');
 
     mycelium.openEnds[0].grow(mycelium, screen, newOpenEnds, [15, 13]);
     expect(mycCount(screen)).toEqual(initMycCount + 2);

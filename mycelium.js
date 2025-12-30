@@ -1,4 +1,5 @@
 import {OpenEnds} from "./openEnds.js";
+import {probResult} from "./utils.js";
 
 class Mycelium {
     #name;
@@ -96,9 +97,12 @@ class Mycelium {
         });
         const vals = Object.values(value);
         let valsAreValid = true;
+        let sum = 0;
         vals.forEach(val => {
-            if (!Number.isInteger(val) || val < 1) {valsAreValid = false;}
+            if (!Number.isInteger(val) || val < 0) {valsAreValid = false;}
+            sum += val;
         });
+        if (sum < 1) {valsAreValid = false;}
         if (keys.length == 3 && keysAreValid && valsAreValid) {
             return true;
         } else {
@@ -143,6 +147,24 @@ class Mycelium {
         });
         return result;
     }
+
+    grow(mycelium, screen) {
+        let newOpenEnds = new OpenEnds();
+        mycelium.openEnds.forEach(openEnd => {
+            if (openEnd.isOpenEnd(screen)) {
+                let action = probResult(mycelium.growthTypeProb);
+                if (action == "nothing") {
+                    newOpenEnds.push(openEnd);
+                } else {
+                    let directions = openEnd.growthDirections(mycelium.growthDirProb);
+                    if (action == "bigger") {directions.pop();}
+                    openEnd.grow(mycelium, screen, newOpenEnds, directions);
+                }
+            }
+        });
+        mycelium.openEnds = newOpenEnds;
+    }
+
 }
 
 export {Mycelium};
