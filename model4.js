@@ -1,6 +1,7 @@
 import {Mycelium} from "./mycelium.js";
 import {OpenEnds} from "./openEnds.js";
 import {OpenEnd} from "./openEnd.js";
+import {GameState} from "./gameState.js";
 import {probResult, hoveroverDetection} from "./utils.js";
 import {pointerScroll, createButtons, buttons} from "./ui.js";
 
@@ -128,7 +129,8 @@ function createGame() {
         "mycelia": mycelia,
         "screen": screen,
         "delay": delay,
-        "dragOver": null}
+        "dragOver": undefined,
+        "background": {canvas: canvasA, ctx: ctxA}}
 }
 
 function runMyc(gameState) {
@@ -170,8 +172,6 @@ function buttonAClick() {
 }
 
 function dragstartHandler(ev) {
-//    ev.dataTransfer.setData("startOffsetX", ev.offsetX.toString());
-//    ev.dataTransfer.setData("startOffsetY", ev.offsetY.toString());
     ev.dataTransfer.setData("buttonId", ev.target.id);
 }
 
@@ -183,49 +183,40 @@ function dragoverHandler(ev, gameState) {
     let content = hoveroverDetection(xposn, yposn, gameState.screen);
     if (content) {
         gameState.dragOver = content.mycelium;
+        let canvas = gameState.findMyceliumByName(content.mycelium).canvas;
+        canvas.style.opacity="0.5";
     } else {
-        gameState.dragOver = null;
+        resetMyceliaOpacity(gameState);
+        gameState.dragOver = undefined;
     }
+}
+
+function resetMyceliaOpacity(gameState) {
     for (let i=0; i<gameState.mycelia.length; i++) {
         let canvas = gameState.mycelia[i].canvas;
-        if (content && content.mycelium == gameState.mycelia[i].name) {
-            canvas.style.opacity="0.5";
-        } else {
-            canvas.style.opacity="1";
-        }
+        canvas.style.opacity="1";
     }
 }
 
 function dragleaveHandler(ev, gameState) {
     ev.preventDefault();
-    for (let i=0; i<gameState.mycelia.length; i++) {
-        let canvas = gameState.mycelia[i].canvas;
-        canvas.style.opacity="1";
-    }
-    gameState.dragOver = null;
+    resetMyceliaOpacity(gameState);
+    gameState.dragOver = undefined;
 }
 
 function dropHandler(ev, gameState) {
     ev.preventDefault();
-//    let offsetX = ev.offsetX - ev.dataTransfer.getData("startOffsetX");
-//    let offsetY = ev.offsetY - ev.dataTransfer.getData("startOffsetY");
     let buttonDropped = ev.dataTransfer.getData("buttonId");
+    let mycelium = gameState.findMyceliumByName(gameState.dragOver);
     if (buttonDropped == "buttonB-canvas") {
-        let mycelium = null ?? gameState.dragOver; 
         if (mycelium) {
-            for (let i=0; i<gameState.mycelia.length; i++) {
-                if (mycelium == gameState.mycelia[i].name) {
-                    gameState.mycelia[i].canvas.style.opacity="0.2";
-                    gameState.mycelia[i].growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
-                    gameState.mycelia[i].growthTypeProb = {bigger: 40, split: 1, nothing: 50};
-                }
-            }
+            mycelium.canvas.style.opacity="0.2";
+            mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
+            mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
         }
-//            buttons.straight.draw(gameState.ctxs, offsetX, offsetY);
     } else if (buttonDropped == "buttonC-canvas") {
-//        buttons.bent.draw(gameState.ctxs, offsetX, offsetY);
-        gameState.mycelium.growthDirProb = {"0": 10, "1": 20, "2": 50, "3": 20, "4": 10};
-        gameState.mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
+       // gameState.mycelium.growthDirProb = {"0": 10, "1": 20, "2": 50, "3": 20, "4": 10};
+       // gameState.mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
     }
 }
 
@@ -233,7 +224,14 @@ function dropHandler(ev, gameState) {
 let pause = false;
 
 window.onload = function() {
-    var gameState = createGame(); 
+    var pregameState = createGame(); 
+    var gameState = new GameState(
+        pregameState.mycelia,
+        pregameState.screen,
+        pregameState.delay,
+        pregameState.dragOver,
+        pregameState.background);
+
     createButtons();
     buttons.pause.canvas.addEventListener("pointerdown", buttonAClick);
     buttons.straight.canvas.addEventListener("dragstart", dragstartHandler);

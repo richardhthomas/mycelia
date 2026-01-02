@@ -116,3 +116,15 @@ test ('Validation of background on GameState', () => {
         undefined,
         badBackgrounds[4])}).toThrow('Invalid background on GameState');
 });
+
+test ('findMyceliumByName returns mycelium object with given name', () => {
+    const gameState = mocks.createMockGameState();
+    const mycelium2 = mocks.createMockMycelium();
+    const mycelium3 = mocks.createMockMycelium();
+    mycelium2.name = 'secondary';
+    mycelium3.name = 'tertiary';
+    gameState.mycelia.push(mycelium2, mycelium3);
+    expect(gameState.findMyceliumByName('secondary')).toEqual(mycelium2);
+    expect(gameState.findMyceliumByName('anything')).toBeUndefined();
+});
+

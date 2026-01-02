@@ -159,9 +159,17 @@ class GameState {
         }
         return true;
     }
+
+    findMyceliumByName(name) {
+        for (let i=0; i<this.mycelia.length; i++) {
+            if (this.mycelia[i].name == name) {
+                return this.mycelia[i];
+            }
+        }
+    }
+
 }
 
-// screen array contains the state of mycelia (0 or 1) at each x,y position.
 function createScreen() {
     const result = [];
     for (let i = 0; i < 1200; i++) {
@@ -296,23 +304,6 @@ function runMyc(gameState) {
         }); 
     }
     setTimeout(() => {runMyc(gameState);}, gameState.delay);
-}
-
-function growAll(mycelium, screen, delay) {
-    let newOpenEnds = new OpenEnds();
-    mycelium.openEnds.forEach(openEnd => {
-        if (openEnd.isOpenEnd(screen)) {
-            let action = probResult(mycelium.growthTypeProb);
-            if (action == "nothing") {
-                newOpenEnds.push(openEnd);
-            } else {
-                let directions = openEnd.growthDirections(mycelium.growthDirProb);
-                if (action == "bigger") {directions.pop();}
-                openEnd.grow(mycelium, screen, newOpenEnds, directions);
-            }
-        }
-    });
-    mycelium.openEnds = newOpenEnds;
 }
 
 export { GameState, createScreen, createOpenEnds1, setupScreen, createGrowthTypeProb, createGrowthDirProb };
