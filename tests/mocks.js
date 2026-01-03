@@ -38,6 +38,7 @@ function createMockMycelium() {
         model.createGrowthTypeProb(),
         model.createGrowthDirProb(),
         'red',
+        {xposn: 250, yposn: 150},
         [new OpenEnd(252,140,15),
         new OpenEnd(242,152,11),
         new OpenEnd(258,154,4),

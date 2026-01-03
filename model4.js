@@ -92,23 +92,6 @@ function createGame() {
     canvasA.height = canvasB.height = canvasC.height = 1400;
 
 
-    // Create gradient
-//    ctxA.globalCompositeOperation = "multiply";
-//    const grad=ctxA.createRadialGradient(250,250,20,250,250,1000);
-//    grad.addColorStop(0,"red");
-//    grad.addColorStop(0.03,"#ff9999");
-//    grad.addColorStop(1,"white");
-//    ctxA.fillStyle = grad;
-//    ctxA.fillRect(0,0,2400,1400);
-//    
-//    const grad2=ctxA.createRadialGradient(1200,500,20,1200,500,1000);
-//    grad2.addColorStop(0,"#0000ff");
-//    grad2.addColorStop(0.03,"#9999ff");
-//    grad2.addColorStop(1,"white");
-//    ctxA.fillStyle = grad2;
-//    ctxA.fillRect(0,0,2400,1400);
-
-
     // draw starting mycelia
     mycelia[0].ctx.globalCompositeOperation = "source-over";
     mycelia[1].ctx.globalCompositeOperation = "source-over";

@@ -7,13 +7,61 @@ import * as mocks from './mocks.js';
 test('Mycelium constructor', () => {
     const mycelium = mocks.createMockMycelium();
     expect(mycelium.name).toBe("primary");
+    expect(mycelium.canvas.tagName).toBe("CANVAS");
+    expect(mycelium.ctx).toBeInstanceOf(CanvasRenderingContext2D);
     expect(mycelium.growthTypeProb).toEqual(model.createGrowthTypeProb());
     expect(mycelium.growthDirProb).toEqual(model.createGrowthDirProb());
     expect(mycelium.colour).toBe("red");
     expect(mycelium.openEnds[0].xposn).toEqual(252);
+    expect(mycelium.startPosn.xposn).toEqual(250);
 });
 
-test('Validation on growthTypeProb on Mycelium', () => {
+test('Validation of canvas on Mycelium', () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const badCanvases = [
+        "string",
+        10,
+        [1, 2, 3],
+        {something: "anything"}];
+    const mycelium = mocks.createMockMycelium(); 
+    badCanvases.forEach(badCanvas => {
+        expect(() => {mycelium.canvas = badCanvas}).toThrow('Invalid canvas on Mycelium');
+    });
+    expect(() => {new Mycelium(
+        "primary",
+        "string",
+        ctx,
+        model.createGrowthTypeProb(), 
+        model.createGrowthDirProb(), 
+        "red", 
+        {xposn: 250, yposn: 150},
+        [mocks.createMockOpenEnd()])}).toThrow('Invalid canvas on Mycelium');
+});
+
+test('Validation of context on Mycelium', () => {
+    const canvas = document.createElement('canvas');
+    const badCtx = [
+        "string",
+        10,
+        [1, 2, 3],
+        {something: "anything"}];
+    const mycelium = mocks.createMockMycelium(); 
+    badCtx.forEach(badCtx => {
+        expect(() => {mycelium.ctx = badCtx}).toThrow('Invalid context on Mycelium');
+    });
+    expect(() => {new Mycelium(
+        "primary",
+        canvas,
+        "string",
+        model.createGrowthTypeProb(), 
+        model.createGrowthDirProb(), 
+        "red", 
+        {xposn: 250, yposn: 150},
+        [mocks.createMockOpenEnd()])}).toThrow('Invalid context on Mycelium');
+});
+
+test('Validation of growthTypeProb on Mycelium', () => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const badGtps = [
@@ -36,10 +84,11 @@ test('Validation on growthTypeProb on Mycelium', () => {
         badGtps[1], 
         model.createGrowthDirProb(), 
         "red", 
+        {xposn: 250, yposn: 150},
         [mocks.createMockOpenEnd()])}).toThrow('Invalid growthTypeProb');
 });
 
-test('Validation on growthDirProb on Mycelium', () => {
+test('Validation of growthDirProb on Mycelium', () => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const badGdps = [
@@ -64,7 +113,34 @@ test('Validation on growthDirProb on Mycelium', () => {
         model.createGrowthTypeProb(), 
         badGdps[1], 
         "red", 
+        {xposn: 250, yposn: 150},
         [mocks.createMockOpenEnd()])}).toThrow('Invalid growthDirProb');
+});
+
+test ('Validation of startPosn on Mycelium', () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const badStartPosns = [
+        "string",
+        10,
+        [1, 2, 3],
+        {something: "anything"},
+        {xposn: "string", yposn: 6},
+        {xposn: 6, yposn: 0},
+        {xposn: 6, yposn: "string"}];
+    const mycelium = mocks.createMockMycelium(); 
+    badStartPosns.forEach(badStartPosn => {
+        expect(() => {mycelium.startPosn = badStartPosn}).toThrow('Invalid startPosn on Mycelium');
+    });
+    expect(() => {new Mycelium(
+        "primary",
+        canvas,
+        ctx,
+        model.createGrowthTypeProb(), 
+        model.createGrowthDirProb(), 
+        "red", 
+        {xposn: "string", yposn: 150},
+        [mocks.createMockOpenEnd()])}).toThrow('Invalid startPosn on Mycelium');
 });
 
 test('validation of openEnds', () => {
@@ -80,6 +156,7 @@ test('validation of openEnds', () => {
         model.createGrowthTypeProb(), 
         model.createGrowthDirProb(), 
        "red", 
+        {xposn: 250, yposn: 150},
         250)}).toThrow('Invalid openEnds');
 });
 

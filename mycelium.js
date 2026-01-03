@@ -8,12 +8,17 @@ class Mycelium {
     #growthTypeProb;
     #growthDirProb;
     #colour;
+    #startPosn;
     #openEnds;
 
-    constructor(name, canvas, ctx, growthTypeProb, growthDirProb, colour, openEnds) {
+    constructor(name, canvas, ctx, growthTypeProb, growthDirProb, colour, startPosn, openEnds) {
         this.#name = name;
-        this.#canvas = canvas;
-        this.#ctx = ctx;
+        if (this.#canvasValidation(canvas)) {
+            this.#canvas = canvas;
+        }
+        if (this.#ctxValidation(ctx)) {
+            this.#ctx = ctx;
+        }
         if (this.#growthTypeProbValidation(growthTypeProb)) {
             this.#growthTypeProb = growthTypeProb;
         }
@@ -21,6 +26,9 @@ class Mycelium {
             this.#growthDirProb = growthDirProb;
         }
         this.#colour = colour;
+        if (this.#startPosnValidation(startPosn)) {
+            this.#startPosn = startPosn;
+        }
         if (this.#openEndsValidation(openEnds)) {
             this.#openEnds = new OpenEnds(...openEnds);
         }
@@ -39,7 +47,9 @@ class Mycelium {
     }
 
     set canvas(value) {
-        this.#canvas= value;
+        if (this.#canvasValidation(value)) {
+            this.#canvas = value;
+        }
     }
 
     get ctx() {
@@ -47,7 +57,9 @@ class Mycelium {
     }
 
     set ctx(value) {
-        this.#ctx= value;
+        if (this.#ctxValidation(value)) {
+            this.#ctx = value;
+        }
     }
 
     get growthTypeProb() {
@@ -77,6 +89,16 @@ class Mycelium {
     set colour(value) {
         this.#colour = value;
     }
+    
+    get startPosn() {
+        return this.#startPosn;
+    }
+
+    set startPosn(value) {
+        if (this.#startPosnValidation(value)) {
+            this.#startPosn = value;
+        }
+    }
 
     get openEnds() {
         return this.#openEnds;
@@ -87,6 +109,21 @@ class Mycelium {
             this.#openEnds = new OpenEnds(...value);
         }
     }
+
+    #canvasValidation(value) {
+        if (value.tagName != 'CANVAS') {
+            throw 'Invalid canvas on Mycelium';
+        }
+        return true;
+    }
+
+    #ctxValidation(value) {
+        if (value.constructor.name != 'CanvasRenderingContext2D') {
+            throw 'Invalid context on Mycelium';
+        }
+        return true;
+    }
+
 
     #growthTypeProbValidation(value) {
         const keys = Object.keys(value);
@@ -127,6 +164,24 @@ class Mycelium {
         } else {
             throw 'Invalid growthDirProb';
         }
+    }
+
+    #startPosnValidation(value) {
+        if ((typeof value) != "object") {
+            throw 'Invalid startPosn on Mycelium';
+        }
+        for (const [k, v] of Object.entries(value)) {
+            if (k != 'xposn' && k != 'yposn') {
+                throw 'Invalid startPosn on Mycelium';
+            }
+            if (!Number.isInteger(v)) {
+                throw 'Invalid startPosn on Mycelium';
+            }
+            if (v < 1) {
+                throw 'Invalid startPosn on Mycelium';
+            }
+        }
+        return true;
     }
 
     //see openEnds and openEnd classes for validation of array elements
