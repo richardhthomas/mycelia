@@ -6,24 +6,14 @@ import {probResult, hoveroverDetection} from "./utils.js";
 import {pointerScroll, createButtons, buttons} from "./ui.js";
 
 
-// screen array contains the state of mycelia (0 or 1) at each x,y position.
+// screen array contains object at each x,y position. Currently has just one key
+// 'mycelium' which contains name of mycelium
 function createScreen() {
     const result = [];
     for (let i = 0; i < 1200; i++) {
         result[i] = [];
     };
     return result;
-}
-
-function setupScreen(screen, mycelia) {
-    screen[600][350] = {mycelium: "primary"};
-    screen[300][174] = {mycelium: "secondary"};
-    //***line above needs to be generalised
-    mycelia.forEach(mycelium => {
-        mycelium.openEnds.forEach(openEnd => {
-            screen[openEnd.xposn][openEnd.yposn] = {mycelium: mycelium.name};
-        });
-    });
 }
 
 function createOpenEnds1() {
@@ -75,6 +65,7 @@ function createGame() {
         createGrowthTypeProb(),
         createGrowthDirProb(),
         "red",
+        {xposn:600, yposn:350},
         createOpenEnds1());
     let mycelium2 = new Mycelium(
         "secondary",
@@ -83,30 +74,13 @@ function createGame() {
         createGrowthTypeProb(),
         createGrowthDirProb(),
         "blue",
+        {xposn:300, yposn:174},
         createOpenEnds2());
 	let mycelia = [ mycelium1, mycelium2 ];
     const screen = createScreen(); 
-    setupScreen(screen, mycelia);
     const delay = 100;
     canvasA.width = canvasB.width = canvasC.width = 2400;
     canvasA.height = canvasB.height = canvasC.height = 1400;
-
-
-    // draw starting mycelia
-    mycelia[0].ctx.globalCompositeOperation = "source-over";
-    mycelia[1].ctx.globalCompositeOperation = "source-over";
-    //mycelia1
-    mycelia[0].ctx.fillStyle = "red";
-    mycelia[0].ctx.fillRect(1200, 700, 4, 4);
-    mycelia[0].openEnds.forEach(openEnd => {
-        openEnd.drawMyc(mycelia[0]);
-    });
-    //mycelia2
-    mycelia[1].ctx.fillStyle = "blue";
-    mycelia[1].ctx.fillRect(600, 348, 4, 4);
-    mycelia[1].openEnds.forEach(openEnd => {
-        openEnd.drawMyc(mycelia[1]);
-    });
 
     return {
         "mycelia": mycelia,
@@ -216,6 +190,7 @@ window.onload = function() {
         pregameState.dragOver,
         pregameState.background);
     drawPlayAreaBackground(gameState.background);
+    gameState.setupStartingMycelia();
 
     createButtons();
     buttons.pause.canvas.addEventListener("pointerdown", buttonAClick);
@@ -229,4 +204,4 @@ window.onload = function() {
     runMyc(gameState);
 };
 
-export { createScreen, createOpenEnds1, setupScreen, createGrowthTypeProb, createGrowthDirProb };
+export { createScreen, createOpenEnds1, createGrowthTypeProb, createGrowthDirProb };

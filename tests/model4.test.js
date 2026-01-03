@@ -5,13 +5,8 @@ import {probResult} from "../utils.js";
 import * as model from '../model4.js';
 import * as mocks from './mocks.js';
 
-test('screen is setup correctly', () => {
-    const mycelium = mocks.createMockMycelium();
-    const mycelia = [ mycelium ]; 
-    const screen = model.createScreen();
-    model.setupScreen(screen, mycelia);
-    mycelium.openEnds.forEach(openEnd => {
-        expect(screen[openEnd.xposn][openEnd.yposn]).toEqual({mycelium: "primary"});
-    });
+test('holding test until I either delete file or write more tests here', () => {
+    // this test is here as the suite fails unless there's at least one test in
+    // a file.
 });
 

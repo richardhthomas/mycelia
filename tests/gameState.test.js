@@ -106,7 +106,7 @@ test ('Validation of background on GameState', () => {
         {something: "anything"},
         {canvas: "string", ctx: 6}];
     const gameState = mocks.createMockGameState();
-    badBackgrounds.forEach(badBackground=> {
+    badBackgrounds.forEach(badBackground => {
         expect(() => {gameState.background = badBackground}).toThrow('Invalid background on GameState');
     });
     expect(() => {new GameState(
@@ -127,4 +127,19 @@ test ('findMyceliumByName returns mycelium object with given name', () => {
     expect(gameState.findMyceliumByName('secondary')).toEqual(mycelium2);
     expect(gameState.findMyceliumByName('anything')).toBeUndefined();
 });
+
+test ('setupStartingMycelia populates screen array', () => {
+    const gameState = mocks.createMockGameState();
+    gameState.screen = model.createScreen(); 
+    gameState.setupStartingMycelia();
+    let x = gameState.mycelia[0].startPosn.xposn;
+    let y = gameState.mycelia[0].startPosn.yposn;
+    expect(gameState.screen[x][y].mycelium).toBe("primary");
+    gameState.mycelia[0].openEnds.forEach(openEnd => { 
+        x = openEnd.xposn;
+        y = openEnd.yposn;
+        expect(gameState.screen[x][y].mycelium).toBe("primary");
+    });
+});
+    
 

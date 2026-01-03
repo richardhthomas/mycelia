@@ -168,6 +168,22 @@ class GameState {
         }
     }
 
+    //draws starting mycelia plus populates screen array
+    setupStartingMycelia() {
+        for (let i=0; i<this.mycelia.length; i++) {
+            this.mycelia[i].ctx.globalCompositeOperation = "source-over";
+            this.mycelia[i].ctx.fillStyle = this.mycelia[i].colour;
+            let x = this.mycelia[i].startPosn.xposn;
+            let y = this.mycelia[i].startPosn.yposn;
+            this.mycelia[i].ctx.fillRect(x*2, y*2, 4, 4);
+            this.screen[x][y] = {mycelium: this.mycelia[i].name};
+            this.mycelia[i].openEnds.forEach(openEnd => {
+                openEnd.drawMyc(this.mycelia[i]);
+                this.screen[openEnd.xposn][openEnd.yposn] = {mycelium: this.mycelia[i].name};
+            });
+        }
+    }
+
 }
 
 function createScreen() {
@@ -176,17 +192,6 @@ function createScreen() {
         result[i] = [];
     };
     return result;
-}
-
-function setupScreen(screen, mycelia) {
-    screen[600][350] = {mycelium: "primary"};
-    screen[300][174] = {mycelium: "secondary"};
-    //***line above needs to be generalised
-    mycelia.forEach(mycelium => {
-        mycelium.openEnds.forEach(openEnd => {
-            screen[openEnd.xposn][openEnd.yposn] = {mycelium: mycelium.name};
-        });
-    });
 }
 
 function createOpenEnds1() {
@@ -238,6 +243,7 @@ function createGame() {
         createGrowthTypeProb(),
         createGrowthDirProb(),
         "red",
+        {xposn:600, yposn:350},
         createOpenEnds1());
     let mycelium2 = new Mycelium(
         "secondary",
@@ -246,47 +252,13 @@ function createGame() {
         createGrowthTypeProb(),
         createGrowthDirProb(),
         "blue",
+        {xposn:300, yposn:174},
         createOpenEnds2());
 	let mycelia = [ mycelium1, mycelium2 ];
     const screen = createScreen(); 
-    setupScreen(screen, mycelia);
     const delay = 100;
     canvasA.width = canvasB.width = canvasC.width = 2400;
     canvasA.height = canvasB.height = canvasC.height = 1400;
-
-
-    // Create gradient
-    ctxA.globalCompositeOperation = "multiply";
-    const grad=ctxA.createRadialGradient(250,250,20,250,250,1000);
-    grad.addColorStop(0,"red");
-    grad.addColorStop(0.03,"#ff9999");
-    grad.addColorStop(1,"white");
-    ctxA.fillStyle = grad;
-    ctxA.fillRect(0,0,2400,1400);
-    
-    const grad2=ctxA.createRadialGradient(1200,500,20,1200,500,1000);
-    grad2.addColorStop(0,"#0000ff");
-    grad2.addColorStop(0.03,"#9999ff");
-    grad2.addColorStop(1,"white");
-    ctxA.fillStyle = grad2;
-    ctxA.fillRect(0,0,2400,1400);
-
-
-    // draw starting mycelia
-    mycelia[0].ctx.globalCompositeOperation = "source-over";
-    mycelia[1].ctx.globalCompositeOperation = "source-over";
-    //mycelia1
-    mycelia[0].ctx.fillStyle = "red";
-    mycelia[0].ctx.fillRect(1200, 700, 4, 4);
-    mycelia[0].openEnds.forEach(openEnd => {
-        openEnd.drawMyc(mycelia[0]);
-    });
-    //mycelia2
-    mycelia[1].ctx.fillStyle = "blue";
-    mycelia[1].ctx.fillRect(600, 348, 4, 4);
-    mycelia[1].openEnds.forEach(openEnd => {
-        openEnd.drawMyc(mycelia[1]);
-    });
 
     return {
         "mycelia": mycelia,
@@ -306,4 +278,4 @@ function runMyc(gameState) {
     setTimeout(() => {runMyc(gameState);}, gameState.delay);
 }
 
-export { GameState, createScreen, createOpenEnds1, setupScreen, createGrowthTypeProb, createGrowthDirProb };
+export { GameState, createScreen, createOpenEnds1, createGrowthTypeProb, createGrowthDirProb };
