@@ -93,20 +93,20 @@ function createGame() {
 
 
     // Create gradient
-    ctxA.globalCompositeOperation = "multiply";
-    const grad=ctxA.createRadialGradient(250,250,20,250,250,1000);
-    grad.addColorStop(0,"red");
-    grad.addColorStop(0.03,"#ff9999");
-    grad.addColorStop(1,"white");
-    ctxA.fillStyle = grad;
-    ctxA.fillRect(0,0,2400,1400);
-    
-    const grad2=ctxA.createRadialGradient(1200,500,20,1200,500,1000);
-    grad2.addColorStop(0,"#0000ff");
-    grad2.addColorStop(0.03,"#9999ff");
-    grad2.addColorStop(1,"white");
-    ctxA.fillStyle = grad2;
-    ctxA.fillRect(0,0,2400,1400);
+//    ctxA.globalCompositeOperation = "multiply";
+//    const grad=ctxA.createRadialGradient(250,250,20,250,250,1000);
+//    grad.addColorStop(0,"red");
+//    grad.addColorStop(0.03,"#ff9999");
+//    grad.addColorStop(1,"white");
+//    ctxA.fillStyle = grad;
+//    ctxA.fillRect(0,0,2400,1400);
+//    
+//    const grad2=ctxA.createRadialGradient(1200,500,20,1200,500,1000);
+//    grad2.addColorStop(0,"#0000ff");
+//    grad2.addColorStop(0.03,"#9999ff");
+//    grad2.addColorStop(1,"white");
+//    ctxA.fillStyle = grad2;
+//    ctxA.fillRect(0,0,2400,1400);
 
 
     // draw starting mycelia
@@ -133,32 +133,33 @@ function createGame() {
         "background": {canvas: canvasA, ctx: ctxA}}
 }
 
+function drawPlayAreaBackground(background) {
+    // Create gradient
+    background.ctx.globalCompositeOperation = "multiply";
+    const grad=background.ctx.createRadialGradient(250,250,20,250,250,1000);
+    grad.addColorStop(0,"red");
+    grad.addColorStop(0.03,"#ff9999");
+    grad.addColorStop(1,"white");
+    background.ctx.fillStyle = grad;
+    background.ctx.fillRect(0,0,2400,1400);
+    
+    const grad2=background.ctx.createRadialGradient(1200,500,20,1200,500,1000);
+    grad2.addColorStop(0,"#0000ff");
+    grad2.addColorStop(0.03,"#9999ff");
+    grad2.addColorStop(1,"white");
+    background.ctx.fillStyle = grad2;
+    background.ctx.fillRect(0,0,2400,1400);
+}
+
 function runMyc(gameState) {
     if (!pause) {
         gameState.mycelia.forEach(mycelium => {
             if (!mycelium.bigEnough()) {
-                growAll(mycelium, gameState.screen, gameState.delay);
+                mycelium.growAllOpenEnds(gameState.screen);
             }
         }); 
     }
     setTimeout(() => {runMyc(gameState);}, gameState.delay);
-}
-
-function growAll(mycelium, screen, delay) {
-    let newOpenEnds = new OpenEnds();
-    mycelium.openEnds.forEach(openEnd => {
-        if (openEnd.isOpenEnd(screen)) {
-            let action = probResult(mycelium.growthTypeProb);
-            if (action == "nothing") {
-                newOpenEnds.push(openEnd);
-            } else {
-                let directions = openEnd.growthDirections(mycelium.growthDirProb);
-                if (action == "bigger") {directions.pop();}
-                openEnd.grow(mycelium, screen, newOpenEnds, directions);
-            }
-        }
-    });
-    mycelium.openEnds = newOpenEnds;
 }
 
 function buttonAClick() {
@@ -231,6 +232,7 @@ window.onload = function() {
         pregameState.delay,
         pregameState.dragOver,
         pregameState.background);
+    drawPlayAreaBackground(gameState.background);
 
     createButtons();
     buttons.pause.canvas.addEventListener("pointerdown", buttonAClick);

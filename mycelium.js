@@ -148,21 +148,21 @@ class Mycelium {
         return result;
     }
 
-    grow(mycelium, screen) {
+    growAllOpenEnds(screen) {
         let newOpenEnds = new OpenEnds();
-        mycelium.openEnds.forEach(openEnd => {
+        this.openEnds.forEach(openEnd => {
             if (openEnd.isOpenEnd(screen)) {
-                let action = probResult(mycelium.growthTypeProb);
+                let action = probResult(this.growthTypeProb);
                 if (action == "nothing") {
                     newOpenEnds.push(openEnd);
                 } else {
-                    let directions = openEnd.growthDirections(mycelium.growthDirProb);
+                    let directions = openEnd.growthDirections(this.growthDirProb);
                     if (action == "bigger") {directions.pop();}
-                    openEnd.grow(mycelium, screen, newOpenEnds, directions);
+                    openEnd.grow(this, screen, newOpenEnds, directions);
                 }
             }
         });
-        mycelium.openEnds = newOpenEnds;
+        this.openEnds = newOpenEnds;
     }
 
 }

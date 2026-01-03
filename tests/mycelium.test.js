@@ -98,12 +98,12 @@ test('bigEnough returns true if reached edge of screen', () => {
     });
 });
 
-test('grow on Mycelium populates new OpenEnds', () => {
+test('growAllOpenEnds on Mycelium populates new OpenEnds', () => {
     const screen = mocks.createMockScreen();
     const mycelium = mocks.createMockMycelium();
     mycelium.growthTypeProb = {bigger: 40, split: 0, nothing: 0};
     mycelium.growthDirProb = {"0": 0, "1": 0, "2": 120, "3": 0, "4": 0};
-    mycelium.grow(mycelium, screen);
+    mycelium.growAllOpenEnds(screen);
     const expectedNewOpenEnds = new OpenEnds(
         new OpenEnd(251,138,15),
         new OpenEnd(240,153,11),

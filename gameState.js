@@ -299,7 +299,7 @@ function runMyc(gameState) {
     if (!pause) {
         gameState.mycelia.forEach(mycelium => {
             if (!mycelium.bigEnough()) {
-                growAll(mycelium, gameState.screen, gameState.delay);
+                mycelium.growAllOpenEnds(gameState.screen);
             }
         }); 
     }
