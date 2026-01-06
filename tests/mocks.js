@@ -30,11 +30,9 @@ function createMockScreen() {
 
 function createMockMycelium() {
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
     return new Mycelium(
         'primary',
         canvas,
-      //  ctx,
         model.createGrowthTypeProb(),
         model.createGrowthDirProb(),
         'red',
@@ -51,13 +49,12 @@ function createMockOpenEnd() {
 
 function createMockGameState() {
     const backgroundCanvas = document.createElement('canvas');
-    const backgroundCtx = backgroundCanvas.getContext('2d');
     return new GameState(
         [createMockMycelium()],
         createMockScreen(),
         100,
         undefined,
-        {canvas: backgroundCanvas, ctx: backgroundCtx});
+        backgroundCanvas);
 }
 
 

@@ -47,17 +47,12 @@ class Mycelium {
     set canvas(value) {
         if (this.#canvasValidation(value)) {
             this.#canvas = value;
+            this.#ctx = value.getContext('2d');
         }
     }
 
     get ctx() {
         return this.#ctx;
-    }
-
-    set ctx(value) {
-        if (this.#ctxValidation(value)) {
-            this.#ctx = value;
-        }
     }
 
     get growthTypeProb() {
@@ -114,14 +109,6 @@ class Mycelium {
         }
         return true;
     }
-
-    #ctxValidation(value) {
-        if (value.constructor.name != 'CanvasRenderingContext2D') {
-            throw 'Invalid context on Mycelium';
-        }
-        return true;
-    }
-
 
     #growthTypeProbValidation(value) {
         const keys = Object.keys(value);

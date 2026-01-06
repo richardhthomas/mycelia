@@ -53,59 +53,24 @@ function createGrowthDirProb() {
     return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
 }
 
-function createGame() {
-    const canvasA = document.getElementById("play-areaA-canvas");
-    const canvasB = document.getElementById("play-areaB-canvas");
-    const canvasC = document.getElementById("play-areaC-canvas");
-    const ctxA = canvasA.getContext("2d");
-    let mycelium1 = new Mycelium(
-        "primary",
-        canvasB,
-        canvasB.getContext("2d"),
-        createGrowthTypeProb(),
-        createGrowthDirProb(),
-        "red",
-        {xposn:600, yposn:350},
-        createOpenEnds1());
-    let mycelium2 = new Mycelium(
-        "secondary",
-        canvasC,
-        canvasC.getContext("2d"),
-        createGrowthTypeProb(),
-        createGrowthDirProb(),
-        "blue",
-        {xposn:300, yposn:174},
-        createOpenEnds2());
-	let mycelia = [ mycelium1, mycelium2 ];
-    const screen = createScreen(); 
-    const delay = 100;
-    canvasA.width = canvasB.width = canvasC.width = 2400;
-    canvasA.height = canvasB.height = canvasC.height = 1400;
-
-    return {
-        "mycelia": mycelia,
-        "screen": screen,
-        "delay": delay,
-        "dragOver": undefined,
-        "background": {canvas: canvasA, ctx: ctxA}}
-}
-
-function drawPlayAreaBackground(background) {
+function drawPlayAreaBackground(canvas, ctx) {
+    canvas.width = 2400;
+    canvas.height = 1400;
     // Create gradient
-    background.ctx.globalCompositeOperation = "multiply";
-    const grad=background.ctx.createRadialGradient(250,250,20,250,250,1000);
+    ctx.globalCompositeOperation = "multiply";
+    const grad = ctx.createRadialGradient(250,250,20,250,250,1000);
     grad.addColorStop(0,"red");
     grad.addColorStop(0.03,"#ff9999");
     grad.addColorStop(1,"white");
-    background.ctx.fillStyle = grad;
-    background.ctx.fillRect(0,0,2400,1400);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,2400,1400);
     
-    const grad2=background.ctx.createRadialGradient(1200,500,20,1200,500,1000);
+    const grad2 = ctx.createRadialGradient(1200,500,20,1200,500,1000);
     grad2.addColorStop(0,"#0000ff");
     grad2.addColorStop(0.03,"#9999ff");
     grad2.addColorStop(1,"white");
-    background.ctx.fillStyle = grad2;
-    background.ctx.fillRect(0,0,2400,1400);
+    ctx.fillStyle = grad2;
+    ctx.fillRect(0,0,2400,1400);
 }
 
 function runMyc(gameState) {
@@ -182,12 +147,6 @@ function dropHandler(ev, gameState) {
 let pause = false;
 
 window.onload = function() {
-    const canvasA = document.getElementById("play-areaA-canvas");
-//    const canvasB = document.getElementById("play-areaB-canvas");
-//    const canvasC = document.getElementById("play-areaC-canvas");
-    const ctxA = canvasA.getContext("2d");
-    canvasA.width = 2400;
-    canvasA.height = 1400;
     let mycelium1 = new Mycelium(
         "primary",
         document.getElementById("play-areaB-canvas"),
@@ -204,14 +163,13 @@ window.onload = function() {
         "blue",
         {xposn:300, yposn:174},
         createOpenEnds2());
-//    var pregameState = createGame(); 
     var gameState = new GameState(
         [mycelium1, mycelium2],
         createScreen(),
         100,
         undefined,
-        {canvas: canvasA, ctx: ctxA});
-    drawPlayAreaBackground(gameState.background);
+        document.getElementById("play-areaA-canvas"));
+    drawPlayAreaBackground(gameState.backgroundCanvas, gameState.backgroundCtx);
     gameState.setupStartingMycelia();
 
     createButtons();

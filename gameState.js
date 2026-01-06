@@ -9,9 +9,10 @@ class GameState {
     #screen;
     #delay;
     #dragOver;
-    #background;
+    #backgroundCanvas;
+    #backgroundCtx;
 
-    constructor(mycelia, screen, delay, dragOver, background) {
+    constructor(mycelia, screen, delay, dragOver, backgroundCanvas) {
         if (this.#myceliaValidation(mycelia)) {
             this.#mycelia = mycelia;
         }
@@ -24,8 +25,9 @@ class GameState {
         if (this.#dragOverValidation(dragOver)) {
             this.#dragOver = dragOver;
         }
-        if (this.#backgroundValidation(background)) {
-            this.#background = background;
+        if (this.#backgroundCanvasValidation(backgroundCanvas)) {
+            this.#backgroundCanvas = backgroundCanvas;
+            this.#backgroundCtx = backgroundCanvas.getContext('2d');
         }
     }
     
@@ -69,14 +71,19 @@ class GameState {
         }
     }
 
-    get background() {
-        return this.#background;
+    get backgroundCanvas() {
+        return this.#backgroundCanvas;
     }
 
-    set background(value) {
-        if (this.#backgroundValidation(value)) {
-            this.#background = value;
+    set backgroundCanvas(value) {
+        if (this.#backgroundCanvasValidation(value)) {
+            this.#backgroundCanvas = value;
+            this.#backgroundCtx = value.getContext('2d');
         }
+    }
+
+    get backgroundCtx() {
+        return this.#backgroundCtx;
     }
 
     #myceliaValidation(value) {
@@ -142,20 +149,9 @@ class GameState {
         return true;
     }
 
-    #backgroundValidation(value) {
-        if ((typeof value) != "object") {
-            throw 'Invalid background on GameState';
-        }
-        for (const [k, v] of Object.entries(value)) {
-            if (k != 'canvas' && k != 'ctx') {
-                throw 'Invalid background on GameState';
-            }
-            if (k == 'canvas' && v.tagName != 'CANVAS') {
-                throw 'Invalid background on GameState';
-            }
-            if (k == 'ctx' && v.constructor.name != 'CanvasRenderingContext2D') {
-                throw 'Invalid background on GameState';
-            }
+    #backgroundCanvasValidation(value) {
+        if (value.tagName != 'CANVAS') {
+            throw 'Invalid backgroundCanvas on GameState';
         }
         return true;
     }
@@ -231,42 +227,6 @@ function createGrowthTypeProb() {
 // defines probabilities of growing 2 deviations or 1 deviation from straight ahead
 function createGrowthDirProb() {
     return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
-}
-
-function createGame() {
-    const canvasA = document.getElementById("play-areaA-canvas");
-    const canvasB = document.getElementById("play-areaB-canvas");
-    const canvasC = document.getElementById("play-areaC-canvas");
-    const ctxA = canvasA.getContext("2d");
-    let mycelium1 = new Mycelium(
-        "primary",
-        canvasB,
-        canvasB.getContext("2d"),
-        createGrowthTypeProb(),
-        createGrowthDirProb(),
-        "red",
-        {xposn:600, yposn:350},
-        createOpenEnds1());
-    let mycelium2 = new Mycelium(
-        "secondary",
-        canvasC,
-        canvasC.getContext("2d"),
-        createGrowthTypeProb(),
-        createGrowthDirProb(),
-        "blue",
-        {xposn:300, yposn:174},
-        createOpenEnds2());
-	let mycelia = [ mycelium1, mycelium2 ];
-    const screen = createScreen(); 
-    const delay = 100;
-    canvasA.width = canvasB.width = canvasC.width = 2400;
-    canvasA.height = canvasB.height = canvasC.height = 1400;
-
-    return {
-        "mycelia": mycelia,
-        "screen": screen,
-        "delay": delay,
-        "dragover": null}
 }
 
 function runMyc(gameState) {

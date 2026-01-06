@@ -37,19 +37,6 @@ test('Validation of canvas on Mycelium', () => {
         [mocks.createMockOpenEnd()])}).toThrow('Invalid canvas on Mycelium');
 });
 
-test('Validation of context on Mycelium', () => {
-    const canvas = document.createElement('canvas');
-    const badCtx = [
-        "string",
-        10,
-        [1, 2, 3],
-        {something: "anything"}];
-    const mycelium = mocks.createMockMycelium(); 
-    badCtx.forEach(badCtx => {
-        expect(() => {mycelium.ctx = badCtx}).toThrow('Invalid context on Mycelium');
-    });
-});
-
 test('Validation of growthTypeProb on Mycelium', () => {
     const canvas = document.createElement('canvas');
     const badGtps = [
