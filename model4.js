@@ -26,9 +26,10 @@ function createOpenEnds1() {
         [598, 350, 12],
         [598, 348, 14]];
     let openEnds = new OpenEnds();
-    data.forEach(openEnd => {
-        openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
-    });
+    openEnds.create(data);
+//    data.forEach(openEnd => {
+//        openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
+//    });
     return openEnds;
 }
 

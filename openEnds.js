@@ -19,6 +19,12 @@ class OpenEnds extends Array {
     #openEndsElementValidation(element) {
         return (element.constructor.name === OpenEnd.name) ? true : false;
     }
+
+    create(elements) {
+        elements.forEach(element => {
+            this.push(new OpenEnd(element[0], element[1], element[2]));
+        });
+    }
 }
 
 export {OpenEnds};
