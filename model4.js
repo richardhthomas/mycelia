@@ -182,13 +182,35 @@ function dropHandler(ev, gameState) {
 let pause = false;
 
 window.onload = function() {
-    var pregameState = createGame(); 
+    const canvasA = document.getElementById("play-areaA-canvas");
+//    const canvasB = document.getElementById("play-areaB-canvas");
+//    const canvasC = document.getElementById("play-areaC-canvas");
+    const ctxA = canvasA.getContext("2d");
+    canvasA.width = 2400;
+    canvasA.height = 1400;
+    let mycelium1 = new Mycelium(
+        "primary",
+        document.getElementById("play-areaB-canvas"),
+        createGrowthTypeProb(),
+        createGrowthDirProb(),
+        "red",
+        {xposn:600, yposn:350},
+        createOpenEnds1());
+    let mycelium2 = new Mycelium(
+        "secondary",
+        document.getElementById("play-areaC-canvas"),
+        createGrowthTypeProb(),
+        createGrowthDirProb(),
+        "blue",
+        {xposn:300, yposn:174},
+        createOpenEnds2());
+//    var pregameState = createGame(); 
     var gameState = new GameState(
-        pregameState.mycelia,
-        pregameState.screen,
-        pregameState.delay,
-        pregameState.dragOver,
-        pregameState.background);
+        [mycelium1, mycelium2],
+        createScreen(),
+        100,
+        undefined,
+        {canvas: canvasA, ctx: ctxA});
     drawPlayAreaBackground(gameState.background);
     gameState.setupStartingMycelia();
 

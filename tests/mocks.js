@@ -34,7 +34,7 @@ function createMockMycelium() {
     return new Mycelium(
         'primary',
         canvas,
-        ctx,
+      //  ctx,
         model.createGrowthTypeProb(),
         model.createGrowthDirProb(),
         'red',

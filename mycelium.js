@@ -11,13 +11,11 @@ class Mycelium {
     #startPosn;
     #openEnds;
 
-    constructor(name, canvas, ctx, growthTypeProb, growthDirProb, colour, startPosn, openEnds) {
+    constructor(name, canvas, growthTypeProb, growthDirProb, colour, startPosn, openEnds) {
         this.#name = name;
         if (this.#canvasValidation(canvas)) {
             this.#canvas = canvas;
-        }
-        if (this.#ctxValidation(ctx)) {
-            this.#ctx = ctx;
+            this.#ctx = canvas.getContext('2d');
         }
         if (this.#growthTypeProbValidation(growthTypeProb)) {
             this.#growthTypeProb = growthTypeProb;

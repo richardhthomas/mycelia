@@ -171,6 +171,8 @@ class GameState {
     //draws starting mycelia plus populates screen array
     setupStartingMycelia() {
         for (let i=0; i<this.mycelia.length; i++) {
+            this.mycelia[i].canvas.width = 2400;
+            this.mycelia[i].canvas.height = 1400;
             this.mycelia[i].ctx.globalCompositeOperation = "source-over";
             this.mycelia[i].ctx.fillStyle = this.mycelia[i].colour;
             let x = this.mycelia[i].startPosn.xposn;
