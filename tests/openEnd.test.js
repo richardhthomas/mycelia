@@ -38,10 +38,10 @@ test('ALL_GROWTH_DIRS is as expected', () => {
 test('possibleGrowthDirections returns array of possible directions', () => {
     const mycelium = mocks.createMockMycelium();
     const expectedValues = [
-        [13,14,15,0,1],
-        [9,10,11,12,13],
+        [14,15,0,1,2],
+        [0,1,2,3,4],
         [2,3,4,5,6],
-        [5,6,7,8,9]];
+        [6,7,8,9,10]];
     expectedValues.forEach((values, index) => {
         expect(mycelium.openEnds[index].possibleGrowthDirections()).toEqual(values);
     });
@@ -50,13 +50,16 @@ test('possibleGrowthDirections returns array of possible directions', () => {
 test('overlapDirections returns array of possible directions', () => {
     const mycelium = mocks.createMockMycelium();
     const expectedValues = [
-        [20,21,22,23,0,1,2],
-        [14,15,16,17,18,19,20],
+        [21,22,23,0,1,2,3,4],
+        [0,1,2,3,4,5,6,7],
         [3,4,5,6,7,8,9,10],
-        [8,9,10,11,12,13,14]];
+        [9,10,11,12,13,14,15,16]];
     expectedValues.forEach((values, index) => {
         expect(mycelium.openEnds[index].overlapDirections()).toEqual(values);
     });
+    //added openEnd test below that has an odd rather than even dirn
+    const oddOpenEnd = new OpenEnd(10,10,3);
+    expect(oddOpenEnd.overlapDirections()).toEqual([2,3,4,5,6,7,8]);
 });
 
 test('isOpenEnd returns true if open end', () => {
@@ -67,8 +70,12 @@ test('isOpenEnd returns true if open end', () => {
         new OpenEnd(253,142,0),
         new OpenEnd(256,154,8),
         new OpenEnd(245,149,4)];
-    const mycelium = mocks.createMockMycelium();
-    mocks.createMockMycelium().openEnds.forEach(openEnd => {
+    const trueOpenEnds = [
+        new OpenEnd(252,140,15),
+        new OpenEnd(242,152,11),
+        new OpenEnd(258,154,4),
+        new OpenEnd(256,158,7)];
+    trueOpenEnds.forEach(openEnd => {
         expect(openEnd.isOpenEnd(screen)).toBe(true);
     });
     falseOpenEnds.forEach(openEnd => {
@@ -93,6 +100,11 @@ test('growthDirections returns array of two 0-15 values for directions', () => {
 test('grow on OpenEnd increases mycelial size as expected', () => {
     const screen = mocks.createMockScreen();
     const mycelium = mocks.createMockMycelium();
+    mycelium.openEnds = [
+        new OpenEnd(252,140,15),
+        new OpenEnd(242,152,11),
+        new OpenEnd(258,154,4),
+        new OpenEnd(256,158,7)];
     const newOpenEnds = [];
     const initMycCount = mycCount(screen);
 

@@ -12,7 +12,7 @@ test('Mycelium constructor', () => {
     expect(mycelium.growthTypeProb).toEqual(model.createGrowthTypeProb());
     expect(mycelium.growthDirProb).toEqual(model.createGrowthDirProb());
     expect(mycelium.colour).toBe("red");
-    expect(mycelium.openEnds[0].xposn).toEqual(252);
+    expect(mycelium.openEnds[0].xposn).toEqual(250);
     expect(mycelium.startPosn.xposn).toEqual(250);
 });
 
@@ -34,7 +34,7 @@ test('Validation of canvas on Mycelium', () => {
         model.createGrowthDirProb(), 
         "red", 
         {xposn: 250, yposn: 150},
-        [mocks.createMockOpenEnd()])}).toThrow('Invalid canvas on Mycelium');
+        [3])}).toThrow('Invalid canvas on Mycelium');
 });
 
 test('Validation of growthTypeProb on Mycelium', () => {
@@ -59,7 +59,7 @@ test('Validation of growthTypeProb on Mycelium', () => {
         model.createGrowthDirProb(), 
         "red", 
         {xposn: 250, yposn: 150},
-        [mocks.createMockOpenEnd()])}).toThrow('Invalid growthTypeProb');
+        [3])}).toThrow('Invalid growthTypeProb');
 });
 
 test('Validation of growthDirProb on Mycelium', () => {
@@ -86,7 +86,7 @@ test('Validation of growthDirProb on Mycelium', () => {
         badGdps[1], 
         "red", 
         {xposn: 250, yposn: 150},
-        [mocks.createMockOpenEnd()])}).toThrow('Invalid growthDirProb');
+        [3])}).toThrow('Invalid growthDirProb');
 });
 
 test ('Validation of startPosn on Mycelium', () => {
@@ -110,7 +110,7 @@ test ('Validation of startPosn on Mycelium', () => {
         model.createGrowthDirProb(), 
         "red", 
         {xposn: "string", yposn: 150},
-        [mocks.createMockOpenEnd()])}).toThrow('Invalid startPosn on Mycelium');
+        [3])}).toThrow('Invalid startPosn on Mycelium');
 });
 
 test('validation of openEnds', () => {
@@ -125,7 +125,7 @@ test('validation of openEnds', () => {
         model.createGrowthDirProb(), 
        "red", 
         {xposn: 250, yposn: 150},
-        250)}).toThrow('Invalid openEnds');
+        250)}).toThrow('Invalid openEndsDirns');
 });
 
 test('bigEnough returns true if reached edge of screen', () => {
@@ -158,3 +158,4 @@ test('growAllOpenEnds on Mycelium populates new OpenEnds', () => {
         expect(mycelium.openEnds[i]).toEqual(expectedNewOpenEnds[i]);
     }
 });
+
