@@ -63,7 +63,9 @@ test('overlapDirections returns array of possible directions', () => {
 });
 
 test('isOpenEnd returns true if open end', () => {
-    const screen = mocks.createMockScreen();
+    const gameState = mocks.createMockGameState();
+    mocks.populateMockScreen(gameState);
+    const screen = gameState.screen;
     const falseOpenEnds = [
         new OpenEnd(250,148,0),
         new OpenEnd(251,144,0),
@@ -98,8 +100,10 @@ test('growthDirections returns array of two 0-15 values for directions', () => {
 });
 
 test('grow on OpenEnd increases mycelial size as expected', () => {
-    const screen = mocks.createMockScreen();
-    const mycelium = mocks.createMockMycelium();
+    const gameState = mocks.createMockGameState();
+    mocks.populateMockScreen(gameState);
+    const screen = gameState.screen;
+    const mycelium = gameState.mycelia[0];
     mycelium.openEnds = [
         new OpenEnd(252,140,15),
         new OpenEnd(242,152,11),

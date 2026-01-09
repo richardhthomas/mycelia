@@ -1,4 +1,5 @@
 import {OpenEnds} from "./openEnds.js";
+import {OpenEnd} from "./openEnd.js";
 import {probResult} from "./utils.js";
 
 class Mycelium {
@@ -11,7 +12,12 @@ class Mycelium {
     #startPosn;
     #openEnds;
 
-    constructor(name, canvas, growthTypeProb, growthDirProb, colour, startPosn, openEnds) {
+    // the constructor takes an array of openEnds directions rather than an
+    // openEnds object. It then creates the openEnds object from that based on
+    // the starting position. However,
+    // the setter takes an array of openEnd objects so that particular mycelial states
+    // can be set for testing.
+    constructor(name, canvas, growthTypeProb, growthDirProb, colour, startPosn, openEndsDirns) {
         this.#name = name;
         if (this.#canvasValidation(canvas)) {
             this.#canvas = canvas;
@@ -27,8 +33,8 @@ class Mycelium {
         if (this.#startPosnValidation(startPosn)) {
             this.#startPosn = startPosn;
         }
-        if (this.#openEndsValidation(openEnds)) {
-            this.#openEnds = new OpenEnds(...openEnds);
+        if (this.#openEndsDirnValidation(openEndsDirns)) {
+            this.#openEnds = this.#initialiseOpenEnds(openEndsDirns);
         }
     }
 
@@ -169,11 +175,26 @@ class Mycelium {
         return true;
     }
 
-    //see openEnds and openEnd classes for validation of array elements
     #openEndsValidation(value) {
         if (Array.isArray(value)) {return true;} else {throw 'Invalid openEnds';}
     }
 
+    //see openEnds and openEnd classes for validation of array elements
+    #openEndsDirnValidation(value) {
+        if (Array.isArray(value)) {return true;} else {throw 'Invalid openEndsDirns';}
+    }
+
+    #initialiseOpenEnds(dirns) {
+        let openEnds = new OpenEnds();
+        dirns.forEach(dirn => {
+            let coords = OpenEnd.ALL_GROWTH_DIRS[dirn];
+            let x = this.startPosn.xposn + coords[0];
+            let y = this.startPosn.yposn + coords[1];
+            let openEnd = new OpenEnd(x, y, dirn);
+            openEnds.push(openEnd);
+        });
+        return openEnds;
+    }
 
     bigEnough() {
         let result = false;

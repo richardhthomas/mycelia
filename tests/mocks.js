@@ -4,8 +4,7 @@ import {OpenEnds} from "../openEnds.js";
 import {GameState} from "../gameState.js";
 import * as model from '../model4.js';
 
-function createMockScreen() {
-    const screen = model.createScreen();
+function populateMockScreen(gameState) {
     let data = [
         [250,150],
         [250,148],
@@ -24,9 +23,8 @@ function createMockScreen() {
         [255,156],
         [256,158]]
     for (let i = 0; i < data.length; i++) {
-        screen[data[i][0]][data[i][1]] = {mycelium: "primary"};
+        gameState.screen[data[i][0]][data[i][1]] = {mycelium: "primary"};
     };
-    return screen;
 }
 
 function createMockMycelium() {
@@ -55,11 +53,10 @@ function createMockGameState() {
     const backgroundCanvas = document.createElement('canvas');
     return new GameState(
         [createMockMycelium()],
-        createMockScreen(),
         100,
         undefined,
         backgroundCanvas);
 }
 
 
-export {createMockScreen, createMockMycelium, createMockOpenEnd, createMockOpenEnds, createMockGameState};
+export {populateMockScreen, createMockMycelium, createMockOpenEnd, createMockOpenEnds, createMockGameState};

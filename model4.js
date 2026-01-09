@@ -6,44 +6,6 @@ import {probResult, hoveroverDetection} from "./utils.js";
 import {pointerScroll, createButtons, buttons} from "./ui.js";
 
 
-// screen array contains object at each x,y position. Currently has just one key
-// 'mycelium' which contains name of mycelium
-function createScreen() {
-    const result = [];
-    for (let i = 0; i < 1200; i++) {
-        result[i] = [];
-    };
-    return result;
-}
-
-function createOpenEnds1() {
-    let data = [[600, 348, 0],
-        [602, 348, 2],
-        [602, 350, 4],
-        [602, 352, 6],
-        [600, 352, 8],
-        [598, 352, 10],
-        [598, 350, 12],
-        [598, 348, 14]];
-    let openEnds = new OpenEnds();
-    openEnds.create(data);
-//    data.forEach(openEnd => {
-//        openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
-//    });
-    return openEnds;
-}
-
-function createOpenEnds2() {
-    let data = [
-        [302, 176, 6],
-        [300, 176, 8]];
-    let openEnds = new OpenEnds();
-    data.forEach(openEnd => {
-        openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
-    });
-    return openEnds;
-}
-
 // defines probabilities of growing bigger or splitting (vs doing nothing)
 function createGrowthTypeProb() {
     return {bigger: 40, split: 20, nothing: 400};
@@ -155,7 +117,7 @@ window.onload = function() {
         createGrowthDirProb(),
         "red",
         {xposn:600, yposn:350},
-        createOpenEnds1());
+        [0,2,4,6,8,10,12,14]);
     let mycelium2 = new Mycelium(
         "secondary",
         document.getElementById("play-areaC-canvas"),
@@ -163,10 +125,9 @@ window.onload = function() {
         createGrowthDirProb(),
         "blue",
         {xposn:300, yposn:174},
-        createOpenEnds2());
+        [6,8]);
     var gameState = new GameState(
         [mycelium1, mycelium2],
-        createScreen(),
         100,
         undefined,
         document.getElementById("play-areaA-canvas"));
@@ -185,4 +146,4 @@ window.onload = function() {
     runMyc(gameState);
 };
 
-export { createScreen, createOpenEnds1, createGrowthTypeProb, createGrowthDirProb };
+export { createGrowthTypeProb, createGrowthDirProb };

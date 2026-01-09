@@ -12,13 +12,11 @@ class GameState {
     #backgroundCanvas;
     #backgroundCtx;
 
-    constructor(mycelia, screen, delay, dragOver, backgroundCanvas) {
+    constructor(mycelia, delay, dragOver, backgroundCanvas) {
         if (this.#myceliaValidation(mycelia)) {
             this.#mycelia = mycelia;
         }
-        if (this.#screenValidation(screen)) {
-            this.#screen = screen;
-        }
+        this.#screen = this.#createScreen();
         if (this.#delayValidation(delay)) {
             this.#delay = delay;
         }
@@ -97,6 +95,16 @@ class GameState {
             });
         }
         return true;
+    }
+
+    // screen array contains object at each x,y position. Currently has just one key
+    // 'mycelium' which contains name of mycelium
+    #createScreen() {
+        const result = [];
+        for (let i = 0; i < 1200; i++) {
+            result[i] = [];
+        };
+        return result;
     }
 
     #screenValidation(value) {
@@ -184,41 +192,6 @@ class GameState {
 
 }
 
-function createScreen() {
-    const result = [];
-    for (let i = 0; i < 1200; i++) {
-        result[i] = [];
-    };
-    return result;
-}
-
-function createOpenEnds1() {
-    let data = [[600, 348, 0],
-        [602, 348, 2],
-        [602, 350, 4],
-        [602, 352, 6],
-        [600, 352, 8],
-        [598, 352, 10],
-        [598, 350, 12],
-        [598, 348, 14]];
-    let openEnds = new OpenEnds();
-    data.forEach(openEnd => {
-        openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
-    });
-    return openEnds;
-}
-
-function createOpenEnds2() {
-    let data = [
-        [302, 176, 6],
-        [300, 176, 8]];
-    let openEnds = new OpenEnds();
-    data.forEach(openEnd => {
-        openEnds.push(new OpenEnd(openEnd[0], openEnd[1], openEnd[2]));
-    });
-    return openEnds;
-}
-
 // defines probabilities of growing bigger or splitting (vs doing nothing)
 function createGrowthTypeProb() {
     return {bigger: 40, split: 20, nothing: 400};
@@ -240,4 +213,4 @@ function runMyc(gameState) {
     setTimeout(() => {runMyc(gameState);}, gameState.delay);
 }
 
-export { GameState, createScreen, createOpenEnds1, createGrowthTypeProb, createGrowthDirProb };
+export { GameState, createGrowthTypeProb, createGrowthDirProb };
