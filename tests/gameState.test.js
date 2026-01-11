@@ -34,18 +34,10 @@ test('Validation of mycelia on GameState', () => {
 
 test('Validation of screen on GameState', () => {
     const canvas = document.createElement('canvas');
-    const gameState = mocks.createMockGameState();
-//    const screen = model.createScreen();
-//    screen[100][100] = {something: "anything"};
-    const badScreens = [
-        "string",
-        1234,
-        [1, 2, 3],
-        {something: "anything"}
-        ];
-    badScreens.forEach(badScreen => {
-        expect(() => {gameState.screen = badScreen}).toThrow('Invalid screen on GameState');
-    });
+    let gameState = mocks.createMockGameState();
+    expect(() => {gameState.screen[10][10] = {something: "anything"}}).toThrow('Invalid screen on GameState');
+    expect(() => {gameState.screen[10][10] = {mycelium: 12}}).toThrow('Invalid screen on GameState');
+    expect(() => {gameState.screen[10][10] = 1234}).toThrow('Invalid screen on GameState');
 });
 
 test('Validation of delay on GameState', () => {
