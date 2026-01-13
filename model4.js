@@ -5,17 +5,6 @@ import {GameState} from "./gameState.js";
 import {probResult, hoveroverDetection} from "./utils.js";
 import {pointerScroll, createButtons, buttons} from "./ui.js";
 
-
-// defines probabilities of growing bigger or splitting (vs doing nothing)
-function createGrowthTypeProb() {
-    return {bigger: 40, split: 20, nothing: 400};
-}
-
-// defines probabilities of growing 2 deviations or 1 deviation from straight ahead
-function createGrowthDirProb() {
-    return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
-}
-
 function drawPlayAreaBackground(canvas, ctx) {
     canvas.width = 2400;
     canvas.height = 1400;
@@ -113,16 +102,16 @@ window.onload = function() {
     let mycelium1 = new Mycelium(
         "primary",
         document.getElementById("play-areaB-canvas"),
-        createGrowthTypeProb(),
-        createGrowthDirProb(),
+        {bigger: 40, split: 20, nothing: 400},
+        {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
         "red",
         {xposn:600, yposn:350},
         [0,2,4,6,8,10,12,14]);
     let mycelium2 = new Mycelium(
         "secondary",
         document.getElementById("play-areaC-canvas"),
-        createGrowthTypeProb(),
-        createGrowthDirProb(),
+        {bigger: 40, split: 20, nothing: 400},
+        {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
         "blue",
         {xposn:300, yposn:174},
         [6,8]);
@@ -146,4 +135,3 @@ window.onload = function() {
     runMyc(gameState);
 };
 
-export { createGrowthTypeProb, createGrowthDirProb };

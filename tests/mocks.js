@@ -32,8 +32,8 @@ function createMockMycelium() {
     return new Mycelium(
         'primary',
         canvas,
-        model.createGrowthTypeProb(),
-        model.createGrowthDirProb(),
+        createMockGrowthTypeProb(),
+        createMockGrowthDirProb(),
         'red',
         {xposn: 250, yposn: 150},
         [0,2,4,8]);
@@ -58,5 +58,14 @@ function createMockGameState() {
         backgroundCanvas);
 }
 
+// defines probabilities of growing bigger or splitting (vs doing nothing)
+function createMockGrowthTypeProb() {
+    return {bigger: 40, split: 20, nothing: 400};
+}
 
-export {populateMockScreen, createMockMycelium, createMockOpenEnd, createMockOpenEnds, createMockGameState};
+// defines probabilities of growing 2 deviations or 1 deviation from straight ahead
+function createMockGrowthDirProb() {
+    return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
+}
+
+export {populateMockScreen, createMockMycelium, createMockOpenEnd, createMockOpenEnds, createMockGameState, createMockGrowthTypeProb, createMockGrowthDirProb};

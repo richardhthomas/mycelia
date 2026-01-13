@@ -173,17 +173,6 @@ class GameState {
 
 }
 
-
-// defines probabilities of growing bigger or splitting (vs doing nothing)
-function createGrowthTypeProb() {
-    return {bigger: 40, split: 20, nothing: 400};
-}
-
-// defines probabilities of growing 2 deviations or 1 deviation from straight ahead
-function createGrowthDirProb() {
-    return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
-}
-
 function runMyc(gameState) {
     if (!pause) {
         gameState.mycelia.forEach(mycelium => {
@@ -195,4 +184,4 @@ function runMyc(gameState) {
     setTimeout(() => {runMyc(gameState);}, gameState.delay);
 }
 
-export { GameState, createGrowthTypeProb, createGrowthDirProb };
+export { GameState };

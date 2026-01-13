@@ -3,7 +3,7 @@ import * as utils from '../utils.js';
 import * as mocks from './mocks.js';
 
 test('probResult returns result based on given probabilities', () => {
-    const growthTypeProb = model.createGrowthTypeProb();
+    const growthTypeProb = mocks.createMockGrowthTypeProb();
     expect(utils.probResult(growthTypeProb)).toMatch(/bigger|split|nothing/); 
     let bigger = 0, split = 0, nothing = 0;
     for (let i=0; i<1000; i++) {

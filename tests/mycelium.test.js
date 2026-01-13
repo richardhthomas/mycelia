@@ -9,8 +9,8 @@ test('Mycelium constructor', () => {
     expect(mycelium.name).toBe("primary");
     expect(mycelium.canvas.tagName).toBe("CANVAS");
     expect(mycelium.ctx).toBeInstanceOf(CanvasRenderingContext2D);
-    expect(mycelium.growthTypeProb).toEqual(model.createGrowthTypeProb());
-    expect(mycelium.growthDirProb).toEqual(model.createGrowthDirProb());
+    expect(mycelium.growthTypeProb).toEqual(mocks.createMockGrowthTypeProb());
+    expect(mycelium.growthDirProb).toEqual(mocks.createMockGrowthDirProb());
     expect(mycelium.colour).toBe("red");
     expect(mycelium.openEnds[0].xposn).toEqual(250);
     expect(mycelium.startPosn.xposn).toEqual(250);
@@ -30,8 +30,8 @@ test('Validation of canvas on Mycelium', () => {
     expect(() => {new Mycelium(
         "primary",
         "string",
-        model.createGrowthTypeProb(), 
-        model.createGrowthDirProb(), 
+        mocks.createMockGrowthTypeProb(), 
+        mocks.createMockGrowthDirProb(), 
         "red", 
         {xposn: 250, yposn: 150},
         [3])}).toThrow('Invalid canvas on Mycelium');
@@ -56,7 +56,7 @@ test('Validation of growthTypeProb on Mycelium', () => {
         "primary",
         canvas,
         badGtps[1], 
-        model.createGrowthDirProb(), 
+        mocks.createMockGrowthDirProb(), 
         "red", 
         {xposn: 250, yposn: 150},
         [3])}).toThrow('Invalid growthTypeProb');
@@ -82,7 +82,7 @@ test('Validation of growthDirProb on Mycelium', () => {
     expect(() => {new Mycelium(
         "primary",
         canvas,
-        model.createGrowthTypeProb(), 
+        mocks.createMockGrowthTypeProb(), 
         badGdps[1], 
         "red", 
         {xposn: 250, yposn: 150},
@@ -106,8 +106,8 @@ test ('Validation of startPosn on Mycelium', () => {
     expect(() => {new Mycelium(
         "primary",
         canvas,
-        model.createGrowthTypeProb(), 
-        model.createGrowthDirProb(), 
+        mocks.createMockGrowthTypeProb(), 
+        mocks.createMockGrowthDirProb(), 
         "red", 
         {xposn: "string", yposn: 150},
         [3])}).toThrow('Invalid startPosn on Mycelium');
@@ -121,8 +121,8 @@ test('validation of openEnds', () => {
     expect(() => {new Mycelium(
         "primary",
         canvas,
-        model.createGrowthTypeProb(), 
-        model.createGrowthDirProb(), 
+        mocks.createMockGrowthTypeProb(), 
+        mocks.createMockGrowthDirProb(), 
        "red", 
         {xposn: 250, yposn: 150},
         250)}).toThrow('Invalid openEndsDirns');
