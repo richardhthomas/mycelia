@@ -121,6 +121,13 @@ class OpenEnd {
         throw 'Cannot redefine constant ALL_GROWTH_DIRS';
     }
 
+    getPrivatePropertyNames() {
+        return [
+            'xposn',
+            'yposn',
+            'dirn'];
+    }
+
     possibleGrowthDirections() {
         const v = this.dirn; 
         const w = [v+14, v+15, v+16, v+17, v+18];

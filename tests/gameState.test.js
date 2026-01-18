@@ -117,4 +117,21 @@ test ('setupStartingMycelia populates screen array', () => {
     });
 });
     
-
+//test('run on gameState creates new OpenEnds if not paused', () => {
+//    let pause = true;
+//    const gameState = mocks.createMockGameState();
+//    mocks.populateMockScreen(gameState);
+//    const screen = gameState.screen;
+//    const mycelium = gameState.mycelia[0];
+//    mycelium.growthTypeProb = {bigger: 40, split: 0, nothing: 0};
+//    mycelium.growthDirProb = {"0": 0, "1": 0, "2": 120, "3": 0, "4": 0};
+//    mycelium.growAllOpenEnds(screen);
+//    const expectedNewOpenEnds = new OpenEnds(
+//        new OpenEnd(251,138,15),
+//        new OpenEnd(240,153,11),
+//        new OpenEnd(260,154,4),
+//        new OpenEnd(257,160,7));
+//    for (let i=0; i < mycelium.openEnds.length; i++) {
+//        expect(mycelium.openEnds[i]).toEqual(expectedNewOpenEnds[i]);
+//    }
+//});
