@@ -1,4 +1,5 @@
 import {GameState} from "../gameState.js";
+import {OpenEnd} from "../openEnd.js";
 import * as model from '../model4.js';
 import * as mocks from './mocks.js';
 
@@ -117,21 +118,17 @@ test ('setupStartingMycelia populates screen array', () => {
     });
 });
     
-//test('run on gameState creates new OpenEnds if not paused', () => {
-//    let pause = true;
-//    const gameState = mocks.createMockGameState();
-//    mocks.populateMockScreen(gameState);
-//    const screen = gameState.screen;
-//    const mycelium = gameState.mycelia[0];
-//    mycelium.growthTypeProb = {bigger: 40, split: 0, nothing: 0};
-//    mycelium.growthDirProb = {"0": 0, "1": 0, "2": 120, "3": 0, "4": 0};
-//    mycelium.growAllOpenEnds(screen);
-//    const expectedNewOpenEnds = new OpenEnds(
-//        new OpenEnd(251,138,15),
-//        new OpenEnd(240,153,11),
-//        new OpenEnd(260,154,4),
-//        new OpenEnd(257,160,7));
-//    for (let i=0; i < mycelium.openEnds.length; i++) {
-//        expect(mycelium.openEnds[i]).toEqual(expectedNewOpenEnds[i]);
-//    }
-//});
+test('run on gameState creates new OpenEnds if not paused', () => {
+    global.pause = true;
+    const gameState = mocks.createMockGameState();
+    gameState.setupStartingMycelia();
+    const screen = gameState.screen;
+    const mycelium = gameState.mycelia[0];
+    mycelium.growthTypeProb = {bigger: 40, split: 0, nothing: 0};
+    mycelium.growthDirProb = {"0": 0, "1": 0, "2": 120, "3": 0, "4": 0};
+    gameState.run();
+    let expectedFirstOpenEnd = new OpenEnd(250,148,0);
+    expect(mycelium.openEnds[0].yposn).toEqual(expectedFirstOpenEnd.yposn);
+    global.pause = false;
+    setTimeout(() => {expect(mycelium.openEnds[0].yposn).toBeGreaterThan(expectedFirstOpenEnd.yposn);}, (gameState.delay * 2));
+});

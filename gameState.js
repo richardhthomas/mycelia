@@ -171,17 +171,18 @@ class GameState {
         }
     }
 
+    run() {
+        if (!pause) {
+            this.mycelia.forEach(mycelium => {
+                if (!mycelium.bigEnough()) {
+                    mycelium.growAllOpenEnds(this.screen);
+                }
+            }); 
+        }
+        setTimeout(() => {this.run();}, this.delay);
+    }
+
 }
 
-function runMyc(gameState) {
-    if (!pause) {
-        gameState.mycelia.forEach(mycelium => {
-            if (!mycelium.bigEnough()) {
-                mycelium.growAllOpenEnds(gameState.screen);
-            }
-        }); 
-    }
-    setTimeout(() => {runMyc(gameState);}, gameState.delay);
-}
 
 export { GameState };
