@@ -8,6 +8,7 @@ class GameState {
     #dragOver;
     #backgroundCanvas;
     #backgroundCtx;
+    #pause;
 
     constructor(mycelia, delay, dragOver, backgroundCanvas) {
         if (this.#myceliaValidation(mycelia)) {
@@ -24,6 +25,7 @@ class GameState {
             this.#backgroundCanvas = backgroundCanvas;
             this.#backgroundCtx = backgroundCanvas.getContext('2d');
         }
+        this.#pause = false;
     }
     
     get mycelia() {
@@ -78,6 +80,16 @@ class GameState {
 
     get backgroundCtx() {
         return this.#backgroundCtx;
+    }
+
+    get pause() {
+        return this.#pause;
+    }
+
+    set pause(value) {
+        if (this.#pauseValidation(value)) {
+            this.#pause = value;
+        }
     }
 
     #myceliaValidation(value) {
@@ -145,6 +157,13 @@ class GameState {
         return true;
     }
 
+    #pauseValidation(value) {
+        if (value != false && value != true) {
+            throw 'Invalid pause on GameState';
+        }
+        return true;
+    }
+
     findMyceliumByName(name) {
         for (let i=0; i<this.mycelia.length; i++) {
             if (this.mycelia[i].name == name) {
@@ -172,7 +191,7 @@ class GameState {
     }
 
     run() {
-        if (!pause) {
+        if (!this.pause) {
             this.mycelia.forEach(mycelium => {
                 if (!mycelium.bigEnough()) {
                     mycelium.growAllOpenEnds(this.screen);

@@ -12,6 +12,7 @@ test('GameState constructor', () => {
     expect(gameState.dragover).toBeUndefined();
     expect(gameState.backgroundCanvas.tagName).toBe("CANVAS");
     expect(gameState.backgroundCtx).toBeInstanceOf(CanvasRenderingContext2D);
+    expect(gameState.pause).toBe(false);
 });
 
 test('Validation of mycelia on GameState', () => {
@@ -94,6 +95,18 @@ test ('Validation of backgroundCanvas on GameState', () => {
         badBackgroundCanvases[3])}).toThrow('Invalid backgroundCanvas on GameState');
 });
 
+test ('Validation of pause on GameState', () => {
+    const badPauses = [
+        "string",
+        10,
+        [1, 2, 3],
+        {something: "anything"}];
+    const gameState = mocks.createMockGameState();
+    badPauses.forEach(badPause => {
+        expect(() => {gameState.pause = badPause}).toThrow('Invalid pause on GameState');
+    });
+});
+
 test ('findMyceliumByName returns mycelium object with given name', () => {
     const gameState = mocks.createMockGameState();
     const mycelium2 = mocks.createMockMycelium();
@@ -119,9 +132,9 @@ test ('setupStartingMycelia populates screen array', () => {
 });
     
 test('run on gameState creates new OpenEnds if not paused', () => {
-    global.pause = true;
     const gameState = mocks.createMockGameState();
     gameState.setupStartingMycelia();
+    gameState.pause = true;
     const screen = gameState.screen;
     const mycelium = gameState.mycelia[0];
     mycelium.growthTypeProb = {bigger: 40, split: 0, nothing: 0};
@@ -129,6 +142,6 @@ test('run on gameState creates new OpenEnds if not paused', () => {
     gameState.run();
     let expectedFirstOpenEnd = new OpenEnd(250,148,0);
     expect(mycelium.openEnds[0].yposn).toEqual(expectedFirstOpenEnd.yposn);
-    global.pause = false;
+    gameState.pause = false;
     setTimeout(() => {expect(mycelium.openEnds[0].yposn).toBeGreaterThan(expectedFirstOpenEnd.yposn);}, (gameState.delay * 2));
 });

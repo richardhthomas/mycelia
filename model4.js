@@ -25,24 +25,13 @@ function drawPlayAreaBackground(canvas, ctx) {
     ctx.fillRect(0,0,2400,1400);
 }
 
-function runMyc(gameState) {
-    if (!pause) {
-        gameState.mycelia.forEach(mycelium => {
-            if (!mycelium.bigEnough()) {
-                mycelium.growAllOpenEnds(gameState.screen);
-            }
-        }); 
-    }
-    setTimeout(() => {runMyc(gameState);}, gameState.delay);
-}
-
-function buttonAClick() {
-    if (pause) {
+function buttonAClick(ev, gameState) {
+    if (gameState.pause) {
         buttons.pause.drawPause();
-        pause = false;
+        gameState.pause = false;
     } else {
         buttons.pause.drawPlay();
-        pause = true;
+        gameState.pause = true;
     }
 }
 
@@ -96,8 +85,6 @@ function dropHandler(ev, gameState) {
 }
 
 
-let pause = false;
-
 window.onload = function() {
     let mycelium1 = new Mycelium(
         "primary",
@@ -124,7 +111,7 @@ window.onload = function() {
     gameState.setupStartingMycelia();
 
     createButtons();
-    buttons.pause.canvas.addEventListener("pointerdown", buttonAClick);
+    buttons.pause.canvas.addEventListener("pointerdown",(ev) => { buttonAClick(ev, gameState) });
     buttons.straight.canvas.addEventListener("dragstart", dragstartHandler);
     buttons.bent.canvas.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
@@ -132,6 +119,6 @@ window.onload = function() {
     playArea.addEventListener("dragleave",(ev) => { dragleaveHandler(ev, gameState) });
     playArea.addEventListener("drop", (ev) => { dropHandler(ev, gameState) });
     pointerScroll(document.getElementById('play-area'));
-    runMyc(gameState);
+    gameState.run();
 };
 
