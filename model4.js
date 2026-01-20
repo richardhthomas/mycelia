@@ -1,5 +1,4 @@
 import {Mycelium} from "./mycelium.js";
-import {OpenEnds} from "./openEnds.js";
 import {OpenEnd} from "./openEnd.js";
 import {GameState} from "./gameState.js";
 import {probResult, hoveroverDetection} from "./utils.js";

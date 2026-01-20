@@ -1,5 +1,4 @@
 import {Mycelium} from "../mycelium.js";
-import {OpenEnds} from "../openEnds.js";
 import {OpenEnd} from "../openEnd.js";
 import * as model from '../model4.js';
 import * as mocks from './mocks.js';
@@ -101,7 +100,7 @@ test ('Validation of startPosn on Mycelium', () => {
         {xposn: 6, yposn: "string"}];
     const mycelium = mocks.createMockMycelium(); 
     badStartPosns.forEach(badStartPosn => {
-        expect(() => {mycelium.startPosn = badStartPosn}).toThrow('Invalid startPosn on Mycelium');
+        expect(() => {mycelium.startPosn = badStartPosn}).toThrow(new Error('Invalid startPosn on Mycelium'));
     });
     expect(() => {new Mycelium(
         "primary",
@@ -110,14 +109,15 @@ test ('Validation of startPosn on Mycelium', () => {
         mocks.createMockGrowthDirProb(), 
         "red", 
         {xposn: "string", yposn: 150},
-        [3])}).toThrow('Invalid startPosn on Mycelium');
+        [3])}).toThrow(new Error('Invalid startPosn on Mycelium'));
 });
 
-test('validation of openEnds', () => {
+test('validation of openEnds on Mycelium', () => {
     const canvas = document.createElement('canvas');
     const mycelium = mocks.createMockMycelium();
-    expect(() => {mycelium.openEnds = 250}).toThrow('Invalid openEnds');
-    expect(() => {mycelium.openEnds = [250, 150, 3]}).toThrow('Invalid openEnds');
+    expect(() => {mycelium.openEnds = 250}).toThrow(new TypeError('Invalid openEnds'));
+    expect(() => {mycelium.openEnds = [250, 150, 3]}).toThrow(new Error('Invalid openEnds'));
+    expect(() => {mycelium.openEnds = [[250, 150, 3]]}).toThrow(new Error('Invalid openEnds'));
     expect(() => {new Mycelium(
         "primary",
         canvas,
@@ -125,7 +125,23 @@ test('validation of openEnds', () => {
         mocks.createMockGrowthDirProb(), 
        "red", 
         {xposn: 250, yposn: 150},
-        250)}).toThrow('Invalid openEndsDirns');
+        250)}).toThrow(new TypeError('Invalid openEndsDirns'));
+    expect(() => {new Mycelium(
+        "primary",
+        canvas,
+        mocks.createMockGrowthTypeProb(), 
+        mocks.createMockGrowthDirProb(), 
+       "red", 
+        {xposn: 250, yposn: 150},
+        [2, 3])}).toThrow(new Error('Invalid openEndsDirns'));
+    expect(() => {new Mycelium(
+        "primary",
+        canvas,
+        mocks.createMockGrowthTypeProb(), 
+        mocks.createMockGrowthDirProb(), 
+       "red", 
+        {xposn: 250, yposn: 150},
+        [2, 30])}).toThrow(new Error('Invalid openEndsDirns'));
 });
 
 test('bigEnough returns true if reached edge of screen', () => {
@@ -151,11 +167,11 @@ test('growAllOpenEnds on Mycelium populates new OpenEnds', () => {
     mycelium.growthTypeProb = {bigger: 40, split: 0, nothing: 0};
     mycelium.growthDirProb = {"0": 0, "1": 0, "2": 120, "3": 0, "4": 0};
     mycelium.growAllOpenEnds(screen);
-    const expectedNewOpenEnds = new OpenEnds(
+    const expectedNewOpenEnds = [
         new OpenEnd(250,146,0),
         new OpenEnd(254,146,2),
         new OpenEnd(254,150,4),
-        new OpenEnd(250,154,8));
+        new OpenEnd(250,154,8)];
     for (let i=0; i < mycelium.openEnds.length; i++) {
         let openEnd = mycelium.openEnds[i];
         let keys = openEnd.getPrivatePropertyNames();

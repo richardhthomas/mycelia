@@ -1,4 +1,3 @@
-import {OpenEnds} from "./openEnds.js";
 import {OpenEnd} from "./openEnd.js";
 import {probResult} from "./utils.js";
 
@@ -12,11 +11,10 @@ class Mycelium {
     #startPosn;
     #openEnds;
 
-    // the constructor takes an array of openEnds directions rather than an
-    // openEnds object. It then creates the openEnds object from that based on
-    // the starting position. However,
-    // the setter takes an array of openEnd objects so that particular mycelial states
-    // can be set for testing.
+    // the constructor takes an array of openEnd directions rather than an
+    // array of openEnd objects. It then creates the array of openEnd objects 
+    // from that based on the starting position. However,
+    // the setter takes an array of openEnd objects 
     constructor(name, canvas, growthTypeProb, growthDirProb, colour, startPosn, openEndsDirns) {
         this.#name = name;
         if (this.#canvasValidation(canvas)) {
@@ -105,7 +103,7 @@ class Mycelium {
 
     set openEnds(value) {
         if (this.#openEndsValidation(value)) {
-            this.#openEnds = new OpenEnds(...value);
+            this.#openEnds = value;
         }
     }
 
@@ -159,33 +157,52 @@ class Mycelium {
 
     #startPosnValidation(value) {
         if ((typeof value) != "object") {
-            throw 'Invalid startPosn on Mycelium';
+            throw new TypeError('Invalid startPosn on Mycelium');
         }
         for (const [k, v] of Object.entries(value)) {
             if (k != 'xposn' && k != 'yposn') {
-                throw 'Invalid startPosn on Mycelium';
+                throw new Error('Invalid startPosn on Mycelium');
             }
             if (!Number.isInteger(v)) {
-                throw 'Invalid startPosn on Mycelium';
+                throw new Error('Invalid startPosn on Mycelium');
             }
             if (v < 1) {
-                throw 'Invalid startPosn on Mycelium';
+                throw new RangeError('Invalid startPosn on Mycelium');
             }
         }
         return true;
     }
 
     #openEndsValidation(value) {
-        if (Array.isArray(value)) {return true;} else {throw 'Invalid openEnds';}
+        if (!Array.isArray(value)) {
+           throw new TypeError('Invalid openEnds');
+        } else {
+            value.forEach(element => {
+                if (element.constructor.name !== OpenEnd.name) { 
+                    throw new Error('Invalid openEnds');
+                }
+            });
+        }
+        return true;
     }
 
-    //see openEnds and openEnd classes for validation of array elements
+    //at the constructor I only allow even numbered directions. Otherwise, given
+    //these are open ends from a pin-point start, there could be overlap.
     #openEndsDirnValidation(value) {
-        if (Array.isArray(value)) {return true;} else {throw 'Invalid openEndsDirns';}
+        if (!Array.isArray(value)) {
+           throw new TypeError('Invalid openEndsDirns');
+        } else {
+            value.forEach(element => {
+                if (element < 0 || element > 14 || element%2 != 0) {
+                    throw new Error('Invalid openEndsDirns');
+                }
+            });
+        }
+        return true;
     }
 
     #initialiseOpenEnds(dirns) {
-        let openEnds = new OpenEnds();
+        let openEnds = [];
         dirns.forEach(dirn => {
             let coords = OpenEnd.ALL_GROWTH_DIRS[dirn];
             let x = this.startPosn.xposn + coords[0];
@@ -210,7 +227,7 @@ class Mycelium {
     }
 
     growAllOpenEnds(screen) {
-        let newOpenEnds = new OpenEnds();
+        let newOpenEnds = [];
         this.openEnds.forEach(openEnd => {
             if (openEnd.isOpenEnd(screen)) {
                 let action = probResult(this.growthTypeProb);

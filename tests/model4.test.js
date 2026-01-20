@@ -1,5 +1,4 @@
 import {Mycelium} from "../mycelium.js";
-import {OpenEnds} from "../openEnds.js";
 import {OpenEnd} from "../openEnd.js";
 import {probResult} from "../utils.js";
 import * as model from '../model4.js';
