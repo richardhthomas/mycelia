@@ -10,7 +10,7 @@ class GameState {
     #backgroundCtx;
     #pause;
 
-    constructor(mycelia, delay, dragOver, backgroundCanvas) {
+    constructor(mycelia, delay, backgroundCanvas) {
         if (this.#myceliaValidation(mycelia)) {
             this.#mycelia = mycelia;
         }
@@ -18,9 +18,7 @@ class GameState {
         if (this.#delayValidation(delay)) {
             this.#delay = delay;
         }
-        if (this.#dragOverValidation(dragOver)) {
-            this.#dragOver = dragOver;
-        }
+        this.#dragOver = undefined;
         if (this.#backgroundCanvasValidation(backgroundCanvas)) {
             this.#backgroundCanvas = backgroundCanvas;
             this.#backgroundCtx = backgroundCanvas.getContext('2d');

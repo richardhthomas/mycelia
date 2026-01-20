@@ -105,7 +105,6 @@ window.onload = function() {
     var gameState = new GameState(
         [mycelium1, mycelium2],
         100,
-        undefined,
         document.getElementById("play-areaA-canvas"));
     drawPlayAreaBackground(gameState.backgroundCanvas, gameState.backgroundCtx);
     gameState.setupStartingMycelia();

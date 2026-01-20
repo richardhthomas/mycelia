@@ -30,7 +30,6 @@ test('Validation of mycelia on GameState', () => {
     expect(() => {new GameState(
         badMycelias[4],
         100,
-        undefined,
         canvas)}).toThrow('Invalid mycelia on GameState');
 });
 
@@ -57,7 +56,6 @@ test('Validation of delay on GameState', () => {
     expect(() => {new GameState(
         [mocks.createMockMycelium()],
         badDelays[2],
-        undefined,
         canvas)}).toThrow('Invalid delay on GameState');
 });
 
@@ -71,11 +69,6 @@ test ('Validation of dragOver on GameState', () => {
     badDragOvers.forEach(badDragOver=> {
         expect(() => {gameState.dragOver = badDragOver}).toThrow('Invalid dragOver on GameState');
     });
-    expect(() => {new GameState(
-        [mocks.createMockMycelium()],
-        100,
-        badDragOvers[0],
-        canvas)}).toThrow('Invalid dragOver on GameState');
 });
 
 test ('Validation of backgroundCanvas on GameState', () => {
@@ -91,7 +84,6 @@ test ('Validation of backgroundCanvas on GameState', () => {
     expect(() => {new GameState(
         [mocks.createMockMycelium()],
         100,
-        undefined,
         badBackgroundCanvases[3])}).toThrow('Invalid backgroundCanvas on GameState');
 });
 
