@@ -24,7 +24,7 @@ test('Validation of canvas on Mycelium', () => {
         {something: "anything"}];
     const mycelium = mocks.createMockMycelium(); 
     badCanvases.forEach(badCanvas => {
-        expect(() => {mycelium.canvas = badCanvas}).toThrow('Invalid canvas on Mycelium');
+        expect(() => {mycelium.canvas = badCanvas}).toThrow(new Error('Invalid canvas on Mycelium'));
     });
     expect(() => {new Mycelium(
         "primary",
@@ -33,7 +33,7 @@ test('Validation of canvas on Mycelium', () => {
         mocks.createMockGrowthDirProb(), 
         "red", 
         {xposn: 250, yposn: 150},
-        [3])}).toThrow('Invalid canvas on Mycelium');
+        [3])}).toThrow(new Error('Invalid canvas on Mycelium'));
 });
 
 test('Validation of growthTypeProb on Mycelium', () => {
@@ -49,7 +49,7 @@ test('Validation of growthTypeProb on Mycelium', () => {
         {bigger: 0, split: 0, nothing: 0}];
     const mycelium = mocks.createMockMycelium(); 
     badGtps.forEach(badGtp => {
-        expect(() => {mycelium.growthTypeProb = badGtp}).toThrow('Invalid growthTypeProb');
+        expect(() => {mycelium.growthTypeProb = badGtp}).toThrow(new Error('Invalid growthTypeProb'));
     });
     expect(() => {new Mycelium(
         "primary",
@@ -58,7 +58,7 @@ test('Validation of growthTypeProb on Mycelium', () => {
         mocks.createMockGrowthDirProb(), 
         "red", 
         {xposn: 250, yposn: 150},
-        [3])}).toThrow('Invalid growthTypeProb');
+        [3])}).toThrow(new Error('Invalid growthTypeProb'));
 });
 
 test('Validation of growthDirProb on Mycelium', () => {
@@ -76,7 +76,7 @@ test('Validation of growthDirProb on Mycelium', () => {
         {"0": 5, "1": 12, "2": 120, "3": 12, "4": "a"}];
     const mycelium = mocks.createMockMycelium(); 
     badGdps.forEach(badGdp => {
-        expect(() => {mycelium.growthDirProb = badGdp}).toThrow('Invalid growthDirProb');
+        expect(() => {mycelium.growthDirProb = badGdp}).toThrow(new Error('Invalid growthDirProb'));
     });
     expect(() => {new Mycelium(
         "primary",
@@ -85,7 +85,7 @@ test('Validation of growthDirProb on Mycelium', () => {
         badGdps[1], 
         "red", 
         {xposn: 250, yposn: 150},
-        [3])}).toThrow('Invalid growthDirProb');
+        [3])}).toThrow(new Error('Invalid growthDirProb'));
 });
 
 test ('Validation of startPosn on Mycelium', () => {

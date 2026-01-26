@@ -25,20 +25,20 @@ test('Validation of mycelia on GameState', () => {
         [{something: "anything"}]];
     const gameState = mocks.createMockGameState();
     badMycelias.forEach(badMycelia => {
-        expect(() => {gameState.mycelia = badMycelia}).toThrow('Invalid mycelia on GameState');
+        expect(() => {gameState.mycelia = badMycelia}).toThrow(new Error('Invalid mycelia on GameState'));
     });
     expect(() => {new GameState(
         badMycelias[4],
         100,
-        canvas)}).toThrow('Invalid mycelia on GameState');
+        canvas)}).toThrow(new Error('Invalid mycelia on GameState'));
 });
 
 test('Validation of screen on GameState', () => {
     const canvas = document.createElement('canvas');
     let gameState = mocks.createMockGameState();
-    expect(() => {gameState.screen[10][10] = {something: "anything"}}).toThrow('Invalid screen on GameState');
-    expect(() => {gameState.screen[10][10] = {mycelium: 12}}).toThrow('Invalid screen on GameState');
-    expect(() => {gameState.screen[10][10] = 1234}).toThrow('Invalid screen on GameState');
+    expect(() => {gameState.screen[10][10] = {something: "anything"}}).toThrow(new Error('Invalid screen on GameState'));
+    expect(() => {gameState.screen[10][10] = {mycelium: 12}}).toThrow(new Error('Invalid screen on GameState'));
+    expect(() => {gameState.screen[10][10] = 1234}).toThrow(new Error('Invalid screen on GameState'));
 });
 
 test('Validation of delay on GameState', () => {
@@ -51,12 +51,12 @@ test('Validation of delay on GameState', () => {
         {something: "anything"}];
     const gameState = mocks.createMockGameState();
     badDelays.forEach(badDelay => {
-        expect(() => {gameState.delay = badDelay}).toThrow('Invalid delay on GameState');
+        expect(() => {gameState.delay = badDelay}).toThrow(new Error('Invalid delay on GameState'));
     });
     expect(() => {new GameState(
         [mocks.createMockMycelium()],
         badDelays[2],
-        canvas)}).toThrow('Invalid delay on GameState');
+        canvas)}).toThrow(new Error('Invalid delay on GameState'));
 });
 
 test ('Validation of dragOver on GameState', () => {
@@ -67,7 +67,7 @@ test ('Validation of dragOver on GameState', () => {
         {something: "anything"}];
     const gameState = mocks.createMockGameState();
     badDragOvers.forEach(badDragOver=> {
-        expect(() => {gameState.dragOver = badDragOver}).toThrow('Invalid dragOver on GameState');
+        expect(() => {gameState.dragOver = badDragOver}).toThrow(new Error('Invalid dragOver on GameState'));
     });
 });
 
@@ -79,12 +79,12 @@ test ('Validation of backgroundCanvas on GameState', () => {
         {something: "anything"}];
     const gameState = mocks.createMockGameState();
     badBackgroundCanvases.forEach(badBackgroundCanvas => {
-        expect(() => {gameState.backgroundCanvas = badBackgroundCanvas}).toThrow('Invalid backgroundCanvas on GameState');
+        expect(() => {gameState.backgroundCanvas = badBackgroundCanvas}).toThrow(new Error('Invalid backgroundCanvas on GameState'));
     });
     expect(() => {new GameState(
         [mocks.createMockMycelium()],
         100,
-        badBackgroundCanvases[3])}).toThrow('Invalid backgroundCanvas on GameState');
+        badBackgroundCanvases[3])}).toThrow(new Error('Invalid backgroundCanvas on GameState'));
 });
 
 test ('Validation of pause on GameState', () => {
@@ -95,7 +95,7 @@ test ('Validation of pause on GameState', () => {
         {something: "anything"}];
     const gameState = mocks.createMockGameState();
     badPauses.forEach(badPause => {
-        expect(() => {gameState.pause = badPause}).toThrow('Invalid pause on GameState');
+        expect(() => {gameState.pause = badPause}).toThrow(new Error('Invalid pause on GameState'));
     });
 });
 

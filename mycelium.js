@@ -109,7 +109,7 @@ class Mycelium {
 
     #canvasValidation(value) {
         if (value.tagName != 'CANVAS') {
-            throw 'Invalid canvas on Mycelium';
+            throw new Error('Invalid canvas on Mycelium');
         }
         return true;
     }
@@ -132,7 +132,7 @@ class Mycelium {
         if (keys.length == 3 && keysAreValid && valsAreValid) {
             return true;
         } else {
-            throw 'Invalid growthTypeProb';
+            throw new Error('Invalid growthTypeProb');
         }
     }
 
@@ -151,7 +151,7 @@ class Mycelium {
         if (keys.length == 5 && keysAreValid && valsAreValid) {
             return true;
         } else {
-            throw 'Invalid growthDirProb';
+            throw new Error('Invalid growthDirProb');
         }
     }
 

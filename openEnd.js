@@ -45,7 +45,7 @@ class OpenEnd {
         if (Number.isInteger(xposn) && xposn > 1) {
             return true;
         } else {
-            throw 'Invalid openEnd';
+            throw new Error('Invalid openEnd');
         }
     }
     
@@ -53,7 +53,7 @@ class OpenEnd {
         if (Number.isInteger(yposn) && yposn > 1) {
             return true;
         } else {
-            throw 'Invalid openEnd';
+            throw new Error('Invalid openEnd');
         }
     }
     
@@ -61,7 +61,7 @@ class OpenEnd {
         if (Number.isInteger(dirn) && dirn >= 0 && dirn < 16) {
             return true;
         } else {
-            throw 'Invalid openEnd';
+            throw new Error('Invalid openEnd');
         }
     }
     
@@ -94,7 +94,7 @@ class OpenEnd {
     }
 
     static set ALL_DIRS(value) {
-        throw 'Cannot redefine constant ALL_DIRS';
+        throw new Error('Cannot redefine constant ALL_DIRS');
     }
     
     static get ALL_GROWTH_DIRS() {
@@ -118,7 +118,7 @@ class OpenEnd {
     }
 
     static set ALL_GROWTH_DIRS(value) {
-        throw 'Cannot redefine constant ALL_GROWTH_DIRS';
+        throw new Error('Cannot redefine constant ALL_GROWTH_DIRS');
     }
 
     getPrivatePropertyNames() {

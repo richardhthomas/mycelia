@@ -16,23 +16,23 @@ test('validation of openEnd', () => {
         [130.5, 'a', null],
         [-250, -150, 16]];
     badOpenEnds.forEach(badOpenEnd => {
-        expect(() => {openEnd.xposn = badOpenEnd[0]}).toThrow('Invalid openEnd'); 
-        expect(() => {openEnd.yposn = badOpenEnd[1]}).toThrow('Invalid openEnd'); 
-        expect(() => {openEnd.dirn = badOpenEnd[2]}).toThrow('Invalid openEnd'); 
+        expect(() => {openEnd.xposn = badOpenEnd[0]}).toThrow(new Error('Invalid openEnd')); 
+        expect(() => {openEnd.yposn = badOpenEnd[1]}).toThrow(new Error('Invalid openEnd')); 
+        expect(() => {openEnd.dirn = badOpenEnd[2]}).toThrow(new Error('Invalid openEnd')); 
         expect(() => {new OpenEnd(badOpenEnd[0],
             badOpenEnd[1],
-            badOpenEnd[2])}).toThrow('Invalid openEnd');
+            badOpenEnd[2])}).toThrow(new Error('Invalid openEnd'));
     });
 });
 
 test('ALL_DIRS is as expected', () => {
     expect(OpenEnd.ALL_DIRS[0].toString()).toBe("0,-1");
-    expect(() => {OpenEnd.ALL_DIRS = "a"}).toThrow('Cannot redefine constant ALL_DIRS');
+    expect(() => {OpenEnd.ALL_DIRS = "a"}).toThrow(new Error('Cannot redefine constant ALL_DIRS'));
 });
 
 test('ALL_GROWTH_DIRS is as expected', () => {
     expect(OpenEnd.ALL_GROWTH_DIRS[0].toString()).toBe("0,-2");
-    expect(() => {OpenEnd.ALL_GROWTH_DIRS = "a"}).toThrow('Cannot redefine constant ALL_GROWTH_DIRS');
+    expect(() => {OpenEnd.ALL_GROWTH_DIRS = "a"}).toThrow(new Error('Cannot redefine constant ALL_GROWTH_DIRS'));
 });
 
 test('possibleGrowthDirections returns array of possible directions', () => {

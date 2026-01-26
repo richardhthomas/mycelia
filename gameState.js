@@ -92,11 +92,11 @@ class GameState {
 
     #myceliaValidation(value) {
         if (!Array.isArray(value)) {
-            throw 'Invalid mycelia on GameState';
+            throw new Error('Invalid mycelia on GameState');
         } else {
             value.forEach(val => {
                 if (val.constructor.name !== Mycelium.name) {
-                    throw 'Invalid mycelia on GameState';
+                    throw new Error('Invalid mycelia on GameState');
                 }
             });
         }
@@ -114,16 +114,16 @@ class GameState {
                     if ((typeof value) == "object") {
                         for (const [k, v] of Object.entries(value)) {
                             if (k != 'mycelium') {
-                                throw 'Invalid screen on GameState';
+                                throw new Error('Invalid screen on GameState');
                             }
                             if ((typeof v) != "string") {
-                                throw 'Invalid screen on GameState';
+                                throw new Error('Invalid screen on GameState');
                             }
                         }
                         obj[prop] = value;
                         return true;
                     } else {
-                        throw 'Invalid screen on GameState';
+                        throw new Error('Invalid screen on GameState');
                     }
                 }
             });
@@ -133,31 +133,31 @@ class GameState {
 
     #delayValidation(value) {
         if (!Number.isInteger(value)) {
-            throw 'Invalid delay on GameState';
+            throw new Error('Invalid delay on GameState');
         }
         if (value < 1) {
-            throw 'Invalid delay on GameState';
+            throw new Error('Invalid delay on GameState');
         }
         return true;
     }
 
     #dragOverValidation(value) {
         if (value !== undefined && (typeof value) != 'string') {
-            throw 'Invalid dragOver on GameState';
+            throw new Error('Invalid dragOver on GameState');
         }
         return true;
     }
 
     #backgroundCanvasValidation(value) {
         if (value.tagName != 'CANVAS') {
-            throw 'Invalid backgroundCanvas on GameState';
+            throw new Error('Invalid backgroundCanvas on GameState');
         }
         return true;
     }
 
     #pauseValidation(value) {
         if (value != false && value != true) {
-            throw 'Invalid pause on GameState';
+            throw new Error('Invalid pause on GameState');
         }
         return true;
     }
