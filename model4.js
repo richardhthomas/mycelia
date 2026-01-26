@@ -71,15 +71,22 @@ function dropHandler(ev, gameState) {
     ev.preventDefault();
     let buttonDropped = ev.dataTransfer.getData("buttonId");
     let mycelium = gameState.findMyceliumByName(gameState.dragOver);
-    if (buttonDropped == "buttonB-canvas") {
-        if (mycelium) {
-            flashCanvas(mycelium.canvas);
+    console.log(mycelium + ", " + buttonDropped);
+    if (mycelium) {
+        flashCanvas(mycelium.canvas);
+        if (buttonDropped == "buttonB-canvas") {
             mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
-            mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
+        } else if (buttonDropped == "buttonC-canvas") {
+            mycelium.growthDirProb = {"0": 1, "1": 2, "2": 4, "3": 2, "4": 1};
+        } else if (buttonDropped == "buttonD-canvas") {
+            mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 400};
+        } else if (buttonDropped == "buttonE-canvas") {
+            mycelium.growthTypeProb = {bigger: 40, split: 40, nothing: 400};
+        } else if (buttonDropped == "buttonF-canvas") {
+            mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
+        } else if (buttonDropped == "buttonG-canvas") {
+            mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 1600};
         }
-    } else if (buttonDropped == "buttonC-canvas") {
-       // gameState.mycelium.growthDirProb = {"0": 10, "1": 20, "2": 50, "3": 20, "4": 10};
-       // gameState.mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
     }
 }
 
@@ -112,6 +119,10 @@ window.onload = function() {
     buttons.pause.canvas.addEventListener("pointerdown",(ev) => { buttonAClick(ev, gameState) });
     buttons.straight.canvas.addEventListener("dragstart", dragstartHandler);
     buttons.bent.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.splitLess.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.splitMore.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.faster.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.slower.canvas.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
     playArea.addEventListener("dragover",(ev) => { dragoverHandler(ev, gameState) });
     playArea.addEventListener("dragleave",(ev) => { dragleaveHandler(ev, gameState) });

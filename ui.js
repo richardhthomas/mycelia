@@ -53,17 +53,17 @@ const buttons = {
         get ctx() {return this.canvas.getContext("2d");},
         draw: drawBentButton
     },
-    splitMore: {
+    splitLess: {
         div: document.getElementById("buttonD"),
         canvas: document.getElementById("buttonD-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        draw: drawSplitMoreButton
+        draw: drawSplitLessButton
     },
-    splitLess: {
+    splitMore: {
         div: document.getElementById("buttonE"),
         canvas: document.getElementById("buttonE-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        draw: drawSplitLessButton
+        draw: drawSplitMoreButton
     },
     faster: {
         div: document.getElementById("buttonF"),
