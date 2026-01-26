@@ -248,5 +248,14 @@ function drawSlowerButton(ctx, xposn, yposn) {
     ctx.fillRect(xposn+46, yposn+39, 2, 2);
 }
 
+function flashCanvas(canvas) {
+    canvas.style.opacity = "1";
+    setTimeout(() => {canvas.style.opacity = "0.3";}, 100);
+    setTimeout(() => {canvas.style.opacity = "1";}, 200);
+    setTimeout(() => {canvas.style.opacity = "0.3";}, 300);
+    setTimeout(() => {canvas.style.opacity = "1";}, 400);
+    setTimeout(() => {canvas.style.opacity = "0.3";}, 500);
+    setTimeout(() => {canvas.style.opacity = "1";}, 600);
+}
 
-export { pointerScroll, createButtons, buttons};
+export { pointerScroll, createButtons, buttons, flashCanvas};

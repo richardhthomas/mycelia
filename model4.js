@@ -2,7 +2,7 @@ import {Mycelium} from "./mycelium.js";
 import {OpenEnd} from "./openEnd.js";
 import {GameState} from "./gameState.js";
 import {probResult, hoveroverDetection} from "./utils.js";
-import {pointerScroll, createButtons, buttons} from "./ui.js";
+import {pointerScroll, createButtons, buttons, flashCanvas} from "./ui.js";
 
 function drawPlayAreaBackground(canvas, ctx) {
     canvas.width = 2400;
@@ -73,7 +73,7 @@ function dropHandler(ev, gameState) {
     let mycelium = gameState.findMyceliumByName(gameState.dragOver);
     if (buttonDropped == "buttonB-canvas") {
         if (mycelium) {
-            mycelium.canvas.style.opacity="0.2";
+            flashCanvas(mycelium.canvas);
             mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
             mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 50};
         }
