@@ -41,29 +41,29 @@ const buttons = {
         drawPause: drawPauseButton,
         drawPlay: drawPlayButton
     },
-    straight: {
+    lessBent: {
         div: document.getElementById("buttonB"),
         canvas: document.getElementById("buttonB-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        draw: drawStraightButton
+        draw: drawLessBentButton
     },
-    bent: {
+    moreBent: {
         div: document.getElementById("buttonC"),
         canvas: document.getElementById("buttonC-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        draw: drawBentButton
+        draw: drawMoreBentButton
     },
-    splitLess: {
+    lessSplit: {
         div: document.getElementById("buttonD"),
         canvas: document.getElementById("buttonD-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        draw: drawSplitLessButton
+        draw: drawLessSplitButton
     },
-    splitMore: {
+    moreSplit: {
         div: document.getElementById("buttonE"),
         canvas: document.getElementById("buttonE-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
-        draw: drawSplitMoreButton
+        draw: drawMoreSplitButton
     },
     faster: {
         div: document.getElementById("buttonF"),
@@ -84,18 +84,18 @@ function createButtons() {
     buttons.pause.canvas.height = 70;
     buttons.pause.ctx.globalCompositeOperation = "source-over";
     buttons.pause.drawPause(); 
-    buttons.straight.canvas.width = 70;
-    buttons.straight.canvas.height = 70;
-    buttons.straight.draw(buttons.straight.ctx, 0, 0);
-    buttons.bent.canvas.width = 70;
-    buttons.bent.canvas.height = 70;
-    buttons.bent.draw(buttons.bent.ctx, 0, 0);
-    buttons.splitMore.canvas.width = 70;
-    buttons.splitMore.canvas.height = 70;
-    buttons.splitMore.draw(buttons.splitMore.ctx, 0, 0);
-    buttons.splitLess.canvas.width = 70;
-    buttons.splitLess.canvas.height = 70;
-    buttons.splitLess.draw(buttons.splitLess.ctx, 0, 0);
+    buttons.lessBent.canvas.width = 70;
+    buttons.lessBent.canvas.height = 70;
+    buttons.lessBent.draw(buttons.lessBent.ctx, 0, 0);
+    buttons.moreBent.canvas.width = 70;
+    buttons.moreBent.canvas.height = 70;
+    buttons.moreBent.draw(buttons.moreBent.ctx, 0, 0);
+    buttons.moreSplit.canvas.width = 70;
+    buttons.moreSplit.canvas.height = 70;
+    buttons.moreSplit.draw(buttons.moreSplit.ctx, 0, 0);
+    buttons.lessSplit.canvas.width = 70;
+    buttons.lessSplit.canvas.height = 70;
+    buttons.lessSplit.draw(buttons.lessSplit.ctx, 0, 0);
     buttons.faster.canvas.width = 70;
     buttons.faster.canvas.height = 70;
     buttons.faster.draw(buttons.faster.ctx, 0, 0);
@@ -122,7 +122,7 @@ function drawPlayButton() {
     buttons.pause.ctx.fill();
 }
 
-function drawStraightButton(ctx, xposn, yposn) {
+function drawLessBentButton(ctx, xposn, yposn) {
 //    ctx.clearRect(xposn, yposn, 70, 70);
     ctx.fillStyle = "black";
     ctx.fillRect(xposn+28, yposn+17, 4, 4);
@@ -143,7 +143,7 @@ function drawStraightButton(ctx, xposn, yposn) {
     ctx.fill();
 }
 
-function drawBentButton(ctx, xposn, yposn) {
+function drawMoreBentButton(ctx, xposn, yposn) {
 //    ctx.clearRect(xposn, yposn, 70, 70);
     ctx.fillStyle = "black";
     ctx.fillRect(xposn+28, yposn+17, 4, 4);
@@ -164,7 +164,7 @@ function drawBentButton(ctx, xposn, yposn) {
     ctx.fill();
 }
 
-function drawSplitMoreButton(ctx, xposn, yposn) {
+function drawMoreSplitButton(ctx, xposn, yposn) {
 //    ctx.clearRect(xposn, yposn, 70, 70);
     ctx.fillStyle = "black";
     ctx.fillRect(xposn+18, yposn+17, 4, 4);
@@ -182,7 +182,7 @@ function drawSplitMoreButton(ctx, xposn, yposn) {
     ctx.fill();
 }
 
-function drawSplitLessButton(ctx, xposn, yposn) {
+function drawLessSplitButton(ctx, xposn, yposn) {
 //    ctx.clearRect(xposn, yposn, 70, 70);
     ctx.fillStyle = "black";
     ctx.fillRect(xposn+18, yposn+17, 4, 4);

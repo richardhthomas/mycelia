@@ -117,10 +117,10 @@ window.onload = function() {
 
     createButtons();
     buttons.pause.canvas.addEventListener("pointerdown",(ev) => { buttonAClick(ev, gameState) });
-    buttons.straight.canvas.addEventListener("dragstart", dragstartHandler);
-    buttons.bent.canvas.addEventListener("dragstart", dragstartHandler);
-    buttons.splitLess.canvas.addEventListener("dragstart", dragstartHandler);
-    buttons.splitMore.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.lessBent.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.moreBent.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.lessSplit.canvas.addEventListener("dragstart", dragstartHandler);
+    buttons.moreSplit.canvas.addEventListener("dragstart", dragstartHandler);
     buttons.faster.canvas.addEventListener("dragstart", dragstartHandler);
     buttons.slower.canvas.addEventListener("dragstart", dragstartHandler);
     let playArea = document.getElementById("play-area");
