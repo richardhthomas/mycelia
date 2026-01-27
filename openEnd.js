@@ -42,7 +42,7 @@ class OpenEnd {
     }
 
     #xposnValidation(xposn) {
-        if (Number.isInteger(xposn) && xposn > 1) {
+        if (Number.isInteger(xposn) && xposn >= 1) {
             return true;
         } else {
             throw new Error('Invalid openEnd');
@@ -50,7 +50,7 @@ class OpenEnd {
     }
     
     #yposnValidation(yposn) {
-        if (Number.isInteger(yposn) && yposn > 1) {
+        if (Number.isInteger(yposn) && yposn >= 1) {
             return true;
         } else {
             throw new Error('Invalid openEnd');
