@@ -71,21 +71,20 @@ function dropHandler(ev, gameState) {
     ev.preventDefault();
     let buttonDropped = ev.dataTransfer.getData("buttonId");
     let mycelium = gameState.findMyceliumByName(gameState.dragOver);
-    console.log(mycelium + ", " + buttonDropped);
     if (mycelium) {
-        flashCanvas(mycelium.canvas);
+        mycelium.canvas.style.opacity = "1";
         if (buttonDropped == "buttonB-canvas") {
-            mycelium.growthDirProb = {"0": 1, "1": 1, "2": 200, "3": 1, "4": 1};
+            mycelium.lessBent(); 
         } else if (buttonDropped == "buttonC-canvas") {
-            mycelium.growthDirProb = {"0": 1, "1": 2, "2": 4, "3": 2, "4": 1};
+            mycelium.moreBent();
         } else if (buttonDropped == "buttonD-canvas") {
-            mycelium.growthTypeProb = {bigger: 40, split: 1, nothing: 400};
+            mycelium.lessSplit();
         } else if (buttonDropped == "buttonE-canvas") {
-            mycelium.growthTypeProb = {bigger: 40, split: 40, nothing: 400};
+            mycelium.moreSplit();
         } else if (buttonDropped == "buttonF-canvas") {
-            mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 50};
+            mycelium.fasterGrowth();
         } else if (buttonDropped == "buttonG-canvas") {
-            mycelium.growthTypeProb = {bigger: 40, split: 20, nothing: 1600};
+            mycelium.slowerGrowth();
         }
     }
 }

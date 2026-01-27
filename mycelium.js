@@ -7,6 +7,7 @@ class Mycelium {
     #ctx;
     #growthTypeProb;
     #growthDirProb;
+    #change;
     #colour;
     #startPosn;
     #openEnds;
@@ -27,6 +28,10 @@ class Mycelium {
         if (this.#growthDirProbValidation(growthDirProb)) {
             this.#growthDirProb = growthDirProb;
         }
+        this.#change = {
+            "bent": 0,
+            "split": 0,
+            "speed": 0};
         this.#colour = colour;
         if (this.#startPosnValidation(startPosn)) {
             this.#startPosn = startPosn;
@@ -76,6 +81,16 @@ class Mycelium {
     set growthDirProb(value) {
         if (this.#growthDirProbValidation(value)) {
             this.#growthDirProb = value;
+        }
+    }
+
+    get change() {
+        return this.#change;
+    }
+
+    set change(value) {
+        if (this.#changeValidation(value)) {
+            this.#change = value;
         }
     }
 
@@ -152,6 +167,25 @@ class Mycelium {
             return true;
         } else {
             throw new Error('Invalid growthDirProb');
+        }
+    }
+
+    #changeValidation(value) {
+        const keys = Object.keys(value);
+        const goodKeys = ['bent', 'split', 'speed'];
+        let keysAreValid = true;
+        goodKeys.forEach(goodKey => {
+            if (!keys.includes(goodKey)) {keysAreValid = false;}
+        });
+        const vals = Object.values(value);
+        let valsAreValid = true;
+        vals.forEach(val => {
+            if (!Number.isInteger(val) || val < -5 || val > 5) {valsAreValid = false;}
+        });
+        if (keys.length == 3 && keysAreValid && valsAreValid) {
+            return true;
+        } else {
+            throw new Error('Invalid change on Mycelium');
         }
     }
 
@@ -243,6 +277,62 @@ class Mycelium {
         this.openEnds = newOpenEnds;
     }
 
+    lessBent() {
+        if (this.change.bent > -5) {
+            this.growthDirProb["2"] = Math.floor(this.growthDirProb["2"] * 1.3);
+            this.change.bent -= 1;
+            this.flashCanvas();
+        }
+    }
+
+    moreBent() {
+        if (this.change.bent < 5) {
+            this.growthDirProb["2"] = Math.floor(this.growthDirProb["2"] / 1.3);
+            this.change.bent += 1;
+            this.flashCanvas();
+        }
+    }
+
+    lessSplit() {
+        if (this.change.split > -5) {
+            this.growthTypeProb.split = Math.floor(this.growthTypeProb.split / 1.3);
+            this.change.split -= 1;
+            this.flashCanvas();
+        }
+    }
+
+    moreSplit() {
+        if (this.change.split < 5) {
+            this.growthTypeProb.split = Math.floor(this.growthTypeProb.split * 1.3);
+            this.change.split += 1;
+            this.flashCanvas();
+        }
+    }
+
+    fasterGrowth() {
+        if (this.change.speed < 5) {
+            this.growthTypeProb.nothing = Math.floor(this.growthTypeProb.nothing / 1.3);
+            this.change.speed += 1;
+            this.flashCanvas();
+        }
+    }
+
+    slowerGrowth() {
+        if (this.change.speed > -5) {
+            this.growthTypeProb.nothing = Math.floor(this.growthTypeProb.nothing * 1.3);
+            this.change.speed -= 1;
+            this.flashCanvas();
+        }
+    }
+
+    flashCanvas() {
+        setTimeout(() => {this.canvas.style.opacity = "0.3";}, 100);
+        setTimeout(() => {this.canvas.style.opacity = "1";}, 200);
+        setTimeout(() => {this.canvas.style.opacity = "0.3";}, 300);
+        setTimeout(() => {this.canvas.style.opacity = "1";}, 400);
+        setTimeout(() => {this.canvas.style.opacity = "0.3";}, 500);
+        setTimeout(() => {this.canvas.style.opacity = "1";}, 600);
+    }
 }
 
 export {Mycelium};

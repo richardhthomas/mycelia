@@ -10,6 +10,7 @@ test('Mycelium constructor', () => {
     expect(mycelium.ctx).toBeInstanceOf(CanvasRenderingContext2D);
     expect(mycelium.growthTypeProb).toEqual(mocks.createMockGrowthTypeProb());
     expect(mycelium.growthDirProb).toEqual(mocks.createMockGrowthDirProb());
+    expect(mycelium.change.bent).toBe(0);
     expect(mycelium.colour).toBe("red");
     expect(mycelium.openEnds[0].xposn).toEqual(250);
     expect(mycelium.startPosn.xposn).toEqual(250);
@@ -86,6 +87,23 @@ test('Validation of growthDirProb on Mycelium', () => {
         "red", 
         {xposn: 250, yposn: 150},
         [3])}).toThrow(new Error('Invalid growthDirProb'));
+});
+
+test('Validation of change on Mycelium', () => {
+    const badChanges = [
+        {"bent": 6, "split": 0, "speed": 0},
+        {"bent": -6, "split": 0, "speed": 0},
+        {"bent": 0, "split": 6, "speed": 0},
+        {"bent": 0, "split": -6, "speed": 0},
+        {"bent": 0, "split": 0, "speed": 6},
+        {"bent": 0, "split": 0, "speed": -6},
+        {"anything": 0, "split": 0, "speed": 6},
+        {"bent": 0, "anything": 0, "speed": 0},
+        {"bent": 0, "split": 0, "anything": 0}]
+    const mycelium = mocks.createMockMycelium(); 
+    badChanges.forEach(badChange => {
+        expect(() => {mycelium.change = badChange}).toThrow(new Error('Invalid change on Mycelium'));
+    });
 });
 
 test ('Validation of startPosn on Mycelium', () => {
@@ -181,3 +199,62 @@ test('growAllOpenEnds on Mycelium populates new OpenEnds', () => {
     }
 });
 
+test('lessBent changes growthDirProb', () => {
+    const mycelium = mocks.createMockMycelium();
+    mycelium.lessBent();
+    expect(mycelium.growthDirProb["2"]).toBe(156);
+    expect(mycelium.change.bent).toBe(-1);
+    mycelium.change.bent = -5;
+    mycelium.lessBent();
+    expect(mycelium.growthDirProb["2"]).toBe(156);
+});
+
+test('moreBent changes growthDirProb', () => {
+    const mycelium = mocks.createMockMycelium();
+    mycelium.moreBent();
+    expect(mycelium.growthDirProb["2"]).toBe(92);
+    expect(mycelium.change.bent).toBe(1);
+    mycelium.change.bent = 5;
+    mycelium.moreBent();
+    expect(mycelium.growthDirProb["2"]).toBe(92);
+});
+
+test('lessSplit changes growthTypeProb', () => {
+    const mycelium = mocks.createMockMycelium();
+    mycelium.lessSplit();
+    expect(mycelium.growthTypeProb.split).toBe(15);
+    expect(mycelium.change.split).toBe(-1);
+    mycelium.change.split = -5
+    mycelium.lessSplit();
+    expect(mycelium.growthTypeProb.split).toBe(15);
+});
+
+test('moreSplit changes growthTypeProb', () => {
+    const mycelium = mocks.createMockMycelium();
+    mycelium.moreSplit();
+    expect(mycelium.growthTypeProb.split).toBe(26);
+    expect(mycelium.change.split).toBe(1);
+    mycelium.change.split = 5
+    mycelium.moreSplit();
+    expect(mycelium.growthTypeProb.split).toBe(26);
+});
+
+test('fasterGrowth changes growthTypeProb', () => {
+    const mycelium = mocks.createMockMycelium();
+    mycelium.fasterGrowth();
+    expect(mycelium.growthTypeProb.nothing).toBe(307);
+    expect(mycelium.change.speed).toBe(1);
+    mycelium.change.speed = 5
+    mycelium.fasterGrowth();
+    expect(mycelium.growthTypeProb.nothing).toBe(307);
+});
+
+test('slowerGrowth changes growthTypeProb', () => {
+    const mycelium = mocks.createMockMycelium();
+    mycelium.slowerGrowth();
+    expect(mycelium.growthTypeProb.nothing).toBe(520);
+    expect(mycelium.change.speed).toBe(-1);
+    mycelium.change.speed = -5
+    mycelium.slowerGrowth();
+    expect(mycelium.growthTypeProb.nothing).toBe(520);
+});
