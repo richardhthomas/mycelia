@@ -2,7 +2,7 @@ import {Mycelium} from "./mycelium.js";
 import {OpenEnd} from "./openEnd.js";
 import {GameState} from "./gameState.js";
 import {probResult, hoveroverDetection} from "./utils.js";
-import {pointerScroll, createButtons, buttons, flashCanvas} from "./ui.js";
+import {pointerScroll, createButtons, buttons} from "./ui.js";
 
 function drawPlayAreaBackground(canvas, ctx) {
     canvas.width = 2400;
