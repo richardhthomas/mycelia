@@ -35,6 +35,12 @@ function pointerScroll(elem) {
 }
 
 const buttons = {
+    restart: {
+        div: document.getElementById("buttonRestart"),
+        canvas: document.getElementById("buttonRestart-canvas"),
+        get ctx() {return this.canvas.getContext("2d");},
+        draw: drawRestartButton
+    },
     pause: {
         canvas: document.getElementById("buttonA-canvas"),
         get ctx() {return this.canvas.getContext("2d");},
@@ -102,6 +108,10 @@ function createButtons() {
     buttons.slower.canvas.width = 70;
     buttons.slower.canvas.height = 70;
     buttons.slower.draw(buttons.slower.ctx, 0, 0);
+    buttons.restart.canvas.width = 70;
+    buttons.restart.canvas.height = 70;
+    buttons.restart.ctx.globalCompositeOperation = "source-over";
+    buttons.restart.draw(buttons.restart.ctx, 0, 0);
 }
 
 function drawPauseButton() {
@@ -247,5 +257,33 @@ function drawSlowerButton(ctx, xposn, yposn) {
     ctx.fillRect(xposn+46, yposn+33, 4, 4);
     ctx.fillRect(xposn+46, yposn+39, 2, 2);
 }
+
+function drawRestartButton(ctx, xposn, yposn) {
+    ctx.beginPath();
+    ctx.fillStyle = "black";
+    ctx.arc(xposn+36, yposn+36, 24, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.arc(xposn+36, yposn+36, 14, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "black";
+    ctx.arc(xposn+36, yposn+36, 16, 1.5*Math.PI, 2*Math.PI);
+    ctx.lineTo(xposn+36, yposn+36);
+    ctx.lineTo(xposn+36, yposn+12);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(xposn+36, yposn+36, 10, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.moveTo(xposn+36, yposn+16);
+    ctx.lineTo(xposn+36, yposn+32);
+    ctx.lineTo(xposn+48, yposn+24);
+    ctx.lineTo(xposn+36, yposn+16);
+    ctx.fill();
+}
+
 
 export { pointerScroll, createButtons, buttons};
