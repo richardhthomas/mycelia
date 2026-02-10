@@ -2,7 +2,7 @@ import {Mycelium} from "./mycelium.js";
 import {OpenEnd} from "./openEnd.js";
 import {GameState} from "./gameState.js";
 import {probResult, hoveroverDetection} from "./utils.js";
-import {pointerScroll, createButtons, buttons} from "./ui.js";
+import {pointerScroll, createButtons, buttons, centrePlayAreaView} from "./ui.js";
 
 function drawPlayAreaBackground(canvas, ctx) {
     canvas.width = 2400;
@@ -126,7 +126,8 @@ window.onload = function() {
     playArea.addEventListener("dragover",(ev) => { dragoverHandler(ev, gameState) });
     playArea.addEventListener("dragleave",(ev) => { dragleaveHandler(ev, gameState) });
     playArea.addEventListener("drop", (ev) => { dropHandler(ev, gameState) });
-    pointerScroll(document.getElementById('play-area'));
+    pointerScroll(playArea);
+    centrePlayAreaView(playArea);
     gameState.run();
 };
 

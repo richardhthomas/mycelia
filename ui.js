@@ -34,6 +34,15 @@ function pointerScroll(elem) {
     elem.addEventListener("pointermove", drag);
 }
 
+function centrePlayAreaView(elem) {
+    let width = elem.scrollWidth;
+    let height = elem.scrollHeight;
+    let visibleWidth = elem.clientWidth;
+    let visibleHeight = elem.clientHeight;
+    elem.scrollLeft += (width - visibleWidth) / 2;
+    elem.scrollTop += (height - visibleHeight) / 2;
+}
+
 const buttons = {
     restart: {
         div: document.getElementById("buttonRestart"),
@@ -286,4 +295,4 @@ function drawRestartButton(ctx, xposn, yposn) {
 }
 
 
-export { pointerScroll, createButtons, buttons};
+export { pointerScroll, createButtons, buttons, centrePlayAreaView};
