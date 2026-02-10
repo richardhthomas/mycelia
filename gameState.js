@@ -170,8 +170,21 @@ class GameState {
         }
     }
 
-    //draws starting mycelia plus populates screen array
     setupStartingMycelia() {
+        //remove between 0 and 3 random mycelia from the starting 5
+        let noOfMyceliaToRemove = Math.floor(Math.random * 4);
+        for (let i=0; i<noOfMyceliaToRemove; i++) {
+            let indexToRemove = Math.floor(Math.random * this.mycelia.length);
+            this.mycelia.splice(indexToRemove, 1);
+        }
+        //generate random xposn and yposn for each mycelium. Each must be at
+        //least 100 from the edge and from each other.
+
+
+        //generate random starting openEnds for each mycelium.
+
+
+        //draws starting mycelia plus populates screen array
         for (let i=0; i<this.mycelia.length; i++) {
             this.mycelia[i].canvas.width = 2400;
             this.mycelia[i].canvas.height = 1400;

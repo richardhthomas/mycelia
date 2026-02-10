@@ -14,7 +14,7 @@ html, body {
     user-select: none; /* Prevent text highlighting */
 }
 
-#play-areaA-canvas, #play-areaB-canvas, #play-areaC-canvas {
+#play-area-canvas-background, #play-area-canvas-first, #play-area-canvas-second, #play-area-canvas-third, #play-area-canvas-fourth, #play-area-canvas-fifth {
     position: absolute;
 }
 
