@@ -38,14 +38,31 @@ function createMockMycelium() {
         [0,2,4,8]);
 }
 
+function createFiveMockMycelia() {
+    const canvas = document.createElement('canvas');
+    const mycelia = [];
+    Mycelium.fiveMyceliaParams().forEach(myceliumParams => {
+        let mycelium = new Mycelium(
+            myceliumParams[0],
+            canvas,
+            myceliumParams[2],
+            myceliumParams[3],
+            myceliumParams[4],
+            myceliumParams[5],
+            myceliumParams[6]);
+        mycelia.push(mycelium);
+    });
+    return mycelia;
+}
+
 function createMockOpenEnd() {
     return new OpenEnd(250, 150, 3);
 }
 
-function createMockGameState() {
+function createMockGameState(mycelia) {
     const backgroundCanvas = document.createElement('canvas');
     return new GameState(
-        [createMockMycelium()],
+        mycelia,
         100,
         backgroundCanvas);
 }
@@ -60,4 +77,4 @@ function createMockGrowthDirProb() {
     return {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5};
 }
 
-export {populateMockScreen, createMockMycelium, createMockOpenEnd, createMockGameState, createMockGrowthTypeProb, createMockGrowthDirProb};
+export {populateMockScreen, createMockMycelium, createFiveMockMycelia, createMockOpenEnd, createMockGameState, createMockGrowthTypeProb, createMockGrowthDirProb};

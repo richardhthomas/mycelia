@@ -112,7 +112,7 @@ window.onload = function() {
         100,
         document.getElementById("play-area-canvas-background"));
     drawPlayAreaBackground(gameState.backgroundCanvas, gameState.backgroundCtx);
-    gameState.setupStartingMycelia();
+    gameState.drawStartingMycelia();
 
     createButtons();
     buttons.pause.canvas.addEventListener("pointerdown",(ev) => { buttonAClick(ev, gameState) });

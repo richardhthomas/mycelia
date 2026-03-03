@@ -4,7 +4,7 @@ import * as model from '../model4.js';
 import * as mocks from './mocks.js';
 
 test('GameState constructor', () => {
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     mocks.populateMockScreen(gameState);
     expect(gameState.mycelia[0].name).toBe("primary");
     expect(gameState.screen[250][150].mycelium).toBe("primary");
@@ -23,7 +23,7 @@ test('Validation of mycelia on GameState', () => {
         [1, 2, 3],
         {something: "anything"},
         [{something: "anything"}]];
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     badMycelias.forEach(badMycelia => {
         expect(() => {gameState.mycelia = badMycelia}).toThrow(new Error('Invalid mycelia on GameState'));
     });
@@ -35,7 +35,7 @@ test('Validation of mycelia on GameState', () => {
 
 test('Validation of screen on GameState', () => {
     const canvas = document.createElement('canvas');
-    let gameState = mocks.createMockGameState();
+    let gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     expect(() => {gameState.screen[10][10] = {something: "anything"}}).toThrow(new Error('Invalid screen on GameState'));
     expect(() => {gameState.screen[10][10] = {mycelium: 12}}).toThrow(new Error('Invalid screen on GameState'));
     expect(() => {gameState.screen[10][10] = 1234}).toThrow(new Error('Invalid screen on GameState'));
@@ -49,7 +49,7 @@ test('Validation of delay on GameState', () => {
         0,
         [1, 2, 3],
         {something: "anything"}];
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     badDelays.forEach(badDelay => {
         expect(() => {gameState.delay = badDelay}).toThrow(new Error('Invalid delay on GameState'));
     });
@@ -65,7 +65,7 @@ test ('Validation of dragOver on GameState', () => {
         10,
         [1, 2, 3],
         {something: "anything"}];
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     badDragOvers.forEach(badDragOver=> {
         expect(() => {gameState.dragOver = badDragOver}).toThrow(new Error('Invalid dragOver on GameState'));
     });
@@ -77,7 +77,7 @@ test ('Validation of backgroundCanvas on GameState', () => {
         10,
         [1, 2, 3],
         {something: "anything"}];
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     badBackgroundCanvases.forEach(badBackgroundCanvas => {
         expect(() => {gameState.backgroundCanvas = badBackgroundCanvas}).toThrow(new Error('Invalid backgroundCanvas on GameState'));
     });
@@ -93,14 +93,14 @@ test ('Validation of pause on GameState', () => {
         10,
         [1, 2, 3],
         {something: "anything"}];
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     badPauses.forEach(badPause => {
         expect(() => {gameState.pause = badPause}).toThrow(new Error('Invalid pause on GameState'));
     });
 });
 
 test ('findMyceliumByName returns mycelium object with given name', () => {
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     const mycelium2 = mocks.createMockMycelium();
     const mycelium3 = mocks.createMockMycelium();
     mycelium2.name = 'secondary';
@@ -110,9 +110,9 @@ test ('findMyceliumByName returns mycelium object with given name', () => {
     expect(gameState.findMyceliumByName('anything')).toBeUndefined();
 });
 
-test ('setupStartingMycelia populates screen array', () => {
-    const gameState = mocks.createMockGameState();
-    gameState.setupStartingMycelia();
+test ('drawStartingMycelia populates screen array', () => {
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
+    gameState.drawStartingMycelia();
     let x = gameState.mycelia[0].startPosn.xposn;
     let y = gameState.mycelia[0].startPosn.yposn;
     expect(gameState.screen[x][y].mycelium).toBe("primary");
@@ -122,10 +122,36 @@ test ('setupStartingMycelia populates screen array', () => {
         expect(gameState.screen[x][y].mycelium).toBe("primary");
     });
 });
+
+test ('randomiseStartingMycelia randomises mycelia params', () => {
+    const gameState = mocks.createMockGameState(mocks.createFiveMockMycelia());
+    gameState.randomiseStartingMycelia();
+    expect(gameState.mycelia.length).toBeGreaterThan(1);
+    expect(gameState.mycelia.length).toBeLessThan(6);
+    let xposns = [];
+    let yposns = [];
+    gameState.mycelia.forEach(mycelium => {
+        expect(mycelium.startPosn.xposn).toBeGreaterThan(99);
+        expect(mycelium.startPosn.xposn).toBeLessThan(1101);
+        expect(mycelium.startPosn.yposn).toBeGreaterThan(99);
+        expect(mycelium.startPosn.yposn).toBeLessThan(600);
+        xposns.push(mycelium.startPosn.xposn);
+        yposns.push(mycelium.startPosn.yposn);
+    });
+    //order xposns and yposns in ascending order
+    xposns.sort(function(a,b) {return a-b});
+    yposns.sort(function(a,b) {return a-b});
+    for (i=1; i<xposns.length; i++) {
+        expect(xposns[i] - xposns[i-1]).toBeGreaterThan(99);
+        expect(yposns[i] - yposns[i-1]).toBeGreaterThan(99);
+    }
+    //still need to write testing for randomised openEnds... once I've decided
+    //on the rules governing that
+});
     
 test('run on gameState creates new OpenEnds if not paused', () => {
-    const gameState = mocks.createMockGameState();
-    gameState.setupStartingMycelia();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
+    gameState.drawStartingMycelia();
     gameState.pause = true;
     const screen = gameState.screen;
     const mycelium = gameState.mycelia[0];

@@ -248,47 +248,56 @@ class Mycelium {
     }
 
     static fiveMycelia() {
+        const mycelia = [];
+        this.fiveMyceliaParams().forEach(myceliumParams => {
+            let mycelium = new Mycelium(...myceliumParams);
+            mycelia.push(mycelium);
+        });
+        return mycelia;
+    }
+
+    static fiveMyceliaParams() {
         return [
-            new Mycelium(
+            [
                 "first",
                 document.getElementById("play-area-canvas-first"),
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "red",
                 {xposn:10, yposn:10},
-                [0]),
-            new Mycelium(
+                [0]],
+            [
                 "second",
                 document.getElementById("play-area-canvas-second"),
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "blue",
                 {xposn:10, yposn:10},
-                [0]),
-            new Mycelium(
+                [0]],
+            [
                 "third",
                 document.getElementById("play-area-canvas-third"),
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "green",
                 {xposn:10, yposn:10},
-                [0]),
-            new Mycelium(
+                [0]],
+            [
                 "fourth",
                 document.getElementById("play-area-canvas-fourth"),
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "orange",
                 {xposn:10, yposn:10},
-                [0]),
-            new Mycelium(
+                [0]],
+            [
                 "fifth",
                 document.getElementById("play-area-canvas-fifth"),
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "purple",
                 {xposn:10, yposn:10},
-                [0])
+                [0]]
         ];
     }
 

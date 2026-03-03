@@ -19,7 +19,7 @@ test('probResult returns result based on given probabilities', () => {
 });
 
 test('hoveroverDetection detects when over screen object', () => {
-    const gameState = mocks.createMockGameState();
+    const gameState = mocks.createMockGameState([mocks.createMockMycelium()]);
     mocks.populateMockScreen(gameState);
     const screen = gameState.screen;
     let hits = [[250,146], [260, 156], [240, 150], [256, 160], [252,138]];
