@@ -96,7 +96,7 @@ window.onload = function() {
         document.getElementById("play-area-canvas-first"),
         {bigger: 40, split: 20, nothing: 400},
         {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
-        "red",
+        "hsl(0 100 50)",
         {xposn:600, yposn:350},
         [0,2,4,6,8,10,12,14]);
     let mycelium2 = new Mycelium(
@@ -108,7 +108,7 @@ window.onload = function() {
         {xposn:300, yposn:174},
         [6,8]);
     var gameState = new GameState(
-        [mycelium1, mycelium2],
+        [mycelium1], // add mycelium2 back to this array when I want the blue one back
         100,
         document.getElementById("play-area-canvas-background"));
     drawPlayAreaBackground(gameState.backgroundCanvas, gameState.backgroundCtx);

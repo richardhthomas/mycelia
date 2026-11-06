@@ -178,7 +178,14 @@ class OpenEnd {
     }
 
     drawMyc(mycelium) {
-        mycelium.ctx.fillStyle = mycelium.colour;
+        let lightnessOffset = ((this.xposn)/20)-30;
+        lightnessOffset *= 100;
+        lightnessOffset = Math.round(lightnessOffset);
+        lightnessOffset /= 100;
+        //mycelium.ctx.fillStyle = mycelium.colour;
+        let newLightness = (50 + lightnessOffset).toString();
+        let newColour = "hsl(from " + mycelium.colour + " h s " + newLightness + ")";
+        mycelium.ctx.fillStyle = newColour;
         mycelium.ctx.fillRect(this.xposn*2, this.yposn*2, 4, 4);
     }
 
