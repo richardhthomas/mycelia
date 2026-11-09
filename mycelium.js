@@ -264,7 +264,7 @@ class Mycelium {
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "red",
-                {xposn:10, yposn:10},
+                {xposn:100, yposn:100},
                 [0]],
             [
                 "second",
@@ -272,7 +272,7 @@ class Mycelium {
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "blue",
-                {xposn:10, yposn:10},
+                {xposn:300, yposn:100},
                 [0]],
             [
                 "third",
@@ -280,7 +280,7 @@ class Mycelium {
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "green",
-                {xposn:10, yposn:10},
+                {xposn:500, yposn:100},
                 [0]],
             [
                 "fourth",
@@ -288,7 +288,7 @@ class Mycelium {
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "orange",
-                {xposn:10, yposn:10},
+                {xposn:700, yposn:100},
                 [0]],
             [
                 "fifth",
@@ -296,7 +296,7 @@ class Mycelium {
                 {bigger: 40, split: 20, nothing: 400},
                 {"0": 5, "1": 12, "2": 120, "3": 12, "4": 5},
                 "purple",
-                {xposn:10, yposn:10},
+                {xposn:900, yposn:100},
                 [0]]
         ];
     }

@@ -138,10 +138,18 @@ test ('randomiseStartingMycelia randomises mycelia params', () => {
         xposns.push(mycelium.startPosn.xposn);
         yposns.push(mycelium.startPosn.yposn);
     });
+    // 2 issues with code below: 1 - we only want EITHER x or y coord to need to
+    // be more than 100 apart or I'm going to run out of space (esp if the
+    // background blobs have similar rules. 2 - very similar code is required in
+    // randomiseStartingMycelia to actually produce appropraite xposns and
+    // yposns - so are we just testing one piece of code with an identical
+    // piece? Can we find a way to inject good and bad results in to test...? To
+    // achieve this may need to pull out the comparison code into separate
+    // function so I can throw fixed good and bad values at it...
     //order xposns and yposns in ascending order
     xposns.sort(function(a,b) {return a-b});
     yposns.sort(function(a,b) {return a-b});
-    for (i=1; i<xposns.length; i++) {
+    for (let i=1; i<xposns.length; i++) {
         expect(xposns[i] - xposns[i-1]).toBeGreaterThan(99);
         expect(yposns[i] - yposns[i-1]).toBeGreaterThan(99);
     }
