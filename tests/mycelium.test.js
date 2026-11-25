@@ -179,7 +179,7 @@ test('bigEnough returns true if reached edge of screen', () => {
 
 test('distanceFrom returns diagonal distance from coords', () => {
     const mycelium = mocks.createMockMycelium();
-    expect(mycelium.distanceFrom([{xposn: 100, yposn: 100}])).toBe(158);
+    expect(mycelium.distanceFrom({xposn: 100, yposn: 100})).toBe(158);
 });
 
 test('growAllOpenEnds on Mycelium populates new OpenEnds', () => {

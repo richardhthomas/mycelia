@@ -314,6 +314,12 @@ class Mycelium {
         return result;
     }
 
+    distanceFrom(posn) {
+        let xdif = this.startPosn.xposn - posn.xposn;
+        let ydif = this.startPosn.yposn - posn.yposn;
+        return Math.floor(Math.sqrt((xdif*xdif)+(ydif*ydif)));
+    }
+
     growAllOpenEnds(screen) {
         let newOpenEnds = [];
         this.openEnds.forEach(openEnd => {
